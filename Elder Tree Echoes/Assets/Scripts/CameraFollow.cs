@@ -10,7 +10,7 @@ public class CameraFollow : MonoBehaviour
 
     //  How long it takes for the camera
     //  to reach the object it is following   
-    private float smoothTime = 0.25f; 
+    private float smoothTime = 0.15f; 
 
     private Vector3 velocity = Vector3.zero;
 
@@ -19,7 +19,7 @@ public class CameraFollow : MonoBehaviour
     private Transform target;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //  The position in the scene to place the camera
         Vector3 targetPosition = target.position + offset;
