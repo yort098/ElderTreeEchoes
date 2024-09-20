@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (IsGrounded()) // Can only jump when touching the ground
+        if (IsGrounded() && context.performed) // Can only jump when touching the ground
         {
             Vector3 jumpVelocity = new Vector3(body.velocity.x, jumpForce);
             body.velocity = jumpVelocity;

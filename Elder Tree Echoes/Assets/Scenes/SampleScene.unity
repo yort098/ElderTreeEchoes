@@ -339,8 +339,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 653854440}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.1922, y: 0.7092, z: 0}
+  m_LocalScale: {x: 0.6157, y: 1.4184, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 955308596}
@@ -599,8 +599,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 955308595}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5404, y: 0.236, z: 0}
-  m_LocalScale: {x: 0.18030386, y: 0.2377, z: 1}
+  m_LocalPosition: {x: 0.5827, y: 0.236, z: 0}
+  m_LocalScale: {x: 0.26484832, y: 0.2377, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 653854441}
@@ -966,6 +966,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e925b1cb-9b6e-418b-bb44-51c403e213b7
     m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1416958149}
+        m_TargetAssemblyTypeName: Staff, Assembly-CSharp
+        m_MethodName: CyclePower
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 36a5ee9c-4509-4ca3-9164-22987ef412b7
+    m_ActionName: Player/Cycle[/Mouse/scroll/up,/Mouse/scroll/down]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -997,7 +1013,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416958146}
   m_LocalRotation: {x: -0, y: -0, z: 0.1447419, w: 0.98946947}
-  m_LocalPosition: {x: 0.378, y: 0.385, z: 0}
+  m_LocalPosition: {x: 0.3, y: 0.502, z: 0}
   m_LocalScale: {x: 1.3893, y: 0.12460902, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
