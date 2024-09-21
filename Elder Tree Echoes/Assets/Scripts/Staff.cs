@@ -17,6 +17,11 @@ public class Staff : MonoBehaviour
 {
     private Power power;
 
+    // A reference to the end part of the staff
+    // (probably temporary until we get assets for it) 
+    [SerializeField]
+    private SpriteRenderer orb;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +31,22 @@ public class Staff : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // Visually representing the different powers
+        // by changing the color of the orb
+        switch (power)
+        {
+            case Power.Water:
+                orb.color = Color.blue; // Blue for water
+                break;
+
+            case Power.Light:
+                orb.color = Color.yellow; // Yellow for light
+                break;
+
+            default:
+                orb.color = Color.white; // White for basic
+                break;
+        }
     }
 
     public void CyclePower(InputAction.CallbackContext context)
@@ -57,6 +77,6 @@ public class Staff : MonoBehaviour
             }
         }
 
-        Debug.Log(power); // No visual representation right now
+        Debug.Log(power);
     }
 }
