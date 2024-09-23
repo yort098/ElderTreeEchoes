@@ -79,4 +79,51 @@ public class Staff : MonoBehaviour
 
         Debug.Log(power);
     }
+
+    public void Attack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            switch (power)
+            {
+                case Power.Basic:
+                    // Whack
+                    break;
+
+                case Power.Water:
+                    // Uproot
+                    break;
+
+                case Power.Light:
+                    // Light shot
+                    break;
+            }
+
+            Debug.Log("attacked");
+        }
+    }
+
+    public void SecondaryAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            switch (power)
+            {
+                case Power.Basic:
+                    // Do something
+                    break;
+
+                case Power.Water:
+                    // Grow
+                    break;
+
+                case Power.Light:
+                    // Revitalize
+                    break;
+            }
+
+            Debug.Log("did something else");
+            
+        }
+    }
 }
