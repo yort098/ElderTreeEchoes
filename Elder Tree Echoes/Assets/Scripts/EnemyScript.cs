@@ -5,27 +5,31 @@ using UnityEngine;
 //Script for a basic enemy that just walks back and forth for now
 public class EnemyScript : MonoBehaviour
 {
-    float firstEnd;
-    float lastEnd;
     float speed;
     private Rigidbody2D body;
+    private GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
-        firstEnd = 0f;
-        lastEnd = 1f;
-        speed = 1f;   
+        speed = 2f;   
         body = GetComponent<Rigidbody2D>();
+        player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
         body.velocity = new Vector3(speed, body.velocity.y);
-        if ((speed > 0f && body.position.x > lastEnd) || (speed < 0f && body.position.x < firstEnd))
+        //Have the enemy move towards the player
+        if(player.transform.position.x < body.position.x)
         {
-            speed *= -1f;
+            speed = -2f;
         }
+        else
+        {
+            speed = 2f;
+        }
+        
     }
 }
