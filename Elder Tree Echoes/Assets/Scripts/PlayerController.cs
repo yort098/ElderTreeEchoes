@@ -32,6 +32,12 @@ public class PlayerController : MonoBehaviour
         set { speed = value; }
     }
 
+    public Vector2 Direction
+    {
+        get { return direction; }
+        set { direction = value; }
+    }
+
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();

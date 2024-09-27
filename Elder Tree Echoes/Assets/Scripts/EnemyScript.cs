@@ -8,6 +8,7 @@ public class EnemyScript : MonoBehaviour
     float speed;
     private Rigidbody2D body;
     private GameObject player;
+    private PlayerController script;
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +16,18 @@ public class EnemyScript : MonoBehaviour
         speed = 2f;   
         body = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
+        script = player.GetComponent<PlayerController>();
+    }
+
+    //Handle collision between the player and the enemy
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if(col.gameObject.tag == "Player")
+        {
+            //Move the player to the right when colliding
+            //Refine this later
+            script.Direction = new Vector2(1, 0);
+        }
     }
 
     // Update is called once per frame
@@ -30,6 +43,5 @@ public class EnemyScript : MonoBehaviour
         {
             speed = 2f;
         }
-        
     }
 }
