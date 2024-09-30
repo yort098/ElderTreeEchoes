@@ -20,6 +20,9 @@ public class Staff : MonoBehaviour
     [SerializeField]
     LayerMask plantLayer;
 
+    [SerializeField]
+    GameObject lightAttack;
+
     // A reference to the end part of the staff
     // (probably temporary until we get assets for it) 
     [SerializeField]
@@ -99,6 +102,7 @@ public class Staff : MonoBehaviour
 
                 case Power.Light:
                     // Light shot
+                    Instantiate(lightAttack, orb.transform.position, Quaternion.identity);
                     break;
             }
         }

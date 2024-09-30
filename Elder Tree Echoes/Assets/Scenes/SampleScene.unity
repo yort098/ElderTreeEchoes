@@ -1457,6 +1457,7 @@ MonoBehaviour:
   plantLayer:
     serializedVersion: 2
     m_Bits: 128
+  lightAttack: {fileID: 5373346810092823955, guid: 31c1c639d435e78409f0b54ded614429, type: 3}
   orb: {fileID: 436280891}
 --- !u!1 &1628269141
 GameObject:
@@ -2016,7 +2017,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6937570595668975634, guid: c74add6c0597a1a4281ab17e22fc13c7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
