@@ -17,6 +17,12 @@ public class Staff : MonoBehaviour
 {
     private Power power;
 
+    [SerializeField]
+    LayerMask plantLayer;
+
+    [SerializeField]
+    GameObject lightAttack;
+
     // A reference to the end part of the staff
     // (probably temporary until we get assets for it) 
     [SerializeField]
@@ -96,10 +102,9 @@ public class Staff : MonoBehaviour
 
                 case Power.Light:
                     // Light shot
+                    Instantiate(lightAttack, orb.transform.position, Quaternion.identity);
                     break;
             }
-
-            Debug.Log("attacked");
         }
     }
 
@@ -115,15 +120,27 @@ public class Staff : MonoBehaviour
 
                 case Power.Water:
                     // Grow
+                    Collider2D plant;
+                    if (plant = Physics2D.OverlapCircle(orb.transform.position, 0.5f, plantLayer))
+                    {
+                        Debug.Log(plant.name);
+                        plant.GetComponent<Plant>().Grow();
+                        plant.GetComponent<SpriteRenderer>().color = Color.green;
+                    }
+
                     break;
 
                 case Power.Light:
                     // Revitalize
                     break;
             }
-
-            Debug.Log("did something else");
             
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(orb.transform.position, 0.5f);
     }
 }
