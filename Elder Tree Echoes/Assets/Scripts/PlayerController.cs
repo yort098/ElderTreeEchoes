@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
     {
         //  The pivot of the empty game player object should be at the BOTTOM of the player sprite
         //  or else this will not work as intended
-        return Physics2D.OverlapCircle(transform.position, 0.1f, groundLayer);
+        return Physics2D.OverlapCircle(transform.position, 0.05f, groundLayer);
     }
 
     /// <summary>
@@ -152,5 +152,11 @@ public class PlayerController : MonoBehaviour
         Vector3 localScale = transform.localScale;
         localScale.x *= -1; // Reverses the sprite on the x-axis (horizontal)
         transform.localScale = localScale;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, 0.05f);
     }
 }
