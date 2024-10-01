@@ -14,10 +14,19 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 direction = Vector3.zero;
 
+    private bool wallCling;
+    private float wallJumpDirection;
+    private bool isWallJumping;
+    private float wallJumpingTime = 0.5f;
+    private float wallJumpingCounter = 0f;
+
     // Represents all collidable platforms the player
     // can use/land on
     [SerializeField]
     LayerMask groundLayer;
+
+    [SerializeField]
+    LayerMask wallLayer;
 
     // Using rigid bodies for now, can change to a more robust system later
     private Rigidbody2D body; 
@@ -68,14 +77,29 @@ public class PlayerController : MonoBehaviour
             Vector3 jumpVelocity = new Vector3(body.velocity.x, jumpForce);
             body.velocity = jumpVelocity;
         }
+        else if(wallCling && context.performed)
+        {
+            wallJumpingCounter = wallJumpingTime;
+            isWallJumping = true;
+            wallJumpDirection = -transform.localScale.x;
+            Vector3 jumpVelocity = new Vector2(wallJumpDirection * 5f, jumpForce);
+            body.velocity = jumpVelocity;
+            Flip();
+        }
        
     }
 
     // Update is called once per frame
     void Update()
     {
-        body.velocity = new Vector3(direction.x * speed, body.velocity.y);
-
+        if (wallJumpingCounter < 0f)
+        {
+            isWallJumping = false;
+        }
+        if (!isWallJumping)
+        {
+            body.velocity = new Vector3(direction.x * speed, body.velocity.y);
+        }
         // Changing the direction the character is facing
         // based on the direction the player is moving
         if (!isFacingRight && direction.x > 0f)
@@ -86,6 +110,8 @@ public class PlayerController : MonoBehaviour
         {
             Flip();
         }
+        WallCling();
+        wallJumpingCounter -= Time.deltaTime;
     }
 
     /// <summary>
@@ -96,7 +122,29 @@ public class PlayerController : MonoBehaviour
     {
         //  The pivot of the empty game player object should be at the BOTTOM of the player sprite
         //  or else this will not work as intended
-        return Physics2D.OverlapCircle(transform.position, 0.1f, groundLayer);
+        return Physics2D.OverlapCircle(transform.position, 0.05f, groundLayer);
+    }
+
+    /// <summary>
+    /// Checks whether or not the player is on the wall
+    /// </summary>
+    /// <returns></returns>
+    private bool IsOnWall()
+    {
+        return Physics2D.OverlapCircle(transform.position, 0.6f, wallLayer);
+    }
+
+    private void WallCling()
+    {
+        if(IsOnWall() && !IsGrounded())
+        {
+            wallCling = true;
+            body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, 0f, float.MaxValue));
+        }
+        else
+        {
+            wallCling = false;
+        }
     }
 
     /// <summary>
@@ -109,5 +157,11 @@ public class PlayerController : MonoBehaviour
         Vector3 localScale = transform.localScale;
         localScale.x *= -1; // Reverses the sprite on the x-axis (horizontal)
         transform.localScale = localScale;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, 0.05f);
     }
 }
