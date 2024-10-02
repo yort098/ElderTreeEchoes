@@ -15,6 +15,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Slider healthBar;
 
+    public GameObject[] Enemies
+    {
+        get { return GameObject.FindGameObjectsWithTag("Enemy"); }
+    }
+
     /// <summary>
     /// Returns a reference to the game manager class
     /// </summary>
@@ -45,6 +50,14 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log(playerHealth);
         healthBar.value = playerHealth;
+    }
+
+    public void TakeDamage(float amount)
+    {
+        playerHealth -= amount;
+        healthBar.value = playerHealth;
+        
+        StartCoroutine(GameManager.Instance.InvincibilityTimer());
     }
 
     public IEnumerator InvincibilityTimer()

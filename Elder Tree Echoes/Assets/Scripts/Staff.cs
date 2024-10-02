@@ -23,9 +23,8 @@ public class Staff : MonoBehaviour
     LayerMask plantLayer;
 
     private PlayerController player;
-    private LightShotManager lightShotManager;
+    private ProjectileManager projManager;
     private BoxCollider2D whackRange;
-    private GameObject enemy;
 
     // A reference to the end part of the staff
     // (probably temporary until we get assets for it) 
@@ -36,7 +35,7 @@ public class Staff : MonoBehaviour
     void Start()
     {
         power = Power.Basic;
-        lightShotManager = GameObject.Find("LightShotManager").GetComponent<LightShotManager>();
+        projManager = GameObject.Find("ProjectileManager").GetComponent<ProjectileManager>();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
         whackRange = GetComponentInParent<BoxCollider2D>();
     }
@@ -99,10 +98,17 @@ public class Staff : MonoBehaviour
             {
                 case Power.Basic:
                     // Whack
-                    enemy = GameObject.Find("Enemy");
-                    if (whackRange.IsTouching(enemy.GetComponent<BoxCollider2D>()))
+
+                    if (GameManager.Instance.Enemies.Length > 0)
                     {
-                        Destroy(enemy);
+                        foreach (GameObject e in GameManager.Instance.Enemies)
+                        {
+                            if (whackRange.IsTouching(e.GetComponent<BoxCollider2D>()))
+                            {
+                                Destroy(e);
+                            }
+                        }
+                        
                     }
                     break;
 
@@ -112,7 +118,8 @@ public class Staff : MonoBehaviour
 
                 case Power.Light:
                     // Light shot
-                    lightShotManager.GenerateLightAttack(orb.transform.position, player.IsFacingRight);
+                    projManager.GenerateLightAttack(orb.transform.position, player.IsFacingRight);
+
                     break;
             }
         }
@@ -130,13 +137,8 @@ public class Staff : MonoBehaviour
 
                 case Power.Water:
                     // Grow
-                    Collider2D plant;
-                    if (plant = Physics2D.OverlapCircle(orb.transform.position, 0.5f, plantLayer))
-                    {
-                        Debug.Log(plant.name);
-                        plant.GetComponent<Plant>().Grow();
-                        plant.GetComponent<SpriteRenderer>().color = Color.green;
-                    }
+
+                    projManager.GenerateWaterShot(orb.transform.position, player.IsFacingRight);
 
                     break;
 

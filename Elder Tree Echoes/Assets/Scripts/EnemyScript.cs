@@ -35,10 +35,8 @@ public class EnemyScript : MonoBehaviour
             //Move the player to the right when colliding
             //Refine this later
             //script.Direction = new Vector2(1, 0);
-            
-            GameManager.Instance.PlayerHealth -= damage;
-            
-            StartCoroutine(GameManager.Instance.InvincibilityTimer());
+
+            GameManager.Instance.TakeDamage(damage);
             
         }
     }
