@@ -32,6 +32,11 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D body; 
     private bool isFacingRight = true;
 
+    public bool IsFacingRight
+    {
+        get { return isFacingRight; }
+    }
+
     /// <summary>
     /// Returns the player's speed
     /// </summary>

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6603979266022225339}
   - component: {fileID: 5088489298517720085}
+  - component: {fileID: -3967725808833998745}
   m_Layer: 0
   m_Name: Light Bullet
   m_TagString: Untagged
@@ -25,9 +26,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5373346810092823955}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5813, y: 1.3486, z: 0}
-  m_LocalScale: {x: 0.185, y: 0.185, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 10.474553, y: -1.8245283, z: 0}
+  m_LocalScale: {x: 0.72, y: 0.72, z: 3.891892}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.7169812, g: 0.5828076, b: 0.14474902, a: 1}
+  m_Color: {r: 0.8778578, g: 0.9339623, b: 0.5233713, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -84,3 +85,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-3967725808833998745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5373346810092823955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2ad0959e692e3a4fa25f7763efe9b5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

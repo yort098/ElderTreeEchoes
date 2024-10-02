@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,8 +22,10 @@ public class Staff : MonoBehaviour
     [SerializeField]
     LayerMask plantLayer;
 
-    [SerializeField]
-    GameObject lightAttack;
+    private PlayerController player;
+    private LightShotManager lightShotManager;
+    private BoxCollider2D whackRange;
+    private GameObject enemy;
 
     // A reference to the end part of the staff
     // (probably temporary until we get assets for it) 
@@ -32,6 +36,9 @@ public class Staff : MonoBehaviour
     void Start()
     {
         power = Power.Basic;
+        lightShotManager = GameObject.Find("LightShotManager").GetComponent<LightShotManager>();
+        player = GameObject.Find("Player").GetComponent<PlayerController>();
+        whackRange = GetComponentInParent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -92,6 +99,11 @@ public class Staff : MonoBehaviour
             {
                 case Power.Basic:
                     // Whack
+                    enemy = GameObject.Find("Enemy");
+                    if (whackRange.IsTouching(enemy.GetComponent<BoxCollider2D>()))
+                    {
+                        Destroy(enemy);
+                    }
                     break;
 
                 case Power.Water:
@@ -100,7 +112,7 @@ public class Staff : MonoBehaviour
 
                 case Power.Light:
                     // Light shot
-                    Instantiate(lightAttack, orb.transform.position, Quaternion.identity);
+                    lightShotManager.GenerateLightAttack(orb.transform.position, player.IsFacingRight);
                     break;
             }
         }
