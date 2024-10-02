@@ -153,10 +153,4 @@ public class PlayerController : MonoBehaviour
         localScale.x *= -1; // Reverses the sprite on the x-axis (horizontal)
         transform.localScale = localScale;
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, 0.05f);
-    }
 }

@@ -23,8 +23,9 @@ public class Plant : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        material = GetComponent<CircleCollider2D>().sharedMaterial;
-        GetComponent<CircleCollider2D>().sharedMaterial = null;
+        material = GetComponent<PolygonCollider2D>().sharedMaterial;
+        
+        GetComponent<PolygonCollider2D>().sharedMaterial = null;
     }
 
     // Update is called once per frame
@@ -39,7 +40,11 @@ public class Plant : MonoBehaviour
         {
             Debug.Log("Growing plant");
             transform.localScale = Vector3.one;
-            GetComponent<CircleCollider2D>().sharedMaterial = material;
+            Destroy(GetComponent<PolygonCollider2D>());
+            gameObject.AddComponent(typeof(PolygonCollider2D));
+
+            GetComponent<PolygonCollider2D>().sharedMaterial = material;
+            
         }
     }
 

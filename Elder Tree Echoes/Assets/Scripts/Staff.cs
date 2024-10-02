@@ -82,8 +82,6 @@ public class Staff : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log(power);
     }
 
     public void Attack(InputAction.CallbackContext context)

@@ -7,8 +7,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     private float playerHealth = 100;
-    private float invincibilityFrames = 1.5f;
-    private float timeInvincible = 0;
+    private float invincibilityTime = 1.5f;
     private bool invincible = false;
 
     public bool Invincible { get { return invincible; } }
@@ -52,22 +51,24 @@ public class GameManager : MonoBehaviour
     {
         SpriteRenderer sp = GameObject.Find("body").GetComponent<SpriteRenderer>();
         Color[] colors = new Color[2] { Color.red, sp.color };
+        invincible = true;
+
+        float elapsedTime = 0;
         int index = 0;
 
-        invincible = true;
-        
-        while (timeInvincible < invincibilityFrames)
+        while (elapsedTime < invincibilityTime)
         {
-            timeInvincible += Time.deltaTime;
-            Debug.Log(timeInvincible);
+            
+            Debug.Log("Elapsed time = " + elapsedTime + " < time = " + invincibilityTime + " deltaTime " + Time.deltaTime);
 
             sp.color = colors[index % 2];
+            elapsedTime += Time.deltaTime;
             index++;
             yield return null;
         }
 
         invincible = false;
-        timeInvincible = 0;
+        elapsedTime = 0;
         sp.color = colors[1];
 
 
