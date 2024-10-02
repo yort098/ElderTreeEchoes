@@ -1730,7 +1730,7 @@ MonoBehaviour:
     m_Bits: 64
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
 --- !u!114 &1265640286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2110,8 +2110,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   orb: {fileID: 436280891}
-  waterOrb: {fileID: 1155142959634495971, guid: 11cddeaf579dc7a4897cc80f79838965, type: 3}
-  waterSpeed: 300
 --- !u!1 &1552726032
 GameObject:
   m_ObjectHideFlags: 0
