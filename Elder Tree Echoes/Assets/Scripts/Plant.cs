@@ -23,9 +23,6 @@ public class Plant : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        material = GetComponent<PolygonCollider2D>().sharedMaterial;
-        
-        GetComponent<PolygonCollider2D>().sharedMaterial = null;
     }
 
     // Update is called once per frame
@@ -43,7 +40,7 @@ public class Plant : MonoBehaviour
             Destroy(GetComponent<PolygonCollider2D>());
             gameObject.AddComponent(typeof(PolygonCollider2D));
 
-            GetComponent<PolygonCollider2D>().sharedMaterial = material;
+            gameObject.AddComponent(typeof(Trampoline));
             
         }
     }
