@@ -6,16 +6,14 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour
 {
     [SerializeField]
-    float speed = 2f;
+    EnemyAttributes attributes;
 
-    private Vector2 direction = Vector2.zero;
+    private Vector2 direction = Vector2.right;
     private Rigidbody2D body;
     private GameObject player;
     private PlayerController script;
-
-
-
-    private float damage = 5f;
+    private float startX;
+    private float endX;
 
     public Vector2 Direction { get { return direction; } }
 
@@ -25,6 +23,11 @@ public class EnemyScript : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
         script = player.GetComponent<PlayerController>();
+
+        //attributes.startX = body.position.x;
+        //attributes.endX = body.position.x + 1;
+        startX = body.position.x;
+        endX = body.position.x + 3;
     }
 
     //Handle collision between the player and the enemy
@@ -36,7 +39,7 @@ public class EnemyScript : MonoBehaviour
             //Refine this later
             //script.Direction = new Vector2(1, 0);
 
-            GameManager.Instance.TakeDamage(damage);
+            GameManager.Instance.TakeDamage(attributes.damage);
             
         }
     }
@@ -44,13 +47,25 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        body.velocity = new Vector3(direction.x * speed, body.velocity.y);
+        attributes.distance = Vector2.Distance(body.transform.position, player.transform.position);
+        body.velocity = new Vector3(direction.x * attributes.speed, body.velocity.y);
         //Have the enemy move towards the player
-        if(player.transform.position.x < body.position.x)
+        if(attributes.distance <= 4)
+        {
+            if(player.transform.position.x < body.position.x)
+            {
+                direction = Vector2.left;
+            }
+            else
+            {
+                direction = Vector2.right;
+            }
+        }
+        else if(body.position.x > endX)
         {
             direction = Vector2.left;
         }
-        else
+        else if(body.position.x < startX)
         {
             direction = Vector2.right;
         }
