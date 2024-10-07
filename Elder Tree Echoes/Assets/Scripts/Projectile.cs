@@ -1,17 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.MPE;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+// Enum representing the projectile type of this object
+enum ProjectileType
+{
+    Light,
+    Water
+}
+
 public class Projectile : MonoBehaviour
 {
+    [SerializeField]
+    private ProjectileType projectileType;
+    
     [SerializeField]
     float projSpeed;
 
     private Vector2 location;
     private Vector2 direction;
     private Rigidbody2D body;
-    private int damage;
+    private int damage = 1;
 
     [SerializeField]
     float upTime = 3;
@@ -35,7 +46,6 @@ public class Projectile : MonoBehaviour
     {
         location = transform.position;
         direction = Vector2.right;
-        
     }
 
     // Update is called once per frame
@@ -62,10 +72,16 @@ public class Projectile : MonoBehaviour
             Collider2D col;
             if (col = Physics2D.OverlapCircle(transform.position, 0.05f, LayerMask.GetMask("Interactable")))
             {
-                if (col.GetComponent<Plant>())
+                // Making plants grow with water
+                if (col.GetComponent<Plant>() && projectileType == ProjectileType.Water)
                 {
                     col.GetComponent<Plant>().Grow();
                     col.GetComponent<SpriteRenderer>().color = Color.green;
+                }
+                // Damaging enemies with light
+                else if (col.GetComponent<EnemyScript>() && projectileType == ProjectileType.Light)
+                {
+                    col.GetComponent<EnemyScript>().TakeDamage(damage);
                 }
 
                 Destroy(gameObject);
@@ -78,10 +94,19 @@ public class Projectile : MonoBehaviour
     public void Fire()
     {
         alive = true;
-        body.velocity = new Vector2(projSpeed * direction.x, 0);
-        
+        // Water
+        if (projectileType == ProjectileType.Water)
+        {
+            body.velocity = new Vector2(projSpeed * direction.x, 0);
+        }
+        // Light shot
+        else if (projectileType == ProjectileType.Light)
+        {
+            body.velocity = new Vector2(projSpeed * direction.x, projSpeed * direction.y);
+        }
     }
 
+    // Likely won't be needed eventually
     public void setDirection(bool facingRight)
     {
         if (facingRight)
@@ -92,5 +117,14 @@ public class Projectile : MonoBehaviour
         {
             direction = Vector2.left;
         }
+    }
+    
+    // Get the direction of the projectile shot based on the mouse position
+    public void setDirectionMouse(Vector2 mouseScreenLocation)
+    {
+        Vector2 startPos = new Vector2(transform.position.x, transform.position.y);
+        Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenLocation);
+        direction = mouseWorldPosition - startPos;
+        direction.Normalize();
     }
 }

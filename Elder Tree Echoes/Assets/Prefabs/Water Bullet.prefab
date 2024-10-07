@@ -125,4 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ad0959e692e3a4fa25f7763efe9b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileType: 1
   projSpeed: 5
+  upTime: 3

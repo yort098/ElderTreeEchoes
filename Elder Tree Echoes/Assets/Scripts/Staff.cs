@@ -104,7 +104,7 @@ public class Staff : MonoBehaviour
                         {
                             if (whackRange.IsTouching(e.GetComponent<BoxCollider2D>()))
                             {
-                                Destroy(e);
+                                e.GetComponent<EnemyScript>().TakeDamage(5);
                             }
                         }
                         
@@ -117,7 +117,11 @@ public class Staff : MonoBehaviour
 
                 case Power.Light:
                     // Light shot
-                    projManager.GenerateLightAttack(orb.transform.position, player.IsFacingRight);
+
+                    // Get mouse input
+                    Vector2 mouse = Mouse.current.position.ReadValue();
+
+                    projManager.GenerateLightAttack(orb.transform.position, mouse);
 
                     break;
             }

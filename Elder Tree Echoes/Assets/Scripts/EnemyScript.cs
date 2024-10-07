@@ -12,7 +12,8 @@ public class EnemyScript : MonoBehaviour
     private Rigidbody2D body;
     private GameObject player;
     private PlayerController script;
-
+    private SpriteRenderer spriteRenderer;
+    private int health = 5;
 
 
     private float damage = 5f;
@@ -25,6 +26,7 @@ public class EnemyScript : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
         script = player.GetComponent<PlayerController>();
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
     }
 
     //Handle collision between the player and the enemy
@@ -53,6 +55,26 @@ public class EnemyScript : MonoBehaviour
         else
         {
             direction = Vector2.right;
+        }
+    }
+
+    public void TakeDamage(int damageAmount)
+    {
+        health -= damageAmount;
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+
+        // Show enemy damage (temp until knockback or other damage feedback is implemented)
+        if (health < 5 && health >= 3)
+        {
+            spriteRenderer.color = Color.yellow;
+        }
+        else if (health < 3)
+        {
+            spriteRenderer.color = Color.red;
         }
     }
 }

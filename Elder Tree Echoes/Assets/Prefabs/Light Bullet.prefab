@@ -98,7 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ad0959e692e3a4fa25f7763efe9b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectileType: 0
   projSpeed: 10
+  upTime: 3
 --- !u!50 &-7658739373355532278
 Rigidbody2D:
   serializedVersion: 4
