@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +11,8 @@ public class GameManager : MonoBehaviour
     private float playerHealth = 100;
     private float invincibilityTime = 1.5f;
     private bool invincible = false;
+
+    GameObject player;
 
     public bool Invincible { get { return invincible; } }
 
@@ -35,6 +39,8 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
+
+        player = GameObject.Find("Player");
     }
 
     public float PlayerHealth { 
@@ -48,15 +54,39 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(playerHealth);
         healthBar.value = playerHealth;
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, Collision2D col)
     {
         playerHealth -= amount;
         healthBar.value = playerHealth;
+
+        Rigidbody2D playerBody = player.GetComponent<Rigidbody2D>();
+
+        #region Knockback
+        float kbForce = 10;
+        ForceMode2D forceMode = ForceMode2D.Impulse;
+
+        // Get the point of collision between player and enemy
+        ContactPoint2D contactPoint = col.GetContact(0);
+        Vector2 playerPosition = player.transform.position;
+        Vector2 dir = contactPoint.point - playerPosition;
+
+        // Normalize vector in opposite direction
+        dir = -dir.normalized;
+
+        // Making sure this is the only force on the player
+        playerBody.velocity = new Vector2(0, 0);
+        playerBody.inertia = 0;
+
+        // Temporarily making the player unable to move
+        player.GetComponent<PlayerController>().CanMove = false; //if its true player input buttons will work and vice versa.
+        Invoke("EnablePlayerControls", 0.4f);
         
+        playerBody.AddForce(dir * kbForce, forceMode);
+        #endregion
+
         StartCoroutine(GameManager.Instance.InvincibilityTimer());
     }
 
@@ -69,10 +99,11 @@ public class GameManager : MonoBehaviour
         float elapsedTime = 0;
         int index = 0;
 
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
         while (elapsedTime < invincibilityTime)
         {
             
-            Debug.Log("Elapsed time = " + elapsedTime + " < time = " + invincibilityTime + " deltaTime " + Time.deltaTime);
+            //Debug.Log("Elapsed time = " + elapsedTime + " < time = " + invincibilityTime + " deltaTime " + Time.deltaTime);
 
             sp.color = colors[index % 2];
             elapsedTime += Time.deltaTime;
@@ -81,10 +112,16 @@ public class GameManager : MonoBehaviour
         }
 
         invincible = false;
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
         elapsedTime = 0;
         sp.color = colors[1];
 
 
+    }
+
+    void EnablePlayerControls()
+    {
+        player.GetComponent<PlayerController>().CanMove = true;
     }
 
     // Update is called once per frame

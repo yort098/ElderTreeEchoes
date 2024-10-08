@@ -26,8 +26,8 @@ public class Projectile : MonoBehaviour
 
     [SerializeField]
     float upTime = 3;
-    private bool alive;
-    private float aliveTime;
+    private bool active;
+    private float activeCounter;
 
     public Vector2 Direction
     {
@@ -38,7 +38,7 @@ public class Projectile : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
-        alive = false;
+        active = false;
     }
 
     // Start is called before the first frame update
@@ -54,13 +54,13 @@ public class Projectile : MonoBehaviour
         location += body.velocity * Time.deltaTime;
         transform.position = location;
 
-        if (alive)
+        if (active)
         {
-            aliveTime += Time.deltaTime;
+            activeCounter += Time.deltaTime;
 
-            if (aliveTime >= upTime)
+            if (activeCounter >= upTime)
             {
-                alive = false;
+                active = false;
                 Destroy(gameObject);
             }
 
@@ -78,8 +78,15 @@ public class Projectile : MonoBehaviour
                     col.GetComponent<Plant>().Grow();
                     col.GetComponent<SpriteRenderer>().color = Color.green;
                 }
-                // Damaging enemies with light
-                else if (col.GetComponent<EnemyScript>() && projectileType == ProjectileType.Light)
+               
+
+                Destroy(gameObject);
+            }
+
+            if (col = Physics2D.OverlapCircle(transform.position, 0.05f, LayerMask.GetMask("Enemy")))
+            {
+                 // Damaging enemies with light
+                if (col.GetComponent<EnemyScript>() && projectileType == ProjectileType.Light)
                 {
                     col.GetComponent<EnemyScript>().TakeDamage(damage);
                 }
@@ -93,11 +100,11 @@ public class Projectile : MonoBehaviour
 
     public void Fire()
     {
-        alive = true;
+        active = true;
         // Water
         if (projectileType == ProjectileType.Water)
         {
-            body.velocity = new Vector2(projSpeed * direction.x, 0);
+            body.velocity = new Vector2(projSpeed * direction.x, projSpeed * direction.y);
         }
         // Light shot
         else if (projectileType == ProjectileType.Light)

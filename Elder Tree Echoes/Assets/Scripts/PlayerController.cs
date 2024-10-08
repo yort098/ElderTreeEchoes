@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     private float wallJumpingTime = 0.2f;
     private float wallJumpingCounter = 0f;
 
+    private bool canMove;
+
     // Represents all collidable platforms the player
     // can use/land on
     [SerializeField]
@@ -40,6 +42,12 @@ public class PlayerController : MonoBehaviour
         get { return isFacingRight; }
     }
 
+    public bool CanMove
+    {
+        get { return canMove; }
+        set { canMove = value; }
+    }
+
     public Vector2 Direction
     {
         get { return direction; }
@@ -51,6 +59,11 @@ public class PlayerController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
     }
 
+    private void Start()
+    {
+        canMove = true;
+    }
+
     /// <summary>
     /// Makes the player move
     /// </summary>
@@ -59,6 +72,8 @@ public class PlayerController : MonoBehaviour
         // Makes the player start moving based on which key is pressed
         // A = (-1, 0), D = (1, 0)
         direction = context.ReadValue<Vector2>();
+        
+        
     }
 
     /// <summary>
@@ -88,7 +103,7 @@ public class PlayerController : MonoBehaviour
         {
             isWallJumping = false;
         }
-        if (!isWallJumping)
+        if (!isWallJumping && canMove)
         {
             float targetSpeed = movementData.maxSpeed * direction.x;
             float speedDiff = targetSpeed - body.velocity.x;

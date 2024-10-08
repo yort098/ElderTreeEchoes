@@ -34,10 +34,10 @@ public class ProjectileManager : MonoBehaviour
         lightShots.Add(shot);
     }
 
-    public void GenerateWaterShot(Vector2 position, bool facingRight)
+    public void GenerateWaterShot(Vector2 position, Vector2 mouseScreenLocation)
     {
         GameObject shot = Instantiate(waterShot, position, Quaternion.identity);
-        shot.GetComponent<Projectile>().setDirection(facingRight);
+        shot.GetComponent<Projectile>().setDirectionMouse(mouseScreenLocation);
         shot.GetComponent<Projectile>().Fire();
         waterShots.Add(shot);
     }

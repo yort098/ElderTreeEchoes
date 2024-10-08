@@ -141,7 +141,7 @@ public class Staff : MonoBehaviour
                 case Power.Water:
                     // Grow
 
-                    projManager.GenerateWaterShot(orb.transform.position, player.IsFacingRight);
+                    projManager.GenerateWaterShot(orb.transform.position, Mouse.current.position.ReadValue());
 
                     break;
 
