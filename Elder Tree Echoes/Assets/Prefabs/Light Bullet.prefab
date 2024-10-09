@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileType: 0
-  projSpeed: 10
+  projSpeed: 14
   upTime: 3
 --- !u!50 &-7658739373355532278
 Rigidbody2D:
