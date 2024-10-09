@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 8891773369503332174}
   - component: {fileID: 6420987539686493440}
   - component: {fileID: 2209117558159081313}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +294,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 7423883249922608762}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: f92e8d9615c46b244b9323434e443925, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

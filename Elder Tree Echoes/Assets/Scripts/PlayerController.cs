@@ -72,8 +72,6 @@ public class PlayerController : MonoBehaviour
         // Makes the player start moving based on which key is pressed
         // A = (-1, 0), D = (1, 0)
         direction = context.ReadValue<Vector2>();
-        
-        
     }
 
     /// <summary>
@@ -111,6 +109,7 @@ public class PlayerController : MonoBehaviour
             float accelRate;
             accelRate = (Mathf.Abs(movementData.maxSpeed) > 0.01f) ? movementData.accelAmount : movementData.deccelAmount;
             float movement = speedDiff * accelRate;
+            Debug.Log(movement);
 
             body.AddForce(movement * Vector2.right);
         }
