@@ -37,10 +37,17 @@ public class Plant : MonoBehaviour
         {
             Debug.Log("Growing plant");
             transform.localScale = Vector3.one;
+
+            // Resetting the collider
             Destroy(GetComponent<PolygonCollider2D>());
             gameObject.AddComponent(typeof(PolygonCollider2D));
 
-            gameObject.AddComponent(typeof(Trampoline));
+            // Limiting the bounce
+            if (!GetComponent<Trampoline>())
+            {
+                gameObject.AddComponent(typeof(Trampoline));
+            }
+            
             
         }
     }

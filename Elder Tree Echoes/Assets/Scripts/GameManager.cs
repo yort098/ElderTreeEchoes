@@ -66,7 +66,6 @@ public class GameManager : MonoBehaviour
 
         #region Knockback
         float kbForce = 10;
-        ForceMode2D forceMode = ForceMode2D.Impulse;
 
         // Get the point of collision between player and enemy
         ContactPoint2D contactPoint = col.GetContact(0);
@@ -84,7 +83,7 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerController>().CanMove = false; //if its true player input buttons will work and vice versa.
         Invoke("EnablePlayerControls", 0.4f);
         
-        playerBody.AddForce(dir * kbForce, forceMode);
+        playerBody.AddForce(dir * kbForce, ForceMode2D.Impulse);
         #endregion
 
         StartCoroutine(GameManager.Instance.InvincibilityTimer());
