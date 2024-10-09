@@ -40,7 +40,7 @@ public class SwoopingEnemy : MonoBehaviour
             //Refine this later
             //script.Direction = new Vector2(1, 0);
 
-            GameManager.Instance.TakeDamage(attributes.damage);
+            GameManager.Instance.TakeDamage(attributes.damage, col);
         }
     }
 

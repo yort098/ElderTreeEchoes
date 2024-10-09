@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e266c14c58970f49813f8df1b3e925a, type: 3}
   m_Name: SwoopySteve
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 3
   health: 10
-  damage: 5
+  damage: 10
