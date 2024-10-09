@@ -9,5 +9,4 @@ public class EnemyAttributes : ScriptableObject
     public float speed = 2f;
     public float health = 10;
     public float damage = 5f;
-    public float distance;
 }

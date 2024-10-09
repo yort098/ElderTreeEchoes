@@ -12,6 +12,7 @@ public class EnemyScript : MonoBehaviour
     private Rigidbody2D body;
     private GameObject player;
     private PlayerController script;
+    public float distance;
     private float startX;
     private float endX;
 
@@ -24,8 +25,6 @@ public class EnemyScript : MonoBehaviour
         player = GameObject.Find("Player");
         script = player.GetComponent<PlayerController>();
 
-        //attributes.startX = body.position.x;
-        //attributes.endX = body.position.x + 1;
         startX = body.position.x;
         endX = body.position.x + 3;
     }
@@ -40,17 +39,17 @@ public class EnemyScript : MonoBehaviour
             //script.Direction = new Vector2(1, 0);
 
             GameManager.Instance.TakeDamage(attributes.damage);
-            
+            direction.y = 2;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        attributes.distance = Vector2.Distance(body.transform.position, player.transform.position);
+        distance = Vector2.Distance(body.transform.position, player.transform.position);
         body.velocity = new Vector3(direction.x * attributes.speed, body.velocity.y);
-        //Have the enemy move towards the player
-        if(attributes.distance <= 4)
+        //Have the enemy move towards the player if in range
+        if(distance <= 4)
         {
             if(player.transform.position.x < body.position.x)
             {
@@ -61,6 +60,7 @@ public class EnemyScript : MonoBehaviour
                 direction = Vector2.right;
             }
         }
+        //Have the enemy patrol if the pklayer is not in range
         else if(body.position.x > endX)
         {
             direction = Vector2.left;
