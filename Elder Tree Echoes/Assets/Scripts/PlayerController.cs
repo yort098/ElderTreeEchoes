@@ -10,15 +10,20 @@ using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    float speed = 3f, jumpForce = 3f;
+    MovementData movementData;
+
+    [SerializeField]
+    float jumpForce = 3f;
 
     private Vector2 direction = Vector3.zero;
 
     private bool wallCling;
     private float wallJumpDirection;
     private bool isWallJumping;
-    private float wallJumpingTime = 0.5f;
+    private float wallJumpingTime = 0.2f;
     private float wallJumpingCounter = 0f;
+
+    private bool canMove;
 
     // Represents all collidable platforms the player
     // can use/land on
@@ -37,13 +42,10 @@ public class PlayerController : MonoBehaviour
         get { return isFacingRight; }
     }
 
-    /// <summary>
-    /// Returns the player's speed
-    /// </summary>
-    public float Speed
+    public bool CanMove
     {
-        get { return speed; }
-        set { speed = value; }
+        get { return canMove; }
+        set { canMove = value; }
     }
 
     public Vector2 Direction
@@ -57,6 +59,11 @@ public class PlayerController : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
     }
 
+    private void Start()
+    {
+        canMove = true;
+    }
+
     /// <summary>
     /// Makes the player move
     /// </summary>
@@ -65,6 +72,8 @@ public class PlayerController : MonoBehaviour
         // Makes the player start moving based on which key is pressed
         // A = (-1, 0), D = (1, 0)
         direction = context.ReadValue<Vector2>();
+        
+        
     }
 
     /// <summary>
@@ -74,16 +83,14 @@ public class PlayerController : MonoBehaviour
     {
         if (IsGrounded() && context.performed) // Can only jump when touching the ground
         {
-            Vector3 jumpVelocity = new Vector3(body.velocity.x, jumpForce);
-            body.velocity = jumpVelocity;
+            body.AddForce(new Vector2(0, jumpForce));
         }
         else if(wallCling && context.performed)
         {
             wallJumpingCounter = wallJumpingTime;
             isWallJumping = true;
             wallJumpDirection = -transform.localScale.x;
-            Vector3 jumpVelocity = new Vector2(wallJumpDirection * 5f, jumpForce);
-            body.velocity = jumpVelocity;
+            body.AddForce(new Vector2(wallJumpDirection * 200, jumpForce));
             Flip();
         }
        
@@ -96,9 +103,16 @@ public class PlayerController : MonoBehaviour
         {
             isWallJumping = false;
         }
-        if (!isWallJumping)
+        if (!isWallJumping && canMove)
         {
-            body.velocity = new Vector3(direction.x * speed, body.velocity.y);
+            float targetSpeed = movementData.maxSpeed * direction.x;
+            float speedDiff = targetSpeed - body.velocity.x;
+            
+            float accelRate;
+            accelRate = (Mathf.Abs(movementData.maxSpeed) > 0.01f) ? movementData.accelAmount : movementData.deccelAmount;
+            float movement = speedDiff * accelRate;
+
+            body.AddForce(movement * Vector2.right);
         }
         // Changing the direction the character is facing
         // based on the direction the player is moving

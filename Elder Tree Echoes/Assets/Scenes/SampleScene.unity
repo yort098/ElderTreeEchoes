@@ -748,7 +748,7 @@ GameObject:
   m_Component:
   - component: {fileID: 436280890}
   - component: {fileID: 436280891}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: orb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1069,7 +1069,7 @@ GameObject:
   - component: {fileID: 653854441}
   - component: {fileID: 653854442}
   - component: {fileID: 653854443}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1575,7 +1575,7 @@ GameObject:
   - component: {fileID: 1265640285}
   - component: {fileID: 1265640284}
   - component: {fileID: 1358670589}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1614,7 +1614,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1.2
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1638,8 +1638,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5761aceadbe5bfd4b9c220036d30ef85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  jumpForce: 5.5
+  movementData: {fileID: 11400000, guid: ba41a4f4b364c1b4f83a626758d058eb, type: 2}
+  jumpForce: 500
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -1934,7 +1934,7 @@ GameObject:
   - component: {fileID: 1416958147}
   - component: {fileID: 1416958148}
   - component: {fileID: 1416958149}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: staff
   m_TagString: Untagged
   m_Icon: {fileID: 0}
