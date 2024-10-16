@@ -6,7 +6,6 @@ public class ProjectileManager : MonoBehaviour
 {
     [SerializeField] private GameObject lightBullet;
     [SerializeField] private GameObject waterShot;
-    //private LightShot light;
     private List<GameObject> lightShots = new List<GameObject>();
     private List<GameObject> waterShots = new List<GameObject>();
 

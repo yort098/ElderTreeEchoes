@@ -10,7 +10,7 @@ public class CameraFollow : MonoBehaviour
 
     //  How long it takes for the camera
     //  to reach the object it is following   
-    private float smoothTime = 0.15f; 
+    public float smoothTime = 0.3f; 
 
     private Vector3 velocity = Vector3.zero;
 

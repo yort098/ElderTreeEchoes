@@ -14,6 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 8
   acceleration: 2
-  accelAmount: 5
+  accelAmount: 6
   deceleration: 2
-  deccelAmount: 5
+  deccelAmount: 2
+  lerpAmount: 0.25
+  jumpForce: 10
+  gravityScale: 2.75
+  maxFallSpeed: 1
+  wallJumpForce: {x: 10, y: 10}
+  wallJumpTime: 0.25
+  wallSlidingSpeed: 0
