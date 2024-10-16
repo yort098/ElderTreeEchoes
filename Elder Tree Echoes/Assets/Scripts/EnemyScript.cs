@@ -51,7 +51,7 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distance = Vector2.Distance(body.transform.position, player.transform.position);
+        float distance = Vector2.Distance(body.transform.position, player.transform.position);
         body.velocity = new Vector3(direction.x * attributes.speed, body.velocity.y);
         //Have the enemy move towards the player if in range
         if(distance <= 4)
