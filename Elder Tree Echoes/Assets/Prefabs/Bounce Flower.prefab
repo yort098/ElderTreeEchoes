@@ -131,9 +131,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantName: Bounce Flower
-  growthThreshold: 0
-  growthTime: 0
-  growthSpeed: 0
+  isGrowing: 0
+  growthSpeed: 1
+  growth: {x: 1, y: 0.85}
 --- !u!60 &3772617554222985882
 PolygonCollider2D:
   m_ObjectHideFlags: 0
