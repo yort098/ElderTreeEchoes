@@ -21,7 +21,6 @@ public class Staff : MonoBehaviour
     [SerializeField]
     LayerMask plantLayer;
 
-    private PlayerController player;
     private ProjectileManager projManager;
     private BoxCollider2D whackRange;
 
@@ -30,13 +29,15 @@ public class Staff : MonoBehaviour
     [SerializeField]
     private SpriteRenderer orb;
 
+    private void Awake()
+    {
+        projManager = GameObject.Find("ProjectileManager").GetComponent<ProjectileManager>();
+        whackRange = GetComponent<BoxCollider2D>();
+    }
     // Start is called before the first frame update
     void Start()
     {
         power = Power.Basic;
-        projManager = GameObject.Find("ProjectileManager").GetComponent<ProjectileManager>();
-        player = GameObject.Find("Player").GetComponent<PlayerController>();
-        whackRange = GetComponentInParent<BoxCollider2D>();
     }
 
     // Update is called once per frame
@@ -151,11 +152,5 @@ public class Staff : MonoBehaviour
             }
             
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(orb.transform.position, 0.5f);
     }
 }

@@ -20,14 +20,18 @@ public class EnemyScript : MonoBehaviour
 
     public Vector2 Direction { get { return direction; } }
 
+    private void Awake()
+    {
+        player = GameObject.Find("Player");
+        body = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     // Start is called before the first frame update
     protected void Start()
     {  
-        body = GetComponent<Rigidbody2D>();
-        player = GameObject.Find("Player");
-        script = player.GetComponent<PlayerController>();
-        spriteRenderer = this.GetComponent<SpriteRenderer>();
-
+        //attributes.startX = body.position.x;
+        //attributes.endX = body.position.x + 1;
         startX = body.position.x;
         endX = body.position.x + 3;
     }
@@ -35,11 +39,10 @@ public class EnemyScript : MonoBehaviour
     //Handle collision between the player and the enemy
     void OnCollisionEnter2D(Collision2D col)
     {
-        if(col.gameObject.tag == "Player" && !GameManager.Instance.Invincible)
+        if(col.gameObject.tag == "Player")
         {
             //Move the player to the right when colliding
             //Refine this later
-            //script.Direction = new Vector2(1, 0);
 
             GameManager.Instance.TakeDamage(attributes.damage, col);
             

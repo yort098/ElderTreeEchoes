@@ -18,24 +18,10 @@ public class Plant : MonoBehaviour
 
     private bool isGrown;
 
-    PhysicsMaterial2D material;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Grow()
     {
         if (!isGrown)
         {
-            Debug.Log("Growing plant");
             transform.localScale = Vector3.one;
 
             // Resetting the collider

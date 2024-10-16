@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator InvincibilityTimer()
     {
-        SpriteRenderer sp = GameObject.Find("body").GetComponent<SpriteRenderer>();
+        SpriteRenderer sp = player.GetComponent<SpriteRenderer>();
         Color[] colors = new Color[2] { Color.red, sp.color };
         invincible = true;
 
