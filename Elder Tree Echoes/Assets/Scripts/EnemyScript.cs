@@ -51,10 +51,10 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        attributes.distance = Vector2.Distance(body.transform.position, player.transform.position);
+        distance = Vector2.Distance(body.transform.position, player.transform.position);
         body.velocity = new Vector3(direction.x * attributes.speed, body.velocity.y);
-        //Have the enemy move towards the player
-        if(attributes.distance <= 4)
+        //Have the enemy move towards the player if in range
+        if(distance <= 4)
         {
             if(player.transform.position.x < body.position.x)
             {
@@ -65,6 +65,7 @@ public class EnemyScript : MonoBehaviour
                 direction = Vector2.right;
             }
         }
+        //Have the enemy patrol if the pklayer is not in range
         else if(body.position.x > endX)
         {
             direction = Vector2.left;
