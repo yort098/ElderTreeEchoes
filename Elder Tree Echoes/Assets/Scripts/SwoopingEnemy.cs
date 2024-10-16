@@ -19,12 +19,16 @@ public class SwoopingEnemy : MonoBehaviour
 
     public Vector2 Direction { get { return direction; } }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
         script = player.GetComponent<PlayerController>();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
 
         startX = body.position.x;
         endX = body.position.x + 3;

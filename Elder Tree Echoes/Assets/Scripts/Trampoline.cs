@@ -5,7 +5,6 @@ using UnityEngine;
 public class Trampoline : MonoBehaviour
 {
     public float springForce = 500;
-    public GameObject subject;
 
     void OnCollisionEnter2D(Collision2D coll)
     {

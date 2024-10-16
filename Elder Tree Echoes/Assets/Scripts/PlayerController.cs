@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     Transform frontWallCheck;
-    private Vector2 wallCheckSize = new Vector2(0.03f, 1.5f);
+    private Vector2 wallCheckSize = new Vector2(0.03f, 0.5f);
 
     // All walls/barriers/obstructions
     [SerializeField]
@@ -142,12 +142,17 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // Slightly increases gravity on descent
-        body.gravityScale = body.velocity.y < 0 ? movementData.gravityScale * 1.5f : movementData.gravityScale;
+        if (body.velocity.y < 0) // falling
+        {
+            body.gravityScale = movementData.gravityScale * 1.5f;
 
-        //Mathf.Clamp(body.velocity.y, -movementData.maxFallSpeed, float.MaxValue); // Still need to implement a max fall speed
+            // Capping the fall speed
+            body.velocity = new Vector2(body.velocity.x, Mathf.Max(body.velocity.y, -movementData.maxFallSpeed));
+
+        }
 
         // Making sure the player "affixes" to the wall
-        if (IsOnWall() && !IsGrounded() && !wallJumping)
+        if (IsOnWall() && !wallJumping)
         {
             wallCling = true;
             
@@ -217,7 +222,7 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private bool IsOnWall()
     {
-        return Physics2D.OverlapBox(frontWallCheck.position, wallCheckSize, 0, wallLayer);
+        return !IsGrounded() && Physics2D.OverlapBox(frontWallCheck.position, wallCheckSize, 0, wallLayer);
     }
 
     /// <summary>
@@ -241,12 +246,12 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    /*private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
 
         Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
 
         Gizmos.DrawWireCube(frontWallCheck.position, wallCheckSize);
-    }*/
+    }
 }

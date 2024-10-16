@@ -20,7 +20,6 @@ MonoBehaviour:
   lerpAmount: 0.25
   jumpForce: 10
   gravityScale: 2.75
-  maxFallSpeed: 1
-  wallJumpForce: {x: 10, y: 10}
+  maxFallSpeed: 15
+  wallJumpForce: {x: 12, y: 10}
   wallJumpTime: 0.25
-  wallSlidingSpeed: 0

@@ -21,7 +21,6 @@ public class Staff : MonoBehaviour
     [SerializeField]
     LayerMask plantLayer;
 
-    private PlayerController player;
     private ProjectileManager projManager;
     private BoxCollider2D whackRange;
 
@@ -33,7 +32,6 @@ public class Staff : MonoBehaviour
     private void Awake()
     {
         projManager = GameObject.Find("ProjectileManager").GetComponent<ProjectileManager>();
-        player = GameObject.Find("Player").GetComponent<PlayerController>();
         whackRange = GetComponent<BoxCollider2D>();
     }
     // Start is called before the first frame update
