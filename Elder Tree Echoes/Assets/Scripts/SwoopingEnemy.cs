@@ -17,6 +17,11 @@ public class SwoopingEnemy : MonoBehaviour
     private float startY;
     private float endY;
 
+    private int health;
+
+
+    private SpriteRenderer spriteRenderer;
+
     public Vector2 Direction { get { return direction; } }
 
     private void Awake()
@@ -24,6 +29,7 @@ public class SwoopingEnemy : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
         script = player.GetComponent<PlayerController>();
+        spriteRenderer = player.GetComponent<SpriteRenderer>();
     }
 
     // Start is called before the first frame update
@@ -33,6 +39,8 @@ public class SwoopingEnemy : MonoBehaviour
         startX = body.position.x;
         endX = body.position.x + 3;
         startY = body.position.y;
+
+        health = (int)attributes.health;
     }
 
     //Handle collision between the player and the enemy
@@ -93,6 +101,26 @@ public class SwoopingEnemy : MonoBehaviour
         else if (body.position.x < startX)
         {
             direction.x = 1; ;
+        }
+    }
+
+    public void TakeDamage(int damageAmount)
+    {
+        health -= damageAmount;
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+
+        // Show enemy damage (temp until knockback or other damage feedback is implemented)
+        if (health < 5 && health >= 3)
+        {
+            spriteRenderer.color = Color.yellow;
+        }
+        else if (health < 3)
+        {
+            spriteRenderer.color = Color.red;
         }
     }
 }

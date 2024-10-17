@@ -91,6 +91,11 @@ public class Projectile : MonoBehaviour
                     col.GetComponent<EnemyScript>().TakeDamage(damage);
                 }
 
+                if (col.GetComponent<SwoopingEnemy>() && projectileType == ProjectileType.Light)
+                {
+                    col.GetComponent<SwoopingEnemy>().TakeDamage(damage);
+                }
+
                 Destroy(gameObject);
             }
 
