@@ -6,16 +6,17 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour
 {
     [SerializeField]
-    EnemyAttributes attributes;
+    protected EnemyAttributes attributes;
 
-    private Vector2 direction = Vector2.right;
-    private Rigidbody2D body;
-    private GameObject player;
-    private SpriteRenderer spriteRenderer;
-    private int health = 5;
+    protected Vector2 direction = Vector2.right;
+    protected Rigidbody2D body;
+    protected GameObject player;
+    protected PlayerController script;
+    public float distance;
+    protected SpriteRenderer spriteRenderer;
 
-    private float startX;
-    private float endX;
+    protected float startX;
+    protected float endX;
 
     public Vector2 Direction { get { return direction; } }
 
@@ -27,7 +28,7 @@ public class EnemyScript : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {  
         //attributes.startX = body.position.x;
         //attributes.endX = body.position.x + 1;
@@ -51,12 +52,17 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float distance = Vector2.Distance(body.transform.position, player.transform.position);
+        Move();
+    }
+
+    protected virtual void Move()
+    {
+        distance = Vector2.Distance(body.transform.position, player.transform.position);
         body.velocity = new Vector3(direction.x * attributes.speed, body.velocity.y);
         //Have the enemy move towards the player if in range
-        if(distance <= 4)
+        if (distance <= 4)
         {
-            if(player.transform.position.x < body.position.x)
+            if (player.transform.position.x < body.position.x)
             {
                 direction = Vector2.left;
             }
@@ -66,11 +72,11 @@ public class EnemyScript : MonoBehaviour
             }
         }
         //Have the enemy patrol if the pklayer is not in range
-        else if(body.position.x > endX)
+        else if (body.position.x > endX)
         {
             direction = Vector2.left;
         }
-        else if(body.position.x < startX)
+        else if (body.position.x < startX)
         {
             direction = Vector2.right;
         }
@@ -78,19 +84,19 @@ public class EnemyScript : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
-        health -= damageAmount;
+        attributes.health -= damageAmount;
 
-        if (health <= 0)
+        if (attributes.health <= 0)
         {
             Destroy(gameObject);
         }
 
         // Show enemy damage (temp until knockback or other damage feedback is implemented)
-        if (health < 5 && health >= 3)
+        if (attributes.health < 5 && attributes.health >= 3)
         {
             spriteRenderer.color = Color.yellow;
         }
-        else if (health < 3)
+        else if (attributes.health < 3)
         {
             spriteRenderer.color = Color.red;
         }

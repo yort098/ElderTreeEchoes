@@ -5,36 +5,53 @@ using UnityEngine;
 public class Plant : MonoBehaviour
 {
     [SerializeField]
-    private string plantName;
+    protected string plantName;
+
+    public bool isGrowing;
+    protected bool isGrown;
 
     [SerializeField]
-    private float growthThreshold;
+    protected float growthSpeed;
 
     [SerializeField]
-    private float growthTime;
+    protected Vector2 growth;
 
-    [SerializeField]
-    private float growthSpeed;
-
-    private bool isGrown;
+    private void FixedUpdate()
+    {
+        if (isGrowing && !isGrown)
+        {
+            Grow();
+        }
+        else
+        {
+            isGrowing = false;
+        }
+    }
 
     public void Grow()
     {
-        if (!isGrown)
-        {
-            transform.localScale = Vector3.one;
 
+        transform.localScale = new Vector3(1, transform.localScale.y + growthSpeed * Time.deltaTime, 1);
+        /*SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        
+        sr.color = new Vector4(sr.color.r, sr.color.g, sr.color.b, Mathf.Clamp((sr.color.a - 1f * Time.deltaTime), 0f, 1f));*/
+
+        if (transform.localScale.x >= growth.x && transform.localScale.y >= growth.y)
+        {
+            GetComponent<SpriteRenderer>().color = Color.green;
             // Resetting the collider
             Destroy(GetComponent<PolygonCollider2D>());
             gameObject.AddComponent(typeof(PolygonCollider2D));
+
+            isGrowing = false;
+            isGrown = true;
+            
 
             // Limiting the bounce
             if (!GetComponent<Trampoline>())
             {
                 gameObject.AddComponent(typeof(Trampoline));
             }
-            
-            
         }
     }
 

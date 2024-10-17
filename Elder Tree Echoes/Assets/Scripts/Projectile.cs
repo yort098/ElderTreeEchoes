@@ -75,8 +75,7 @@ public class Projectile : MonoBehaviour
                 // Making plants grow with water
                 if (col.GetComponent<Plant>() && projectileType == ProjectileType.Water)
                 {
-                    col.GetComponent<Plant>().Grow();
-                    col.GetComponent<SpriteRenderer>().color = Color.green;
+                    col.GetComponent<Plant>().isGrowing = true;                    
                 }
                
 
