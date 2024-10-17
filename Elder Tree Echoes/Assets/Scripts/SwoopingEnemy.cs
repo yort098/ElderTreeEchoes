@@ -7,11 +7,6 @@ public class SwoopingEnemy : EnemyScript
     private float startY;
     private float endY;
 
-    private int health;
-
-
-    private SpriteRenderer spriteRenderer;
-
     public Vector2 Direction { get { return direction; } }
 
     private void Awake()
@@ -19,7 +14,7 @@ public class SwoopingEnemy : EnemyScript
         body = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
         script = player.GetComponent<PlayerController>();
-        spriteRenderer = player.GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     private bool isSwooping;
 
@@ -28,8 +23,7 @@ public class SwoopingEnemy : EnemyScript
     {
         base.Start();
         startY = body.position.y;
-
-        health = (int)attributes.health;
+        health = 5;
         endY = startY + 2;
         isSwooping = false;
     }
@@ -84,23 +78,23 @@ public class SwoopingEnemy : EnemyScript
         }
     }
 
-    public void TakeDamage(int damageAmount)
-    {
-        health -= damageAmount;
+    //public void TakeDamage(int damageAmount)
+    //{
+    //    health -= damageAmount;
 
-        if (health <= 0)
-        {
-            Destroy(gameObject);
-        }
+    //    if (health <= 0)
+    //    {
+    //        Destroy(gameObject);
+    //    }
 
-        // Show enemy damage (temp until knockback or other damage feedback is implemented)
-        if (health < 5 && health >= 3)
-        {
-            spriteRenderer.color = Color.yellow;
-        }
-        else if (health < 3)
-        {
-            spriteRenderer.color = Color.red;
-        }
-    }
+    //    // Show enemy damage (temp until knockback or other damage feedback is implemented)
+    //    if (health < 5 && health >= 3)
+    //    {
+    //        spriteRenderer.color = Color.yellow;
+    //    }
+    //    else if (health < 3)
+    //    {
+    //        spriteRenderer.color = Color.red;
+    //    }
+    //}
 }
