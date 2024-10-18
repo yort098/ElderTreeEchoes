@@ -20,7 +20,7 @@ public class EnemyScript : MonoBehaviour
 
     public Vector2 Direction { get { return direction; } }
 
-    private void Awake()
+    virtual protected void Awake()
     {
         player = GameObject.Find("Player");
         body = GetComponent<Rigidbody2D>();
@@ -28,7 +28,7 @@ public class EnemyScript : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    protected void Start()
+    virtual protected void Start()
     {  
         //attributes.startX = body.position.x;
         //attributes.endX = body.position.x + 1;
@@ -50,7 +50,7 @@ public class EnemyScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Move();
     }

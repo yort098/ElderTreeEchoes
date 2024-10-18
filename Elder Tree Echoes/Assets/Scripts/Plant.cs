@@ -39,9 +39,6 @@ public class Plant : MonoBehaviour
         if (transform.localScale.x >= growth.x && transform.localScale.y >= growth.y)
         {
             GetComponent<SpriteRenderer>().color = Color.green;
-            // Resetting the collider
-            Destroy(GetComponent<PolygonCollider2D>());
-            gameObject.AddComponent(typeof(PolygonCollider2D));
 
             isGrowing = false;
             isGrown = true;
@@ -50,7 +47,7 @@ public class Plant : MonoBehaviour
             // Limiting the bounce
             if (!GetComponent<Trampoline>())
             {
-                gameObject.AddComponent(typeof(Trampoline));
+                //gameObject.AddComponent(typeof(Trampoline));
             }
         }
     }

@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     private bool isTouchingFront; // Whether the player is touching the wall in front of them
     private bool wallCling;
 
-    private bool wallJumping;
+    private bool isWallJumping;
     
 
     #endregion
@@ -53,6 +53,8 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region TIMERS
+
+    private float coyoteTimeCounter = 0;
 
     #endregion
 
@@ -84,6 +86,8 @@ public class PlayerController : MonoBehaviour
         set { direction = value; }
     }
 
+    public PlayerMovementData MovementData { get { return movementData; } }
+
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
@@ -110,13 +114,13 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (IsGrounded() && context.performed) // Can only jump when touching the ground
+        if (coyoteTimeCounter > 0f && context.performed) // Can only jump when touching the ground
         {
             body.AddForce(new Vector2(0, movementData.jumpForce), ForceMode2D.Impulse);
         }
         else if (wallCling && context.performed) // On the wall
         {
-            wallJumping = true;
+            isWallJumping = true;
 
             // The player can jump off the wall without
             // having to jump into it
@@ -136,6 +140,11 @@ public class PlayerController : MonoBehaviour
             // Gets rid of force after wallJumpTime
             Invoke("DisableWallJump", movementData.wallJumpTime);
         }
+        
+        if (context.canceled)
+        {
+            coyoteTimeCounter = 0;
+        }
 
     }
 
@@ -151,8 +160,13 @@ public class PlayerController : MonoBehaviour
 
         }
 
+        if (IsGrounded())
+        {
+            coyoteTimeCounter = movementData.coyoteTime;
+        }
+
         // Making sure the player "affixes" to the wall
-        if (IsOnWall() && !wallJumping)
+        if (IsOnWall() && !isWallJumping)
         {
             wallCling = true;
             
@@ -178,7 +192,7 @@ public class PlayerController : MonoBehaviour
             Flip();
         }
 
-        
+        coyoteTimeCounter -= Time.deltaTime;
     }
 
     private void FixedUpdate()
@@ -190,7 +204,7 @@ public class PlayerController : MonoBehaviour
 
             // Slowly ramps to target speed using lerping when wall jumping
             // ----- prevents the player from getting back to the wall too quickly
-            if (wallJumping)
+            if (isWallJumping)
             {
                 targetSpeed = Mathf.Lerp(body.velocity.x, targetSpeed, movementData.lerpAmount);
             }
@@ -230,7 +244,12 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void DisableWallJump()
     {
-        wallJumping = false;
+        isWallJumping = false;
+    }
+
+    public void SetGravityScale(float value)
+    {
+        body.gravityScale = value;
     }
 
     /// <summary>

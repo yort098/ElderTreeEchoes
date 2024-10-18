@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
 
         // Temporarily making the player unable to move
         player.GetComponent<PlayerController>().CanMove = false; //if its true player input buttons will work and vice versa.
-        Invoke("EnablePlayerControls", 0.4f);
+        Invoke("EnablePlayerControls", 0.2f);
         
         playerBody.AddForce(dir * kbForce, ForceMode2D.Impulse);
         #endregion
@@ -101,8 +101,6 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
         while (elapsedTime < invincibilityTime)
         {
-            
-            //Debug.Log("Elapsed time = " + elapsedTime + " < time = " + invincibilityTime + " deltaTime " + Time.deltaTime);
 
             sp.color = colors[index % 2];
             elapsedTime += Time.deltaTime;

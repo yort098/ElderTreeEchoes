@@ -8,11 +8,17 @@ public class SwoopingEnemy : EnemyScript
     private float endY;
     private bool isSwooping;
 
+
+    protected override void Awake()
+    {
+        base.Awake();
+        startY = body.position.y;
+    }
+
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         base.Start();
-        startY = body.position.y;
         endY = startY + 2;
         isSwooping = false;
     }

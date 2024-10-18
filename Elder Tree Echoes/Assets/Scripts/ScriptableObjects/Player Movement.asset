@@ -23,3 +23,5 @@ MonoBehaviour:
   maxFallSpeed: 15
   wallJumpForce: {x: 12, y: 10}
   wallJumpTime: 0.25
+  coyoteTime: 0.2
+  jumpBufferTime: 0.1

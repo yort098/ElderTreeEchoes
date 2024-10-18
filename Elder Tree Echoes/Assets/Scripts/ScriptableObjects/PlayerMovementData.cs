@@ -26,6 +26,9 @@ public class PlayerMovementData : ScriptableObject
     public Vector2 wallJumpForce;
     public float wallJumpTime;
 
+    // Extra Schmovement
+    public float coyoteTime;
+
     
 
 }
