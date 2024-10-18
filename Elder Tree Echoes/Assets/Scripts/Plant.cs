@@ -45,9 +45,9 @@ public class Plant : MonoBehaviour
             
 
             // Limiting the bounce
-            if (!GetComponent<Trampoline>())
+            if (!GetComponent<Trampoline>() && tag == "Bouncy")
             {
-                //gameObject.AddComponent(typeof(Trampoline));
+                gameObject.AddComponent(typeof(Trampoline));
             }
         }
     }

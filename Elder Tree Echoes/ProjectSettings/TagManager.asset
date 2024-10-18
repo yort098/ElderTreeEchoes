@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Plant
   - Climbable
+  - Bouncy
   layers:
   - Default
   - TransparentFX
