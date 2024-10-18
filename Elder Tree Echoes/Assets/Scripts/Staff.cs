@@ -27,7 +27,10 @@ public class Staff : MonoBehaviour
     // A reference to the end part of the staff
     // (probably temporary until we get assets for it) 
     [SerializeField]
-    private SpriteRenderer orb;
+    private SpriteRenderer orbArea;
+
+    [SerializeField]
+    Sprite waterOrb, lightOrb;
 
     private void Awake()
     {
@@ -48,15 +51,15 @@ public class Staff : MonoBehaviour
         switch (power)
         {
             case Power.Water:
-                orb.color = Color.blue; // Blue for water
+                orbArea.sprite = waterOrb; // Blue for water
                 break;
 
             case Power.Light:
-                orb.color = Color.yellow; // Yellow for light
+                orbArea.sprite = lightOrb; // Yellow for light
                 break;
 
             default:
-                orb.color = Color.white; // White for basic
+                orbArea.sprite = null; // White for basic
                 break;
         }
     }
@@ -123,7 +126,7 @@ public class Staff : MonoBehaviour
                     // Get mouse input
                     Vector2 mouse = Mouse.current.position.ReadValue();
 
-                    projManager.GenerateLightAttack(orb.transform.position, mouse);
+                    projManager.GenerateLightAttack(orbArea.transform.position, mouse);
 
                     break;
             }
@@ -143,7 +146,7 @@ public class Staff : MonoBehaviour
                 case Power.Water:
                     // Grow
 
-                    projManager.GenerateWaterShot(orb.transform.position, Mouse.current.position.ReadValue());
+                    projManager.GenerateWaterShot(orbArea.transform.position, Mouse.current.position.ReadValue());
 
                     break;
 
