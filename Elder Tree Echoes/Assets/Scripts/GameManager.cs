@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     private float playerHealth = 100;
+    private float waterEnergy = 100;
+    private float lightEnergy = 100;
     private float invincibilityTime = 1.5f;
     private bool invincible = false;
 
@@ -18,6 +20,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     Slider healthBar;
+
+    [SerializeField]
+    Slider waterMeter;
+
+    [SerializeField]
+    Slider lightMeter;
 
     public GameObject[] Enemies
     {
@@ -51,10 +59,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public float WaterEnergy
+    {
+        get { return waterEnergy; }
+    }
+
+    public float LightEnergy
+    {
+        get { return lightEnergy; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         healthBar.value = playerHealth;
+        waterMeter.value = waterEnergy;
+        lightMeter.value = lightEnergy;
     }
 
     public void TakeDamage(float amount, Collision2D col)
@@ -121,9 +141,32 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerController>().CanMove = true;
     }
 
+    public void DepleteEnergy(ProjectileType element, int amount)
+    {
+        if (element == ProjectileType.Water)
+        {
+            waterEnergy -= amount;
+        }
+        else
+        {
+            lightEnergy -= amount;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-        
+        waterMeter.value = waterEnergy;
+        lightMeter.value = lightEnergy;
+
+        if (waterEnergy < 100)
+        {
+            waterEnergy += 0.1f;
+        }
+
+        if (lightEnergy < 100)
+        {
+            lightEnergy += 0.1f;
+        }
     }
 }

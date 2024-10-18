@@ -6,19 +6,24 @@ public class SwoopingEnemy : EnemyScript
 {
     private float startY;
     private float endY;
-    private bool isSwooping;
 
+    public Vector2 Direction { get { return direction; } }
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
-        startY = body.position.y;
+        body = GetComponent<Rigidbody2D>();
+        player = GameObject.Find("Player");
+        script = player.GetComponent<PlayerController>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
+    private bool isSwooping;
 
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
+        startY = body.position.y;
+        health = 5;
         endY = startY + 2;
         isSwooping = false;
     }
@@ -72,4 +77,24 @@ public class SwoopingEnemy : EnemyScript
             direction.x = 1; ;
         }
     }
+
+    //public void TakeDamage(int damageAmount)
+    //{
+    //    health -= damageAmount;
+
+    //    if (health <= 0)
+    //    {
+    //        Destroy(gameObject);
+    //    }
+
+    //    // Show enemy damage (temp until knockback or other damage feedback is implemented)
+    //    if (health < 5 && health >= 3)
+    //    {
+    //        spriteRenderer.color = Color.yellow;
+    //    }
+    //    else if (health < 3)
+    //    {
+    //        spriteRenderer.color = Color.red;
+    //    }
+    //}
 }

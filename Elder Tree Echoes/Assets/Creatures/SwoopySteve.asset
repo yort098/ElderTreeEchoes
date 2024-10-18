@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SwoopySteve
   m_EditorClassIdentifier: 
   speed: 3
-  health: 10
+  health: 5
   damage: 10

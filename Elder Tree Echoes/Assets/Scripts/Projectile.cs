@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 // Enum representing the projectile type of this object
-enum ProjectileType
+public enum ProjectileType
 {
     Light,
     Water
@@ -84,8 +84,12 @@ public class Projectile : MonoBehaviour
 
             if (col = Physics2D.OverlapCircle(transform.position, 0.05f, LayerMask.GetMask("Enemy")))
             {
-                 // Damaging enemies with light
-                if (col.GetComponent<EnemyScript>() && projectileType == ProjectileType.Light)
+                // Damaging enemies with light
+                if (col.GetComponent<SwoopingEnemy>() && projectileType == ProjectileType.Light)
+                {
+                    col.GetComponent<SwoopingEnemy>().TakeDamage(damage);
+                }
+                else if (col.GetComponent<EnemyScript>() && projectileType == ProjectileType.Light)
                 {
                     col.GetComponent<EnemyScript>().TakeDamage(damage);
                 }

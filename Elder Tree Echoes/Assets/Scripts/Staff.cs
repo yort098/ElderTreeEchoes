@@ -99,17 +99,18 @@ public class Staff : MonoBehaviour
                 case Power.Basic:
                     // Whack
 
-                    if (GameManager.Instance.Enemies.Length > 0)
-                    {
-                        foreach (GameObject e in GameManager.Instance.Enemies)
-                        {
-                            if (whackRange.IsTouching(e.GetComponent<BoxCollider2D>()))
-                            {
-                                e.GetComponent<EnemyScript>().TakeDamage(5);
-                            }
-                        }
+                    // Temporarily disable until staff animations are ready
+                    //if (GameManager.Instance.Enemies.Length > 0)
+                    //{
+                    //    foreach (GameObject e in GameManager.Instance.Enemies)
+                    //    {
+                    //        if (whackRange.IsTouching(e.GetComponent<BoxCollider2D>()))
+                    //        {
+                    //            e.GetComponent<EnemyScript>().TakeDamage(5);
+                    //        }
+                    //    }
                         
-                    }
+                    //}
                     break;
 
                 case Power.Water:

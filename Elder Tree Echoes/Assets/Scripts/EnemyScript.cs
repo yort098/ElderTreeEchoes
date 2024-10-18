@@ -14,6 +14,7 @@ public class EnemyScript : MonoBehaviour
     protected PlayerController script;
     public float distance;
     protected SpriteRenderer spriteRenderer;
+    protected int health;
 
     protected float startX;
     protected float endX;
@@ -25,6 +26,7 @@ public class EnemyScript : MonoBehaviour
         player = GameObject.Find("Player");
         body = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        health = 5;
     }
 
     // Start is called before the first frame update
@@ -84,19 +86,19 @@ public class EnemyScript : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
-        attributes.health -= damageAmount;
+        health -= damageAmount;
 
-        if (attributes.health <= 0)
+        if (health <= 0)
         {
             Destroy(gameObject);
         }
 
         // Show enemy damage (temp until knockback or other damage feedback is implemented)
-        if (attributes.health < 5 && attributes.health >= 3)
+        if (health < 5 && health >= 3)
         {
             spriteRenderer.color = Color.yellow;
         }
-        else if (attributes.health < 3)
+        else if (health < 3)
         {
             spriteRenderer.color = Color.red;
         }
