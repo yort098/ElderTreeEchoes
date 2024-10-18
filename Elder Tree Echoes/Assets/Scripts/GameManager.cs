@@ -159,12 +159,12 @@ public class GameManager : MonoBehaviour
 
         if (waterEnergy < 100)
         {
-            waterEnergy += 0.1f;
+            waterEnergy += 0.07f;
         }
 
         if (lightEnergy < 100)
         {
-            lightEnergy += 0.1f;
+            lightEnergy += 0.07f;
         }
     }
 }
