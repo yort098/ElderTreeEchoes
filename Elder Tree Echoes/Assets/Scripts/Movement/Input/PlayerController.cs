@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     // The player's rigid body
     private Rigidbody2D body;
 
+    private RopeMovement ropeMovement;
+
     private Vector2 direction = Vector3.zero;
 
     private Vector2 wallJumpDirection;
@@ -91,7 +93,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
-        
+        ropeMovement = GetComponent<RopeMovement>();
     }
 
     private void Start()
@@ -107,6 +109,28 @@ public class PlayerController : MonoBehaviour
         // Makes the player start moving based on which key is pressed
         // A = (-1, 0), D = (1, 0)
         direction = context.ReadValue<Vector2>();
+
+        if (direction.x == -1 && ropeMovement.attatched && context.performed)
+        {
+            body.AddRelativeForce(new Vector3(-1, 0, 0) * ropeMovement.pushForce);
+        }
+
+        if (direction.x == 1 && ropeMovement.attatched && context.performed)
+        {
+            body.AddRelativeForce(new Vector3(1, 0, 0) * ropeMovement.pushForce);
+        }
+
+        if (direction.y == -1 && ropeMovement.attatched && context.performed)
+        {
+            Debug.Log("down");
+            ropeMovement.Slide(-1);
+        }
+
+        if (direction.y == 1 && ropeMovement.attatched && context.performed)
+        {
+            Debug.Log("up");
+            ropeMovement.Slide(1);
+        }
     }
 
     /// <summary>
@@ -141,24 +165,11 @@ public class PlayerController : MonoBehaviour
             // Gets rid of force after wallJumpTime
             Invoke("DisableWallJump", movementData.wallJumpTime);
         }
-        else if (GetComponent<LadderMovement>().IsClimbing && context.performed) // On a plant
+
+        //Debug.Log(ropeMovement.attatched);
+        if (context.performed && ropeMovement.attatched)
         {
-            Debug.Log("Hup!");
-            GetComponent<LadderMovement>().IsLadder = false;
-
-            // The player can jump off the wall without
-            // having to jump into it
-            if (isFacingRight)
-            {
-                wallJumpDirection = Vector2.right;
-            }
-            else
-            {
-                wallJumpDirection = Vector2.left;
-            }
-
-            // Applying wall jump
-            body.AddForce(new Vector2(movementData.wallJumpForce.x * wallJumpDirection.x, 0), ForceMode2D.Impulse);
+            ropeMovement.Detatch();
         }
 
         if (context.canceled)

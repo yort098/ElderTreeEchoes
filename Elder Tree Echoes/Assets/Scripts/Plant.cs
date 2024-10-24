@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Plant : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class Plant : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (IsGrowing && !IsGrown)
+        if (IsGrowing)
         {
             Grow();
         }
@@ -41,7 +42,7 @@ public class Plant : MonoBehaviour
 
         if (transform.localScale.x >= growth.x && transform.localScale.y >= growth.y)
         {
-            GetComponent<SpriteRenderer>().color = Color.green;
+            //GetComponent<SpriteRenderer>().color = Color.green;
 
             IsGrowing = false;
             IsGrown = true;
@@ -51,6 +52,17 @@ public class Plant : MonoBehaviour
             if (!GetComponent<Trampoline>() && tag == "Bouncy")
             {
                 gameObject.AddComponent(typeof(Trampoline));
+            }
+
+            //Debug.Log(GetComponent<Rope>().isGrown);
+            if (tag == "Crank" && !GetComponent<Rope>().isGrown)
+            {
+                GetComponent<Rope>().GenerateRope();
+            }
+            else if (tag == "Crank" && GetComponent<Rope>().isGrown)
+            {
+                //Debug.Log("hey");
+                GetComponentInChildren<Crank>().Rotate(1);
             }
         }
     }

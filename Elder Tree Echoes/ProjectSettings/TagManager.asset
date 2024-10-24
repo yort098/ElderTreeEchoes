@@ -9,6 +9,8 @@ TagManager:
   - Plant
   - Climbable
   - Bouncy
+  - Rope
+  - Crank
   layers:
   - Default
   - TransparentFX
