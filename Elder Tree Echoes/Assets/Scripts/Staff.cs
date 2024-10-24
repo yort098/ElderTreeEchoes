@@ -22,7 +22,8 @@ public class Staff : MonoBehaviour
     LayerMask plantLayer;
 
     private ProjectileManager projManager;
-    private BoxCollider2D whackRange;
+    [SerializeField] Transform whackCheck;
+    private Vector2 whackCheckSize = new Vector2(1.5f, 2);
 
     // A reference to the end part of the staff
     // (probably temporary until we get assets for it) 
@@ -35,7 +36,6 @@ public class Staff : MonoBehaviour
     private void Awake()
     {
         projManager = GameObject.Find("ProjectileManager").GetComponent<ProjectileManager>();
-        whackRange = GetComponent<BoxCollider2D>();
     }
     // Start is called before the first frame update
     void Start()

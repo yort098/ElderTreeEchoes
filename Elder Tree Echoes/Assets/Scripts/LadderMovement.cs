@@ -3,9 +3,13 @@ using UnityEngine;
 public class LadderMovement : MonoBehaviour
 {
     private float vertical;
-    private float speed = 8f;
-    private bool isLadder;
-    private bool isClimbing;
+    private float speed = 3f;
+
+    Transform currentClimbable;
+
+    public bool IsClimbing { get; set; }
+
+    public bool IsLadder { get; set; }
 
     [SerializeField] private Rigidbody2D rb;
     private PlayerController pScript;
@@ -19,39 +23,49 @@ public class LadderMovement : MonoBehaviour
     {
         vertical = pScript.Direction.y;
 
-        if (isLadder && Mathf.Abs(vertical) > 0f)
+         //Debug.Log(IsLadder);
+        if (IsLadder)
         {
-            isClimbing = true;
+            IsClimbing = true;
         }
+        else
+        {
+            IsClimbing = false;
+        }    
     }
 
     private void FixedUpdate()
     {
-        if (isClimbing)
+        if (IsClimbing)  
         {
             rb.gravityScale = 0f;
             rb.velocity = new Vector2(rb.velocity.x, vertical * speed);
+            rb.transform.position = new Vector2(currentClimbable.position.x, rb.transform.position.y);
         }
         else
         {
-            //rb.gravityScale = pScript.MovementData.gravityScale;
+            rb.gravityScale = pScript.MovementData.gravityScale;
+            IsLadder = false;
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Climbable"))
+        Debug.Log("Hello");
+        if (collision.CompareTag("Climbable") && collision.GetComponent<Plant>().IsGrown)
         {
-            isLadder = true;
+            IsLadder = true;
+            currentClimbable = collision.transform;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        Debug.Log("Goodbye");
         if (collision.CompareTag("Climbable"))
         {
-            isLadder = false;
-            isClimbing = false;
+            IsLadder = false;
+            IsClimbing = false;
         }
     }
 }

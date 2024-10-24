@@ -7,31 +7,34 @@ public class Plant : MonoBehaviour
     [SerializeField]
     protected string plantName;
 
-    public bool isGrowing;
-    protected bool isGrown;
-
     [SerializeField]
     protected float growthSpeed;
 
     [SerializeField]
     protected Vector2 growth;
 
+    [SerializeField] float upTime;
+
+    public bool IsGrowing { get; set; }
+
+    public bool IsGrown{ get; set; }
+
     private void FixedUpdate()
     {
-        if (isGrowing && !isGrown)
+        if (IsGrowing && !IsGrown)
         {
             Grow();
         }
         else
         {
-            isGrowing = false;
+            IsGrowing = false;
         }
     }
 
     public void Grow()
     {
 
-        transform.localScale = new Vector3(1, transform.localScale.y + growthSpeed * Time.deltaTime, 1);
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y + growthSpeed * Time.deltaTime, transform.localScale.z);
         /*SpriteRenderer sr = GetComponent<SpriteRenderer>();
         
         sr.color = new Vector4(sr.color.r, sr.color.g, sr.color.b, Mathf.Clamp((sr.color.a - 1f * Time.deltaTime), 0f, 1f));*/
@@ -40,8 +43,8 @@ public class Plant : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().color = Color.green;
 
-            isGrowing = false;
-            isGrown = true;
+            IsGrowing = false;
+            IsGrown = true;
             
 
             // Limiting the bounce

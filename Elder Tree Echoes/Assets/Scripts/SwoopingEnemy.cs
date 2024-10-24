@@ -7,14 +7,10 @@ public class SwoopingEnemy : EnemyScript
     private float startY;
     private float endY;
 
-    public Vector2 Direction { get { return direction; } }
-
-    private void Awake()
+    protected override void Awake()
     {
-        body = GetComponent<Rigidbody2D>();
-        player = GameObject.Find("Player");
+        base.Awake();
         script = player.GetComponent<PlayerController>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     private bool isSwooping;
 
@@ -23,7 +19,6 @@ public class SwoopingEnemy : EnemyScript
     {
         base.Start();
         startY = body.position.y;
-        health = 5;
         endY = startY + 2;
         isSwooping = false;
     }

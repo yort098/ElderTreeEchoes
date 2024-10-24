@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnJump(InputAction.CallbackContext context)
     {
+        //Debug.Log("jumped!");
         if (coyoteTimeCounter > 0f && context.performed) // Can only jump when touching the ground
         {
             body.AddForce(new Vector2(0, movementData.jumpForce), ForceMode2D.Impulse);
@@ -140,7 +141,26 @@ public class PlayerController : MonoBehaviour
             // Gets rid of force after wallJumpTime
             Invoke("DisableWallJump", movementData.wallJumpTime);
         }
-        
+        else if (GetComponent<LadderMovement>().IsClimbing && context.performed) // On a plant
+        {
+            Debug.Log("Hup!");
+            GetComponent<LadderMovement>().IsLadder = false;
+
+            // The player can jump off the wall without
+            // having to jump into it
+            if (isFacingRight)
+            {
+                wallJumpDirection = Vector2.right;
+            }
+            else
+            {
+                wallJumpDirection = Vector2.left;
+            }
+
+            // Applying wall jump
+            body.AddForce(new Vector2(movementData.wallJumpForce.x * wallJumpDirection.x, 0), ForceMode2D.Impulse);
+        }
+
         if (context.canceled)
         {
             coyoteTimeCounter = 0;
@@ -162,6 +182,7 @@ public class PlayerController : MonoBehaviour
 
         if (IsGrounded())
         {
+            //Debug.Log(coyoteTimeCounter);
             coyoteTimeCounter = movementData.coyoteTime;
         }
 

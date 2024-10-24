@@ -100,6 +100,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attributes: {fileID: 11400000, guid: 726195ed139c7f54891b1861623cb6be, type: 2}
+  distance: 0
+  <MaxHealth>k__BackingField: 5
+  <Healthbar>k__BackingField: {fileID: 2847981182731294040, guid: f12cf1350a2f1284da242f7b067765f4, type: 3}
 --- !u!50 &8024027988409874013
 Rigidbody2D:
   serializedVersion: 4
