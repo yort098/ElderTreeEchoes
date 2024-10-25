@@ -74,7 +74,7 @@ public class Projectile : MonoBehaviour
                 // Making plants grow with water
                 if (col.GetComponent<Plant>() && projectileType == ProjectileType.Water)
                 {
-                    col.GetComponent<Plant>().isGrowing = true;                    
+                    col.GetComponent<Plant>().IsGrowing = true;                    
                 }
                
 
@@ -86,11 +86,11 @@ public class Projectile : MonoBehaviour
                 // Damaging enemies with light
                 if (col.GetComponent<SwoopingEnemy>() && projectileType == ProjectileType.Light)
                 {
-                    col.GetComponent<SwoopingEnemy>().TakeDamage(damage);
+                    col.GetComponent<SwoopingEnemy>().Damage(damage);
                 }
                 else if (col.GetComponent<EnemyScript>() && projectileType == ProjectileType.Light)
                 {
-                    col.GetComponent<EnemyScript>().TakeDamage(damage);
+                    col.GetComponent<EnemyScript>().Damage(damage);
                 }
 
                 Destroy(gameObject);

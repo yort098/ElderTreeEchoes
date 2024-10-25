@@ -6,7 +6,6 @@ public class ProjectileManager : MonoBehaviour
 {
     [SerializeField] private GameObject lightBullet;
     [SerializeField] private GameObject waterShot;
-    [SerializeField] private GameManager manager;
     private List<GameObject> lightShots = new List<GameObject>();
     private List<GameObject> waterShots = new List<GameObject>();
 
@@ -28,25 +27,25 @@ public class ProjectileManager : MonoBehaviour
 
     public void GenerateLightAttack(Vector2 position, Vector2 mouseScreenLocation)
     {
-        if (manager.LightEnergy >= 12)
+        if (GameManager.Instance.LightEnergy >= 12)
         {
             GameObject shot = Instantiate(lightBullet, position, Quaternion.identity);
             shot.GetComponent<Projectile>().setDirectionMouse(mouseScreenLocation);
             shot.GetComponent<Projectile>().Fire();
             lightShots.Add(shot);
-            manager.DepleteEnergy(ProjectileType.Light, 12);
+            GameManager.Instance.DepleteEnergy(ProjectileType.Light, 12);
         }
     }
 
     public void GenerateWaterShot(Vector2 position, Vector2 mouseScreenLocation)
     {
-        if (manager.WaterEnergy >= 8)
+        if (GameManager.Instance.WaterEnergy >= 8)
         {
             GameObject shot = Instantiate(waterShot, position, Quaternion.identity);
             shot.GetComponent<Projectile>().setDirectionMouse(mouseScreenLocation);
             shot.GetComponent<Projectile>().Fire();
             waterShots.Add(shot);
-            manager.DepleteEnergy(ProjectileType.Water, 8);
+            GameManager.Instance.DepleteEnergy(ProjectileType.Water, 8);
         }
     }
 }

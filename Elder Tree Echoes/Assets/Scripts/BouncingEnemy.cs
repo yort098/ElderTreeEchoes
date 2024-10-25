@@ -25,7 +25,6 @@ public class BouncingEnemy : EnemyScript
     {
         base.Start();
         jumpForce = 8f;
-        health = 5;
     }
 
     private bool IsGrounded()

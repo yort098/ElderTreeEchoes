@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     // The player's rigid body
     private Rigidbody2D body;
 
+    private RopeMovement ropeMovement;
+
     private Vector2 direction = Vector3.zero;
 
     private Vector2 wallJumpDirection;
@@ -91,7 +93,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
-        
+        ropeMovement = GetComponent<RopeMovement>();
     }
 
     private void Start()
@@ -107,6 +109,28 @@ public class PlayerController : MonoBehaviour
         // Makes the player start moving based on which key is pressed
         // A = (-1, 0), D = (1, 0)
         direction = context.ReadValue<Vector2>();
+
+        if (direction.x == -1 && ropeMovement.attatched && context.performed)
+        {
+            body.AddRelativeForce(new Vector3(-1, 0, 0) * ropeMovement.pushForce);
+        }
+
+        if (direction.x == 1 && ropeMovement.attatched && context.performed)
+        {
+            body.AddRelativeForce(new Vector3(1, 0, 0) * ropeMovement.pushForce);
+        }
+
+        if (direction.y == -1 && ropeMovement.attatched && context.performed)
+        {
+            Debug.Log("down");
+            ropeMovement.Slide(-1);
+        }
+
+        if (direction.y == 1 && ropeMovement.attatched && context.performed)
+        {
+            Debug.Log("up");
+            ropeMovement.Slide(1);
+        }
     }
 
     /// <summary>
@@ -114,6 +138,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnJump(InputAction.CallbackContext context)
     {
+        //Debug.Log("jumped!");
         if (coyoteTimeCounter > 0f && context.performed) // Can only jump when touching the ground
         {
             body.AddForce(new Vector2(0, movementData.jumpForce), ForceMode2D.Impulse);
@@ -140,7 +165,13 @@ public class PlayerController : MonoBehaviour
             // Gets rid of force after wallJumpTime
             Invoke("DisableWallJump", movementData.wallJumpTime);
         }
-        
+
+        //Debug.Log(ropeMovement.attatched);
+        if (context.performed && ropeMovement.attatched)
+        {
+            ropeMovement.Detatch();
+        }
+
         if (context.canceled)
         {
             coyoteTimeCounter = 0;
@@ -162,6 +193,7 @@ public class PlayerController : MonoBehaviour
 
         if (IsGrounded())
         {
+            //Debug.Log(coyoteTimeCounter);
             coyoteTimeCounter = movementData.coyoteTime;
         }
 

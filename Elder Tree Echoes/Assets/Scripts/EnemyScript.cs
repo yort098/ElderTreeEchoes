@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Script for a basic enemy that just walks back and forth for now
-public class EnemyScript : MonoBehaviour
+public class EnemyScript : MonoBehaviour, IDamageable
 {
     [SerializeField]
     protected EnemyAttributes attributes;
@@ -14,19 +14,20 @@ public class EnemyScript : MonoBehaviour
     protected PlayerController script;
     public float distance;
     protected SpriteRenderer spriteRenderer;
-    protected int health;
 
     protected float startX;
     protected float endX;
 
     public Vector2 Direction { get { return direction; } }
 
+    [field: SerializeField] public float MaxHealth { get; set; }
+    public float CurrentHealth { get; set; }
+
     virtual protected void Awake()
     {
         player = GameObject.Find("Player");
         body = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        health = 5;
     }
 
     // Start is called before the first frame update
@@ -36,6 +37,8 @@ public class EnemyScript : MonoBehaviour
         //attributes.endX = body.position.x + 1;
         startX = body.position.x;
         endX = body.position.x + 3;
+
+        CurrentHealth = MaxHealth;
     }
 
     //Handle collision between the player and the enemy
@@ -46,7 +49,7 @@ public class EnemyScript : MonoBehaviour
             //Move the player to the right when colliding
             //Refine this later
 
-            GameManager.Instance.TakeDamage(attributes.damage, col);
+            GameManager.Instance.Damage(attributes.damage);
             
         }
     }
@@ -84,23 +87,28 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damageAmount)
+    public void Damage(float amount)
     {
-        health -= damageAmount;
+        CurrentHealth -= amount;
 
-        if (health <= 0)
+        if (CurrentHealth <= 0)
         {
-            Destroy(gameObject);
+            Die();
         }
 
         // Show enemy damage (temp until knockback or other damage feedback is implemented)
-        if (health < 5 && health >= 3)
+        if (CurrentHealth < 5 && CurrentHealth >= 3)
         {
             spriteRenderer.color = Color.yellow;
         }
-        else if (health < 3)
+        else if (CurrentHealth < 3)
         {
             spriteRenderer.color = Color.red;
         }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }

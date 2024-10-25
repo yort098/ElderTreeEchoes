@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IDamageable
 {
     private static GameManager instance;
-    private float playerHealth = 100;
     private float waterEnergy = 100;
     private float lightEnergy = 100;
     private float invincibilityTime = 1.5f;
@@ -49,14 +48,6 @@ public class GameManager : MonoBehaviour
         player = GameObject.Find("Player");
     }
 
-    public float PlayerHealth { 
-        get { return playerHealth; }
-        set { 
-            playerHealth = value;
-            healthBar.value = playerHealth;
-        }
-    }
-
     public float WaterEnergy
     {
         get { return waterEnergy; }
@@ -67,44 +58,18 @@ public class GameManager : MonoBehaviour
         get { return lightEnergy; }
     }
 
+    public float MaxHealth { get; set; }
+    public float CurrentHealth { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
-        healthBar.value = playerHealth;
+        MaxHealth = 100;
+        CurrentHealth = MaxHealth;
+        healthBar.value = MaxHealth;
+
         waterMeter.value = waterEnergy;
         lightMeter.value = lightEnergy;
-    }
-
-    public void TakeDamage(float amount, Collision2D col)
-    {
-        playerHealth -= amount;
-        healthBar.value = playerHealth;
-
-        Rigidbody2D playerBody = player.GetComponent<Rigidbody2D>();
-
-        #region Knockback
-        float kbForce = 10;
-
-        // Get the point of collision between player and enemy
-        ContactPoint2D contactPoint = col.GetContact(0);
-        Vector2 playerPosition = player.transform.position;
-        Vector2 dir = contactPoint.point - playerPosition;
-
-        // Normalize vector in opposite direction
-        dir = -dir.normalized;
-
-        // Making sure this is the only force on the player
-        playerBody.velocity = new Vector2(0, 0);
-        playerBody.inertia = 0;
-
-        // Temporarily making the player unable to move
-        player.GetComponent<PlayerController>().CanMove = false; //if its true player input buttons will work and vice versa.
-        Invoke("EnablePlayerControls", 0.2f);
-        
-        playerBody.AddForce(dir * kbForce, ForceMode2D.Impulse);
-        #endregion
-
-        StartCoroutine(GameManager.Instance.InvincibilityTimer());
     }
 
     public IEnumerator InvincibilityTimer()
@@ -166,5 +131,48 @@ public class GameManager : MonoBehaviour
         {
             lightEnergy += 0.07f;
         }
+    }
+
+    public void Damage(float amount)
+    {
+        CurrentHealth -= amount;
+        healthBar.value = CurrentHealth;
+
+        Rigidbody2D playerBody = player.GetComponent<Rigidbody2D>();
+
+        #region Knockback
+        float kbForce = 10;
+
+        // Get the point of collision between player and enemy
+        /*ContactPoint2D contactPoint = col.GetContact(0);
+        Vector2 playerPosition = player.transform.position;*/
+        Vector2 dir = player.GetComponent<PlayerController>().Direction;
+
+        // Normalize vector in opposite direction
+        dir = -dir.normalized;
+
+        // Making sure this is the only force on the player
+        playerBody.velocity = new Vector2(0, 0);
+        playerBody.inertia = 0;
+
+        // Temporarily making the player unable to move
+        player.GetComponent<PlayerController>().CanMove = false; //if its true player input buttons will work and vice versa.
+        Invoke("EnablePlayerControls", 0.2f);
+        
+        playerBody.AddForce(dir * kbForce, ForceMode2D.Impulse);
+        #endregion
+
+
+        if (CurrentHealth <= 0)
+        {
+            Die();
+        }
+
+        StartCoroutine(GameManager.Instance.InvincibilityTimer());    
+    }
+
+    public void Die()
+    {
+        //throw new System.NotImplementedException();
     }
 }
