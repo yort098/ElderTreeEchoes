@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IDamageable
 {
     private static GameManager instance;
-    private float playerHealth = 100;
+    private float waterEnergy = 100;
+    private float lightEnergy = 100;
     private float invincibilityTime = 1.5f;
     private bool invincible = false;
 
@@ -18,6 +17,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     Slider healthBar;
+
+    [SerializeField]
+    Slider waterMeter;
+
+    [SerializeField]
+    Slider lightMeter;
 
     public GameObject[] Enemies
     {
@@ -43,50 +48,28 @@ public class GameManager : MonoBehaviour
         player = GameObject.Find("Player");
     }
 
-    public float PlayerHealth { 
-        get { return playerHealth; }
-        set { 
-            playerHealth = value;
-            healthBar.value = playerHealth;
-        }
+    public float WaterEnergy
+    {
+        get { return waterEnergy; }
     }
+
+    public float LightEnergy
+    {
+        get { return lightEnergy; }
+    }
+
+    public float MaxHealth { get; set; }
+    public float CurrentHealth { get; set; }
 
     // Start is called before the first frame update
     void Start()
     {
-        healthBar.value = playerHealth;
-    }
+        MaxHealth = 100;
+        CurrentHealth = MaxHealth;
+        healthBar.value = MaxHealth;
 
-    public void TakeDamage(float amount, Collision2D col)
-    {
-        playerHealth -= amount;
-        healthBar.value = playerHealth;
-
-        Rigidbody2D playerBody = player.GetComponent<Rigidbody2D>();
-
-        #region Knockback
-        float kbForce = 10;
-
-        // Get the point of collision between player and enemy
-        ContactPoint2D contactPoint = col.GetContact(0);
-        Vector2 playerPosition = player.transform.position;
-        Vector2 dir = contactPoint.point - playerPosition;
-
-        // Normalize vector in opposite direction
-        dir = -dir.normalized;
-
-        // Making sure this is the only force on the player
-        playerBody.velocity = new Vector2(0, 0);
-        playerBody.inertia = 0;
-
-        // Temporarily making the player unable to move
-        player.GetComponent<PlayerController>().CanMove = false; //if its true player input buttons will work and vice versa.
-        Invoke("EnablePlayerControls", 0.4f);
-        
-        playerBody.AddForce(dir * kbForce, ForceMode2D.Impulse);
-        #endregion
-
-        StartCoroutine(GameManager.Instance.InvincibilityTimer());
+        waterMeter.value = waterEnergy;
+        lightMeter.value = lightEnergy;
     }
 
     public IEnumerator InvincibilityTimer()
@@ -101,8 +84,6 @@ public class GameManager : MonoBehaviour
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
         while (elapsedTime < invincibilityTime)
         {
-            
-            //Debug.Log("Elapsed time = " + elapsedTime + " < time = " + invincibilityTime + " deltaTime " + Time.deltaTime);
 
             sp.color = colors[index % 2];
             elapsedTime += Time.deltaTime;
@@ -123,9 +104,75 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerController>().CanMove = true;
     }
 
+    public void DepleteEnergy(ProjectileType element, int amount)
+    {
+        if (element == ProjectileType.Water)
+        {
+            waterEnergy -= amount;
+        }
+        else
+        {
+            lightEnergy -= amount;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+        waterMeter.value = waterEnergy;
+        lightMeter.value = lightEnergy;
+
+        if (waterEnergy < 100)
+        {
+            waterEnergy += 0.07f;
+        }
+
+        if (lightEnergy < 100)
+        {
+            lightEnergy += 0.07f;
+        }
+    }
+
+    public void Damage(float amount)
+    {
+        CurrentHealth -= amount;
+        healthBar.value = CurrentHealth;
+
+        Rigidbody2D playerBody = player.GetComponent<Rigidbody2D>();
+
+        #region Knockback
+        float kbForce = 10;
+
+        // Get the point of collision between player and enemy
+        /*ContactPoint2D contactPoint = col.GetContact(0);
+        Vector2 playerPosition = player.transform.position;*/
+        Vector2 dir = player.GetComponent<PlayerController>().Direction;
+
+        // Normalize vector in opposite direction
+        dir = -dir.normalized;
+
+        // Making sure this is the only force on the player
+        playerBody.velocity = new Vector2(0, 0);
+        playerBody.inertia = 0;
+
+        // Temporarily making the player unable to move
+        player.GetComponent<PlayerController>().CanMove = false; //if its true player input buttons will work and vice versa.
+        Invoke("EnablePlayerControls", 0.2f);
         
+        playerBody.AddForce(dir * kbForce, ForceMode2D.Impulse);
+        #endregion
+
+
+        if (CurrentHealth <= 0)
+        {
+            Die();
+        }
+
+        StartCoroutine(GameManager.Instance.InvincibilityTimer());    
+    }
+
+    public void Die()
+    {
+        //throw new System.NotImplementedException();
     }
 }

@@ -173,3 +173,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attributes: {fileID: 11400000, guid: d5cb3f7b6b25c6f4dad0a379cac3c9a0, type: 2}
   distance: 0
+  <MaxHealth>k__BackingField: 5
+  <Healthbar>k__BackingField: {fileID: 2847981182731294040, guid: f12cf1350a2f1284da242f7b067765f4, type: 3}

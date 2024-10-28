@@ -27,17 +27,25 @@ public class ProjectileManager : MonoBehaviour
 
     public void GenerateLightAttack(Vector2 position, Vector2 mouseScreenLocation)
     {
-        GameObject shot = Instantiate(lightBullet, position, Quaternion.identity);
-        shot.GetComponent<Projectile>().setDirectionMouse(mouseScreenLocation);
-        shot.GetComponent<Projectile>().Fire();
-        lightShots.Add(shot);
+        if (GameManager.Instance.LightEnergy >= 12)
+        {
+            GameObject shot = Instantiate(lightBullet, position, Quaternion.identity);
+            shot.GetComponent<Projectile>().setDirectionMouse(mouseScreenLocation);
+            shot.GetComponent<Projectile>().Fire();
+            lightShots.Add(shot);
+            GameManager.Instance.DepleteEnergy(ProjectileType.Light, 12);
+        }
     }
 
     public void GenerateWaterShot(Vector2 position, Vector2 mouseScreenLocation)
     {
-        GameObject shot = Instantiate(waterShot, position, Quaternion.identity);
-        shot.GetComponent<Projectile>().setDirectionMouse(mouseScreenLocation);
-        shot.GetComponent<Projectile>().Fire();
-        waterShots.Add(shot);
+        if (GameManager.Instance.WaterEnergy >= 8)
+        {
+            GameObject shot = Instantiate(waterShot, position, Quaternion.identity);
+            shot.GetComponent<Projectile>().setDirectionMouse(mouseScreenLocation);
+            shot.GetComponent<Projectile>().Fire();
+            waterShots.Add(shot);
+            GameManager.Instance.DepleteEnergy(ProjectileType.Water, 8);
+        }
     }
 }

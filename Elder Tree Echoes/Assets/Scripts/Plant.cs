@@ -1,40 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Plant : MonoBehaviour
 {
     [SerializeField]
-    private string plantName;
+    protected string plantName;
 
     [SerializeField]
-    private float growthThreshold;
+    protected float growthSpeed;
 
     [SerializeField]
-    private float growthTime;
+    protected Vector2 growth;
 
-    [SerializeField]
-    private float growthSpeed;
+    [SerializeField] float upTime;
 
-    private bool isGrown;
+    public bool IsGrowing { get; set; }
+
+    public bool IsGrown{ get; set; }
+
+    private void FixedUpdate()
+    {
+        if (IsGrowing)
+        {
+            Grow();
+        }
+        else
+        {
+            IsGrowing = false;
+        }
+    }
 
     public void Grow()
     {
-        if (!isGrown)
-        {
-            transform.localScale = Vector3.one;
 
-            // Resetting the collider
-            Destroy(GetComponent<PolygonCollider2D>());
-            gameObject.AddComponent(typeof(PolygonCollider2D));
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y + growthSpeed * Time.deltaTime, transform.localScale.z);
+        /*SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        
+        sr.color = new Vector4(sr.color.r, sr.color.g, sr.color.b, Mathf.Clamp((sr.color.a - 1f * Time.deltaTime), 0f, 1f));*/
+
+        if (transform.localScale.x >= growth.x && transform.localScale.y >= growth.y)
+        {
+            //GetComponent<SpriteRenderer>().color = Color.green;
+
+            IsGrowing = false;
+            IsGrown = true;
+            
 
             // Limiting the bounce
-            if (!GetComponent<Trampoline>())
+            if (!GetComponent<Trampoline>() && tag == "Bouncy")
             {
                 gameObject.AddComponent(typeof(Trampoline));
             }
-            
-            
+
+            //Debug.Log(GetComponent<Rope>().isGrown);
+            if (tag == "Crank" && !GetComponent<Rope>().isGrown)
+            {
+                GetComponent<Rope>().GenerateRope();
+            }
+            else if (tag == "Crank" && GetComponent<Rope>().isGrown)
+            {
+                //Debug.Log("hey");
+                GetComponentInChildren<Crank>().Rotate(1);
+            }
         }
     }
 

@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Wall
   - Enemy
+  - Plant
+  - Climbable
+  - Bouncy
+  - Rope
+  - Crank
   layers:
   - Default
   - TransparentFX
@@ -18,7 +23,7 @@ TagManager:
   - Interactable
   - Platform
   - Enemy
-  - 
+  - Climbable
   - 
   - 
   - 

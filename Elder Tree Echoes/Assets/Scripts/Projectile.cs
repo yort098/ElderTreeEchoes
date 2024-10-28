@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.MPE;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 // Enum representing the projectile type of this object
-enum ProjectileType
+public enum ProjectileType
 {
     Light,
     Water
@@ -75,8 +74,7 @@ public class Projectile : MonoBehaviour
                 // Making plants grow with water
                 if (col.GetComponent<Plant>() && projectileType == ProjectileType.Water)
                 {
-                    col.GetComponent<Plant>().Grow();
-                    col.GetComponent<SpriteRenderer>().color = Color.green;
+                    col.GetComponent<Plant>().IsGrowing = true;                    
                 }
                
 
@@ -85,10 +83,14 @@ public class Projectile : MonoBehaviour
 
             if (col = Physics2D.OverlapCircle(transform.position, 0.05f, LayerMask.GetMask("Enemy")))
             {
-                 // Damaging enemies with light
-                if (col.GetComponent<EnemyScript>() && projectileType == ProjectileType.Light)
+                // Damaging enemies with light
+                if (col.GetComponent<SwoopingEnemy>() && projectileType == ProjectileType.Light)
                 {
-                    col.GetComponent<EnemyScript>().TakeDamage(damage);
+                    col.GetComponent<SwoopingEnemy>().Damage(damage);
+                }
+                else if (col.GetComponent<EnemyScript>() && projectileType == ProjectileType.Light)
+                {
+                    col.GetComponent<EnemyScript>().Damage(damage);
                 }
 
                 Destroy(gameObject);

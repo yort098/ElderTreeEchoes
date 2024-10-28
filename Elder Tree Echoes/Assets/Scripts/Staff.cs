@@ -22,17 +22,20 @@ public class Staff : MonoBehaviour
     LayerMask plantLayer;
 
     private ProjectileManager projManager;
-    private BoxCollider2D whackRange;
+    [SerializeField] Transform whackCheck;
+    private Vector2 whackCheckSize = new Vector2(1.5f, 2);
 
     // A reference to the end part of the staff
     // (probably temporary until we get assets for it) 
     [SerializeField]
-    private SpriteRenderer orb;
+    private SpriteRenderer orbArea;
+
+    [SerializeField]
+    Sprite waterOrb, lightOrb;
 
     private void Awake()
     {
         projManager = GameObject.Find("ProjectileManager").GetComponent<ProjectileManager>();
-        whackRange = GetComponent<BoxCollider2D>();
     }
     // Start is called before the first frame update
     void Start()
@@ -48,15 +51,15 @@ public class Staff : MonoBehaviour
         switch (power)
         {
             case Power.Water:
-                orb.color = Color.blue; // Blue for water
+                orbArea.sprite = waterOrb; // Blue for water
                 break;
 
             case Power.Light:
-                orb.color = Color.yellow; // Yellow for light
+                orbArea.sprite = lightOrb; // Yellow for light
                 break;
 
             default:
-                orb.color = Color.white; // White for basic
+                orbArea.sprite = null; // White for basic
                 break;
         }
     }
@@ -99,17 +102,18 @@ public class Staff : MonoBehaviour
                 case Power.Basic:
                     // Whack
 
-                    if (GameManager.Instance.Enemies.Length > 0)
-                    {
-                        foreach (GameObject e in GameManager.Instance.Enemies)
-                        {
-                            if (whackRange.IsTouching(e.GetComponent<BoxCollider2D>()))
-                            {
-                                e.GetComponent<EnemyScript>().TakeDamage(5);
-                            }
-                        }
+                    // Temporarily disable until staff animations are ready
+                    //if (GameManager.Instance.Enemies.Length > 0)
+                    //{
+                    //    foreach (GameObject e in GameManager.Instance.Enemies)
+                    //    {
+                    //        if (whackRange.IsTouching(e.GetComponent<BoxCollider2D>()))
+                    //        {
+                    //            e.GetComponent<EnemyScript>().TakeDamage(5);
+                    //        }
+                    //    }
                         
-                    }
+                    //}
                     break;
 
                 case Power.Water:
@@ -122,7 +126,7 @@ public class Staff : MonoBehaviour
                     // Get mouse input
                     Vector2 mouse = Mouse.current.position.ReadValue();
 
-                    projManager.GenerateLightAttack(orb.transform.position, mouse);
+                    projManager.GenerateLightAttack(orbArea.transform.position, mouse);
 
                     break;
             }
@@ -142,7 +146,7 @@ public class Staff : MonoBehaviour
                 case Power.Water:
                     // Grow
 
-                    projManager.GenerateWaterShot(orb.transform.position, Mouse.current.position.ReadValue());
+                    projManager.GenerateWaterShot(orbArea.transform.position, Mouse.current.position.ReadValue());
 
                     break;
 
