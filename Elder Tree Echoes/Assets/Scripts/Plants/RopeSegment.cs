@@ -7,6 +7,7 @@ public class RopeSegment : MonoBehaviour
     public GameObject connectedAbove, connectedBelow;
 
     public bool isPlayerAttatched;
+    public bool useGravity;
 
     // Start is called before the first frame update
     void Start()
@@ -17,8 +18,20 @@ public class RopeSegment : MonoBehaviour
         if (aboveSegment != null)
         {
             aboveSegment.connectedBelow = gameObject;
-            float spriteBottom = connectedAbove.GetComponent<SpriteRenderer>().bounds.size.y;
-            GetComponent<HingeJoint2D>().connectedAnchor = new Vector2(0, spriteBottom * -1);
+
+            if (useGravity)
+            {
+                float spriteBottom = connectedAbove.GetComponent<SpriteRenderer>().bounds.size.y;
+                GetComponent<HingeJoint2D>().connectedAnchor = new Vector2(0, spriteBottom * -1);
+            }
+
+            else
+            {
+                float spriteTop = connectedAbove.GetComponent<SpriteRenderer>().bounds.size.y;
+                GetComponent<HingeJoint2D>().connectedAnchor = new Vector2(0, spriteTop);
+            }
+
+
         }
         else
         {

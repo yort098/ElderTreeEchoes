@@ -60,6 +60,21 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region STATE MACHINE
+
+    public PlayerStateMachine StateMachine { get; set; }
+
+    public PlayerIdleState IdleState { get; set; }
+
+    public PlayerRunState RunState { get; set; }
+
+    public PlayerJumpState JumpState { get; set; }
+
+    public PlayerWallJumpState WallJumpState { get; set; }
+
+    public PlayerClimbState ClimbState { get; set; }
+    #endregion
+
     private bool isFacingRight = true;
 
     /// <summary>
@@ -92,6 +107,14 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        StateMachine = new PlayerStateMachine();
+
+        IdleState = new PlayerIdleState(this, StateMachine);
+        RunState = new PlayerRunState(this, StateMachine);
+        JumpState = new PlayerJumpState(this, StateMachine);
+        WallJumpState = new PlayerWallJumpState(this, StateMachine);
+        ClimbState = new PlayerClimbState(this, StateMachine);
+
         body = GetComponent<Rigidbody2D>();
         ropeMovement = GetComponent<RopeMovement>();
     }
@@ -99,6 +122,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         canMove = true;
+        StateMachine.Initialize(IdleState);
     }
 
     /// <summary>
@@ -138,6 +162,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnJump(InputAction.CallbackContext context)
     {
+        StateMachine.ChangeState(JumpState);
+        
         //Debug.Log("jumped!");
         if (coyoteTimeCounter > 0f && context.performed) // Can only jump when touching the ground
         {
@@ -174,6 +200,11 @@ public class PlayerController : MonoBehaviour
 
         if (context.canceled)
         {
+            if (body.velocity.y > 0)
+            {
+                body.velocity = new Vector2(body.velocity.x, body.velocity.y / 2);
+            }
+            
             coyoteTimeCounter = 0;
         }
 
@@ -181,6 +212,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        StateMachine.CurrentState.FrameUpdate();
         // Slightly increases gravity on descent
         if (body.velocity.y < 0) // falling
         {
@@ -229,35 +261,15 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (canMove)
-        {
-            // The 
-            float targetSpeed = movementData.maxSpeed * direction.x;
-
-            // Slowly ramps to target speed using lerping when wall jumping
-            // ----- prevents the player from getting back to the wall too quickly
-            if (isWallJumping)
-            {
-                targetSpeed = Mathf.Lerp(body.velocity.x, targetSpeed, movementData.lerpAmount);
-            }
-
-            float speedDiff = targetSpeed - body.velocity.x;
-
-            // Accelerating/Deccelerating the player when they move
-            float accelRate;
-            accelRate = (Mathf.Abs(movementData.maxSpeed) > 0.01f) ? movementData.accelAmount : movementData.deccelAmount;
-
-            float movement = speedDiff * accelRate;
-
-            body.AddForce(movement * Vector2.right);
-        }
+        StateMachine.CurrentState.PhysicsUpdate();
+        
     }
 
     /// <summary>
     /// Determines whether or not the player is touching the ground
     /// </summary>
     /// <returns></returns>
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         return Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0, groundLayer);
     }
@@ -294,6 +306,37 @@ public class PlayerController : MonoBehaviour
         Vector3 localScale = transform.localScale;
         localScale.x *= -1; // Reverses the sprite on the x-axis (horizontal)
         transform.localScale = localScale;
+    }
+
+    public void HandleMovement()
+    {
+        if (canMove)
+        {
+            // The 
+            float targetSpeed = movementData.maxSpeed * direction.x;
+
+            // Slowly ramps to target speed using lerping when wall jumping
+            // ----- prevents the player from getting back to the wall too quickly
+            if (isWallJumping)
+            {
+                targetSpeed = Mathf.Lerp(body.velocity.x, targetSpeed, movementData.lerpAmount);
+            }
+
+            float speedDiff = targetSpeed - body.velocity.x;
+
+            // Accelerating/Deccelerating the player when they move
+            float accelRate;
+            accelRate = (Mathf.Abs(movementData.maxSpeed) > 0.01f) ? movementData.accelAmount : movementData.deccelAmount;
+
+            float movement = speedDiff * accelRate;
+
+            body.AddForce(movement * Vector2.right);
+        }
+    }
+
+    public void HandleJump()
+    {
+
     }
 
 

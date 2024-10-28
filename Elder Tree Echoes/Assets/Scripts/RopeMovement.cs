@@ -6,7 +6,7 @@ public class RopeMovement : MonoBehaviour
     public Rigidbody2D rb;
     private HingeJoint2D hj;
 
-    public float pushForce = 10f;
+    public float pushForce = 5f;
 
     public bool attatched = false;
 
@@ -50,12 +50,13 @@ public class RopeMovement : MonoBehaviour
         RopeSegment myConnection = hj.connectedBody.gameObject.GetComponent<RopeSegment>();
         GameObject newSeg = null;
 
-        if (direction > 0)
+        if (direction > 0 && myConnection.GetComponent<RopeSegment>().useGravity)
         {
             if (myConnection.connectedAbove != null)
             {
                 if (myConnection.connectedAbove.gameObject.GetComponent<RopeSegment>() != null)
                 {
+                    Debug.Log(myConnection);
                     newSeg = myConnection.connectedAbove;
                 }
             }
@@ -68,9 +69,29 @@ public class RopeMovement : MonoBehaviour
             }
         }
 
+        if (direction < 0 && !myConnection.GetComponent<RopeSegment>().useGravity)
+        {
+            if (myConnection.connectedAbove != null)
+            {
+                if (myConnection.connectedAbove.gameObject.GetComponent<RopeSegment>() != null)
+                {
+                    Debug.Log(myConnection);
+                    newSeg = myConnection.connectedAbove;
+                }
+            }
+        }
+        else if (!myConnection.GetComponent<RopeSegment>().useGravity)
+        {
+            if (myConnection.connectedBelow != null)
+            {
+                newSeg = myConnection.connectedBelow;
+            }
+        }
+
         if (newSeg != null)
         {
-            transform.position = new Vector3(newSeg.transform.position.x, 0, transform.position.z); ; // change this to lerp for smoother movement
+            transform.position = new Vector2(Mathf.Lerp(transform.position.x, newSeg.transform.position.x, 0.5f), Mathf.Lerp(transform.position.y, newSeg.transform.position.y, 0.5f));
+            //transform.position = new Vector3(newSeg.transform.position.x, 0, transform.position.z); ; // change this to lerp for smoother movement
             myConnection.isPlayerAttatched = false;
             newSeg.GetComponent<RopeSegment>().isPlayerAttatched = true;
             hj.connectedBody = newSeg.GetComponent<Rigidbody2D>();
