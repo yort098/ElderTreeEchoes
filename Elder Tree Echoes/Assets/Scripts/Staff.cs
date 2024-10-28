@@ -22,6 +22,7 @@ public class Staff : MonoBehaviour
     LayerMask plantLayer;
 
     private ProjectileManager projManager;
+    private LightBeam lightBeam;
     [SerializeField] Transform whackCheck;
     private Vector2 whackCheckSize = new Vector2(1.5f, 2);
 
@@ -36,6 +37,7 @@ public class Staff : MonoBehaviour
     private void Awake()
     {
         projManager = GameObject.Find("ProjectileManager").GetComponent<ProjectileManager>();
+        lightBeam = GameObject.Find("LightBeam").GetComponent<LightBeam>();
     }
     // Start is called before the first frame update
     void Start()
@@ -152,6 +154,10 @@ public class Staff : MonoBehaviour
 
                 case Power.Light:
                     // Revitalize
+                    if (Mouse.current.rightButton.isPressed)
+                    {
+                        lightBeam.Shine();
+                    }
                     break;
             }
             
