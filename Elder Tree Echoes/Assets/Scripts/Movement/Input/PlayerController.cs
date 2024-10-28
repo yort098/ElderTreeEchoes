@@ -174,6 +174,11 @@ public class PlayerController : MonoBehaviour
 
         if (context.canceled)
         {
+            if (body.velocity.y > 0)
+            {
+                body.velocity = new Vector2(body.velocity.x, body.velocity.y / 2);
+            }
+            
             coyoteTimeCounter = 0;
         }
 
