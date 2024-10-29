@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour, IDamageable
         player.GetComponent<PlayerController>().CanMove = true;
     }
 
-    public void DepleteEnergy(ProjectileType element, int amount)
+    public void DepleteEnergy(ProjectileType element, float amount)
     {
         if (element == ProjectileType.Water)
         {

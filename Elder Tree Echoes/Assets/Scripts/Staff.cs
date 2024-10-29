@@ -34,6 +34,9 @@ public class Staff : MonoBehaviour
     [SerializeField]
     Sprite waterOrb, lightOrb;
 
+    // Whether or not the light beam should be active
+    bool shineLight = false;
+
     private void Awake()
     {
         projManager = GameObject.Find("ProjectileManager").GetComponent<ProjectileManager>();
@@ -64,6 +67,19 @@ public class Staff : MonoBehaviour
                 orbArea.sprite = null; // White for basic
                 break;
         }
+
+        // Shine the beam and deplete staff's light energy if there's enough
+        if (shineLight && GameManager.Instance.LightEnergy >= 0.15f)
+        {
+            lightBeam.Shine();
+            GameManager.Instance.DepleteEnergy(ProjectileType.Light, 0.15f);
+        }
+        // Make the beam invisible when not in use
+        else
+        {
+            lightBeam.StopShining();
+        }
+
     }
 
     public void CyclePower(InputAction.CallbackContext context)
@@ -154,13 +170,19 @@ public class Staff : MonoBehaviour
 
                 case Power.Light:
                     // Revitalize
-                    if (Mouse.current.rightButton.isPressed)
-                    {
-                        lightBeam.Shine();
-                    }
+
+                    // Beam will continuously shine on mouse press hold until released
+                    shineLight = context.control.IsPressed();
+
                     break;
             }
             
+        }
+
+        // Stop shining upon mouse release
+        if (context.canceled && power == Power.Light)
+        {
+            shineLight = context.control.IsPressed();
         }
     }
 }

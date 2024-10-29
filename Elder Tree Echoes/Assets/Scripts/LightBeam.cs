@@ -6,23 +6,18 @@ using UnityEngine.UIElements;
 
 public class LightBeam : MonoBehaviour
 {
-    // Start is called before the first frame update
-    //[SerializeField]
-    //GameObject lightBeam;
-    //private Quaternion rotator;
-    //private Vector3 direction;
     [SerializeField]
     private GameObject staffOrb;
     private SpriteRenderer spriteRend;
 
     private void Awake()
     {
-        //rotator = new Quaternion();
         spriteRend = GetComponent<SpriteRenderer>();
     }
 
     void Start()
     {
+        // Send beam to orb's position and make it invisible initially
         transform.position = staffOrb.transform.position;
         spriteRend.enabled = false;
     }
@@ -31,26 +26,29 @@ public class LightBeam : MonoBehaviour
     void Update()
     {
         transform.position = staffOrb.transform.position;
-        //spriteRend.enabled = false;
     }
 
+    // Activate the light beam
     public void Shine()
     {
-        //spriteRend.enabled = true;
+        // Show beam
+        spriteRend.enabled = true;
+
+        // Get directional vector between mouse and staff orb
         Vector2 mouse = Mouse.current.position.ReadValue();
         Vector3 startPos = new Vector2(transform.position.x, transform.position.y);
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouse);
         Vector2 direction = mouseWorldPosition - startPos;
         direction.Normalize();
 
-        //rotator.SetLookRotation(direction);
-        //rotator.SetLookRotation(direction.normalized);
-        float z = transform.eulerAngles.z;
-        z += 150.0f * Time.deltaTime;
-        //transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, z);
-
-        // 57.5f is a magic number for some reason, I'm not sure why it's necessary to work
+        // Determine the angle between the mouse and orb, and use it to determine the beam's rotation/orientation
         float rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, rotationAngle);
+    }
+
+    // Deactivate light beam
+    public void StopShining()
+    {
+        spriteRend.enabled = false;
     }
 }
