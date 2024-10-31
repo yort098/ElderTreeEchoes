@@ -50,7 +50,7 @@ public class RopeMovement : MonoBehaviour
         RopeSegment myConnection = hj.connectedBody.gameObject.GetComponent<RopeSegment>();
         GameObject newSeg = null;
 
-        if (direction > 0 && myConnection.GetComponent<RopeSegment>().useGravity)
+        if (direction > 0)
         {
             if (myConnection.connectedAbove != null)
             {
@@ -69,7 +69,7 @@ public class RopeMovement : MonoBehaviour
             }
         }
 
-        if (direction < 0 && !myConnection.GetComponent<RopeSegment>().useGravity)
+        if (direction < 0)
         {
             if (myConnection.connectedAbove != null)
             {
@@ -80,13 +80,13 @@ public class RopeMovement : MonoBehaviour
                 }
             }
         }
-        else if (!myConnection.GetComponent<RopeSegment>().useGravity)
+        /*else if (!myConnection.GetComponent<RopeSegment>().useGravity)
         {
             if (myConnection.connectedBelow != null)
             {
                 newSeg = myConnection.connectedBelow;
             }
-        }
+        }*/
 
         if (newSeg != null)
         {

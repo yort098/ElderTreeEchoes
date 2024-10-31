@@ -15,6 +15,8 @@ public class Rope : MonoBehaviour
     public bool isGrown = false;
     public float upTime;
 
+    public int direction;
+
     private void Awake()
     {
         player = GameObject.Find("Player").GetComponent<PlayerController>();
