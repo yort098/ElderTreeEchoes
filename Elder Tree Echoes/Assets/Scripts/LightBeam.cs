@@ -6,13 +6,13 @@ using UnityEngine.UIElements;
 
 public class LightBeam : MonoBehaviour
 {
-    [SerializeField]
     private GameObject staffOrb;
     private SpriteRenderer spriteRend;
 
     private void Awake()
     {
         spriteRend = GetComponent<SpriteRenderer>();
+        staffOrb = GameObject.Find("orb");
     }
 
     void Start()
