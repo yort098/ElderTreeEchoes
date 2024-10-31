@@ -13,10 +13,10 @@ public class GameManager : MonoBehaviour, IDamageable
 
     GameObject player;
 
-    private int currLevel = 1;
+    public int currLevel = 1;
     private float currLevelPercent = 0;
     private int totalCheckpoints;
-    private int checkpoints;
+    public int checkpoints;
 
 
     public bool Invincible { get { return invincible; } }
@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour, IDamageable
         {
             instance = this;
             totalCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
+            
         }
 
         player = GameObject.Find("Player");
@@ -134,8 +135,8 @@ public class GameManager : MonoBehaviour, IDamageable
         waterMeter.value = waterEnergy;
         lightMeter.value = lightEnergy;
 
-        currLevelPercent = checkpoints / totalCheckpoints;
-        percentageDisplay.text = currLevelPercent + "%";
+        currLevelPercent = ((float)checkpoints / (float)totalCheckpoints) * 100;
+        percentageDisplay.text = Mathf.RoundToInt(currLevelPercent) + "%";
 
         if (waterEnergy < 100)
         {

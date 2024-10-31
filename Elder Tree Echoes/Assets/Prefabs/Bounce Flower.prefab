@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8849708916899985117}
   - component: {fileID: 8672033309437566960}
-  - component: {fileID: 6930563382644259144}
   - component: {fileID: 3929975389427782979}
+  - component: {fileID: 1350598371894743458}
   m_Layer: 8
   m_Name: Circle
   m_TagString: Bouncy
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5044997343534411836}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.54, z: 0}
-  m_LocalScale: {x: 1, y: 0.358, z: 1}
+  m_LocalScale: {x: 1, y: 0.6589751, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8769907752396247191}
@@ -86,22 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6930563382644259144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5044997343534411836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66b27a8948849794ea0abcce0eb9fce1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plantName: Bounce Flower
-  isGrowing: 0
-  growthSpeed: 1
-  growth: {x: 1, y: 0.85}
 --- !u!60 &3929975389427782979
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -167,6 +151,23 @@ PolygonCollider2D:
       - {x: 0.29296875, y: 0.40234375}
       - {x: 0.15234375, y: 0.47265625}
   m_UseDelaunayMesh: 0
+--- !u!114 &1350598371894743458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5044997343534411836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c39946e55aeb164d80e7df996ac98d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  plantName: 
+  growthSpeed: 0
+  growth: {x: 0, y: 0}
+  upTime: 0
+  springForce: 10
 --- !u!1 &7338609121955932579
 GameObject:
   m_ObjectHideFlags: 0

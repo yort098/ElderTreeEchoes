@@ -22,7 +22,7 @@ public class PlayerIdleState : PlayerState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-        Debug.Log("idle");
+        //Debug.Log("idle");
 
         if (Mathf.Abs(player.Direction.x) > 0)
         {

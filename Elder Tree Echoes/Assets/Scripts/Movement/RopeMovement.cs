@@ -56,7 +56,7 @@ public class RopeMovement : MonoBehaviour
             {
                 if (myConnection.connectedAbove.gameObject.GetComponent<RopeSegment>() != null)
                 {
-                    Debug.Log(myConnection);
+                    //Debug.Log(myConnection);
                     newSeg = myConnection.connectedAbove;
                 }
             }
@@ -75,7 +75,7 @@ public class RopeMovement : MonoBehaviour
             {
                 if (myConnection.connectedAbove.gameObject.GetComponent<RopeSegment>() != null)
                 {
-                    Debug.Log(myConnection);
+                   // Debug.Log(myConnection);
                     newSeg = myConnection.connectedAbove;
                 }
             }

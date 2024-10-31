@@ -146,13 +146,13 @@ public class PlayerController : MonoBehaviour
 
         if (direction.y == -1 && ropeMovement.attatched && context.performed)
         {
-            Debug.Log("down");
+            //Debug.Log("down");
             ropeMovement.Slide(-1);
         }
 
         if (direction.y == 1 && ropeMovement.attatched && context.performed)
         {
-            Debug.Log("up");
+            //Debug.Log("up");
             ropeMovement.Slide(1);
         }
     }

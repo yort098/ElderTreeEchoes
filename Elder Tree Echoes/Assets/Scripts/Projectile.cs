@@ -13,7 +13,7 @@ public enum ProjectileType
 public class Projectile : MonoBehaviour
 {
     [SerializeField]
-    private ProjectileType projectileType;
+    public ProjectileType projectileType;
     
     [SerializeField]
     float projSpeed;
@@ -67,16 +67,17 @@ public class Projectile : MonoBehaviour
             {
                 Destroy(gameObject);
             }
-
+            
             Collider2D col;
+
             if (col = Physics2D.OverlapCircle(transform.position, 0.05f, LayerMask.GetMask("Interactable")))
             {
                 // Making plants grow with water
                 if (col.GetComponent<Plant>() && projectileType == ProjectileType.Water)
                 {
-                    col.GetComponent<Plant>().IsGrowing = true;                    
+                    col.GetComponent<Plant>().IsGrowing = true;
                 }
-               
+
 
                 Destroy(gameObject);
             }

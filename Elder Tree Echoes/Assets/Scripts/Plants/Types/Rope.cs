@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rope : MonoBehaviour
+public class Rope : Plant
 {
     public Rigidbody2D hook;
     public GameObject prefabRopeSeg; // Change this to an array if we have multiple sprites
@@ -12,8 +12,7 @@ public class Rope : MonoBehaviour
 
     public PlayerController player;
 
-    public bool isGrown = false;
-    public float upTime;
+    public bool startsGrown = false;
 
     public int direction;
 
@@ -24,7 +23,7 @@ public class Rope : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (isGrown)
+        if (startsGrown)
         {
             GenerateRope();
         }
@@ -51,7 +50,7 @@ public class Rope : MonoBehaviour
             }
         }
 
-        isGrown = true;
+        startsGrown = true;
     }
 
     public void AddSegment()
@@ -82,5 +81,10 @@ public class Rope : MonoBehaviour
         newTop.GetComponent<RopeSegment>().ResetAnchor();
         Destroy(top.gameObject);
         top = newTop;
+    }
+
+    public override void Grow()
+    {
+        GenerateRope();
     }
 }

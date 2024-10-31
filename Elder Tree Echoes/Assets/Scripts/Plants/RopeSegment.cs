@@ -19,7 +19,7 @@ public class RopeSegment : MonoBehaviour
         {
             aboveSegment.connectedBelow = gameObject;
 
-            Debug.Log(direction);
+            //Debug.Log(direction);
             if (direction < 0)
             {
                
@@ -29,7 +29,7 @@ public class RopeSegment : MonoBehaviour
 
             else
             {
-                Debug.Log(connectedAbove.GetComponent<SpriteRenderer>().bounds.size.y);
+                //Debug.Log(connectedAbove.GetComponent<SpriteRenderer>().bounds.size.y);
                 float spriteTop = connectedAbove.GetComponent<SpriteRenderer>().bounds.size.y;
                 GetComponent<HingeJoint2D>().connectedAnchor = new Vector2(0, spriteTop);
             }
