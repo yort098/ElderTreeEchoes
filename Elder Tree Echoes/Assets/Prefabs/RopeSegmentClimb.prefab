@@ -155,7 +155,7 @@ MonoBehaviour:
   connectedAbove: {fileID: 0}
   connectedBelow: {fileID: 0}
   isPlayerAttatched: 0
-  useGravity: 0
+  direction: 1
 --- !u!61 &5268813729571925465
 BoxCollider2D:
   m_ObjectHideFlags: 0

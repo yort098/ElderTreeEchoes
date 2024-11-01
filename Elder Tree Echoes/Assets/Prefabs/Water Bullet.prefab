@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileType: 1
-  projSpeed: 5
+  projSpeed: 10
   upTime: 1
 --- !u!58 &2599234355883414144
 CircleCollider2D:

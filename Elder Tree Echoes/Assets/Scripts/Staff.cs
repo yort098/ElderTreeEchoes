@@ -78,7 +78,7 @@ public class Staff : MonoBehaviour
             GameManager.Instance.DepleteEnergy(ProjectileType.Light, 0.15f);
         }
         // Make the beam invisible when not in use
-        else
+        else if (lightBeam)
         {
             lightBeam.StopShining();
         }

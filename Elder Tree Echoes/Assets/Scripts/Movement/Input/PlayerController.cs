@@ -196,6 +196,7 @@ public class PlayerController : MonoBehaviour
         if (context.performed && ropeMovement.attatched)
         {
             ropeMovement.Detatch();
+            body.AddForce(new Vector3(direction.x, 1, 0) * ropeMovement.pushForce, ForceMode2D.Impulse);
         }
 
         if (context.canceled)

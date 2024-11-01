@@ -9,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 871910472166021319}
-  - component: {fileID: 8866919036421296351}
   - component: {fileID: 9053209158903684321}
-  - component: {fileID: 822015723596614586}
+  - component: {fileID: 855612122965769605}
   m_Layer: 8
   m_Name: Climb
   m_TagString: Untagged
@@ -28,30 +27,14 @@ Transform:
   m_GameObject: {fileID: 4826183907076723196}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.08, y: -5.67, z: 252.1293}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.1188169, y: 2.1188169, z: 2.1188169}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8093895662951289953}
   - {fileID: 7804624822559684465}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8866919036421296351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4826183907076723196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66b27a8948849794ea0abcce0eb9fce1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plantName: 
-  growthSpeed: 0
-  growth: {x: 0, y: 0}
-  upTime: 0
 --- !u!114 &9053209158903684321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,14 +47,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d89164fb087be4dafbabda0e670b5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantName: 
+  growthSpeed: 0
+  growth: {x: 0, y: 0}
+  upTime: 0
   hook: {fileID: 5064511430802590526}
   prefabRopeSeg: {fileID: 4492519433784257076, guid: e3bc4338c12063346ba9a112a73c181f, type: 3}
   numSegments: 10
   top: {fileID: 0}
   player: {fileID: 0}
-  isGrown: 1
-  upTime: 0
---- !u!58 &822015723596614586
+  startsGrown: 0
+  direction: 1
+--- !u!58 &855612122965769605
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,7 +87,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -131,9 +118,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7243379459102215055}
-  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
-  m_LocalPosition: {x: -0.075, y: -0.312, z: 0}
-  m_LocalScale: {x: 2.1541915, y: 2.1541915, z: 2.1541915}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 871910472166021319}
@@ -281,7 +268,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 1.08, y: -5.67}
+  m_ConnectedAnchor: {x: 11.53, y: -14}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0

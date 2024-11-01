@@ -21,6 +21,6 @@ MonoBehaviour:
   jumpForce: 12
   gravityScale: 2.75
   maxFallSpeed: 15
-  wallJumpForce: {x: 8, y: 10}
+  wallJumpForce: {x: 12, y: 10}
   wallJumpTime: 0.25
   coyoteTime: 0.2

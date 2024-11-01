@@ -50,7 +50,7 @@ public class Rope : Plant
             }
         }
 
-        startsGrown = true;
+        IsGrown = true;
     }
 
     public void AddSegment()
@@ -85,6 +85,9 @@ public class Rope : Plant
 
     public override void Grow()
     {
+        Debug.Log("growing rope");
         GenerateRope();
+
+        IsGrown = true;
     }
 }
