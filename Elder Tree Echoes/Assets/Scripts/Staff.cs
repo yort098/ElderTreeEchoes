@@ -22,6 +22,7 @@ public class Staff : MonoBehaviour
     LayerMask plantLayer;
 
     private ProjectileManager projManager;
+    //private LightBeam lightBeam;
     [SerializeField] Transform whackCheck;
     private Vector2 whackCheckSize = new Vector2(1.5f, 2);
 
@@ -33,9 +34,16 @@ public class Staff : MonoBehaviour
     [SerializeField]
     Sprite waterOrb, lightOrb;
 
+    [SerializeField] GameObject lightBeamPref;
+    private LightBeam lightBeam;
+
+    // Whether or not the light beam should be active
+    bool shineLight = false;
+
     private void Awake()
     {
         projManager = GameObject.Find("ProjectileManager").GetComponent<ProjectileManager>();
+        //lightBeam = GameObject.Find("LightBeam").GetComponent<LightBeam>();
     }
     // Start is called before the first frame update
     void Start()
@@ -62,6 +70,19 @@ public class Staff : MonoBehaviour
                 orbArea.sprite = null; // White for basic
                 break;
         }
+
+        // Shine the beam and deplete staff's light energy if there's enough
+        if (shineLight && GameManager.Instance.LightEnergy >= 0.15f)
+        {
+            lightBeam.Shine();
+            GameManager.Instance.DepleteEnergy(ProjectileType.Light, 0.15f);
+        }
+        // Make the beam invisible when not in use
+        else if (lightBeam)
+        {
+            lightBeam.StopShining();
+        }
+
     }
 
     public void CyclePower(InputAction.CallbackContext context)
@@ -152,9 +173,20 @@ public class Staff : MonoBehaviour
 
                 case Power.Light:
                     // Revitalize
+
+                    // Beam will continuously shine on mouse press hold until released
+                    shineLight = context.control.IsPressed();
+                    lightBeam = Instantiate(lightBeamPref).GetComponent<LightBeam>();
+
                     break;
             }
             
+        }
+
+        // Stop shining upon mouse release
+        if (context.canceled && power == Power.Light)
+        {
+            shineLight = context.control.IsPressed();
         }
     }
 }

@@ -13,6 +13,12 @@ public class GameManager : MonoBehaviour, IDamageable
 
     GameObject player;
 
+    public int currLevel = 1;
+    private float currLevelPercent = 0;
+    private int totalCheckpoints;
+    public int checkpoints;
+
+
     public bool Invincible { get { return invincible; } }
 
     [SerializeField]
@@ -23,6 +29,9 @@ public class GameManager : MonoBehaviour, IDamageable
 
     [SerializeField]
     Slider lightMeter;
+
+    [SerializeField]
+    Text percentageDisplay;
 
     public GameObject[] Enemies
     {
@@ -43,6 +52,8 @@ public class GameManager : MonoBehaviour, IDamageable
         else
         {
             instance = this;
+            totalCheckpoints = GameObject.FindGameObjectsWithTag("Checkpoint").Length;
+            
         }
 
         player = GameObject.Find("Player");
@@ -70,6 +81,8 @@ public class GameManager : MonoBehaviour, IDamageable
 
         waterMeter.value = waterEnergy;
         lightMeter.value = lightEnergy;
+
+        percentageDisplay.text = currLevelPercent + "%";
     }
 
     public IEnumerator InvincibilityTimer()
@@ -104,7 +117,7 @@ public class GameManager : MonoBehaviour, IDamageable
         player.GetComponent<PlayerController>().CanMove = true;
     }
 
-    public void DepleteEnergy(ProjectileType element, int amount)
+    public void DepleteEnergy(ProjectileType element, float amount)
     {
         if (element == ProjectileType.Water)
         {
@@ -121,6 +134,9 @@ public class GameManager : MonoBehaviour, IDamageable
     {
         waterMeter.value = waterEnergy;
         lightMeter.value = lightEnergy;
+
+        currLevelPercent = ((float)checkpoints / (float)totalCheckpoints) * 100;
+        percentageDisplay.text = Mathf.RoundToInt(currLevelPercent) + "%";
 
         if (waterEnergy < 100)
         {
@@ -169,6 +185,11 @@ public class GameManager : MonoBehaviour, IDamageable
         }
 
         StartCoroutine(GameManager.Instance.InvincibilityTimer());    
+    }
+
+    public void Progress()
+    {
+        checkpoints++;
     }
 
     public void Die()

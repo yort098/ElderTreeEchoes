@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23eccaaea603234a8d071f05b0b4acf, type: 3}
+  m_Name: Player Movement
+  m_EditorClassIdentifier: 
+  maxSpeed: 8
+  acceleration: 2
+  accelAmount: 6
+  deceleration: 2
+  deccelAmount: 2
+  lerpAmount: 0.25
+  jumpForce: 12
+  gravityScale: 2.75
+  maxFallSpeed: 15
+  wallJumpForce: {x: 12, y: 10}
+  wallJumpTime: 0.25
+  coyoteTime: 0.2

@@ -176,7 +176,7 @@ HingeJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -1.7015202, y: 1.7407699}
+  m_ConnectedAnchor: {x: 6.59, y: -24.241135}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -219,7 +219,7 @@ Transform:
   - {fileID: 1202152968663560119}
   - {fileID: 627659092000020182}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!114 &3583771819080201600
 MonoBehaviour:
@@ -233,12 +233,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d89164fb087be4dafbabda0e670b5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantName: 
+  growthSpeed: 0
+  growth: {x: 0, y: 0}
+  upTime: 0
   hook: {fileID: 6022986857538914416}
   prefabRopeSeg: {fileID: 4492519433784257076, guid: 686f5f7c6b779b94daaeaad9efa402b7, type: 3}
-  numSegments: 1
+  numSegments: 4
   top: {fileID: 0}
-  isGrown: 0
-  upTime: 0
+  player: {fileID: 0}
+  startsGrown: 0
+  direction: -1
 --- !u!58 &6945677211390546096
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -268,7 +273,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

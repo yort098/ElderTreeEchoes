@@ -10,10 +10,9 @@ public class BouncingEnemy : EnemyScript
     [SerializeField]
     LayerMask groundLayer;
 
-    public Vector2 Direction { get { return direction; } }
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         body = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
         script = player.GetComponent<PlayerController>();

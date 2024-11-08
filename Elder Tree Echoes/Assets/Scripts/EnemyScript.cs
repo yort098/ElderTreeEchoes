@@ -23,7 +23,7 @@ public class EnemyScript : MonoBehaviour, IDamageable
     [field: SerializeField] public float MaxHealth { get; set; }
     public float CurrentHealth { get; set; }
 
-    virtual protected void Awake()
+    protected virtual void Awake()
     {
         player = GameObject.Find("Player");
         body = GetComponent<Rigidbody2D>();
@@ -31,7 +31,7 @@ public class EnemyScript : MonoBehaviour, IDamageable
     }
 
     // Start is called before the first frame update
-    virtual protected void Start()
+    protected virtual void Start()
     {  
         //attributes.startX = body.position.x;
         //attributes.endX = body.position.x + 1;

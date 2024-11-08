@@ -11,6 +11,8 @@ TagManager:
   - Bouncy
   - Rope
   - Crank
+  - Checkpoint
+  - Door
   layers:
   - Default
   - TransparentFX

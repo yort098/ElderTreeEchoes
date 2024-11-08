@@ -138,8 +138,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 60
-    m_UpperAngle: -60
+    m_LowerAngle: 30
+    m_UpperAngle: -30
 --- !u!70 &8147153146324878674
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -172,8 +172,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -1}
-  m_Size: {x: 1, y: 2}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1, y: 1.9999999}
   m_Direction: 0
 --- !u!114 &1817657412400029428
 MonoBehaviour:
@@ -190,4 +190,4 @@ MonoBehaviour:
   connectedAbove: {fileID: 0}
   connectedBelow: {fileID: 0}
   isPlayerAttatched: 0
-  useGravity: 1
+  direction: -1
