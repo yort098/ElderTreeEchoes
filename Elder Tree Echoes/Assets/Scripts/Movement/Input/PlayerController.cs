@@ -291,6 +291,7 @@ public class PlayerController : MonoBehaviour
 
         if (stickTimeCounter > 0 && IsOnWall())
         {
+            Debug.Log("sticking");
             canMove = false;
             //body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, -MovementData.slideSpeed, float.MaxValue));
 

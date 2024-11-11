@@ -26,9 +26,9 @@ MonoBehaviour:
   gravityStrength: -28
   gravityScale: 2.8542302
   maxFallSpeed: 15
-  wallJumpForce: {x: 13, y: 17}
+  wallJumpForce: {x: 13, y: 18}
   wallJumpTime: 0.3
-  slideSpeed: -1
-  slideAccel: 2
+  slideSpeed: -0.5
+  slideAccel: 1
   coyoteTime: 0.2
   stickTime: 0.25
