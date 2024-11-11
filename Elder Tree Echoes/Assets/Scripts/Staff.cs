@@ -43,7 +43,7 @@ public class Staff : MonoBehaviour
     private void Awake()
     {
         projManager = GameObject.Find("ProjectileManager").GetComponent<ProjectileManager>();
-        //lightBeam = GameObject.Find("LightBeam").GetComponent<LightBeam>();
+        lightBeam = GameObject.Find("LightBeam").GetComponent<LightBeam>();
     }
     // Start is called before the first frame update
     void Start()
@@ -176,7 +176,6 @@ public class Staff : MonoBehaviour
 
                     // Beam will continuously shine on mouse press hold until released
                     shineLight = context.control.IsPressed();
-                    lightBeam = Instantiate(lightBeamPref).GetComponent<LightBeam>();
 
                     break;
             }

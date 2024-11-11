@@ -26,6 +26,8 @@ public class LightBeam : MonoBehaviour
     void Update()
     {
         transform.position = staffOrb.transform.position;
+
+        
     }
 
     // Activate the light beam
