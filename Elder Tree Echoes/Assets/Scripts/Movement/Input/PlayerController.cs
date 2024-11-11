@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     private bool wallCling;
 
     private bool isWallJumping;
-    
+
 
     #endregion
 
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     Transform frontWallCheck;
-    private Vector2 wallCheckSize = new Vector2(0.03f, 0.5f);
+    private Vector2 wallCheckSize = new Vector2(0.03f, 1f);
 
     // All walls/barriers/obstructions
     [SerializeField]
@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
     #region TIMERS
 
     private float coyoteTimeCounter = 0;
+    private float stickTimeCounter = 0;
 
     #endregion
 
@@ -121,8 +122,12 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        SetGravityScale(MovementData.gravityScale);
         canMove = true;
         StateMachine.Initialize(IdleState);
+
+        stickTimeCounter = movementData.stickTime;
+        Debug.Log("this better work: "+ stickTimeCounter);
     }
 
     /// <summary>
@@ -133,6 +138,13 @@ public class PlayerController : MonoBehaviour
         // Makes the player start moving based on which key is pressed
         // A = (-1, 0), D = (1, 0)
         direction = context.ReadValue<Vector2>();
+
+        if (IsOnWall())
+        {
+            StopCoroutine(UnstickFromWall());
+            stickTimeCounter = MovementData.stickTime;
+            StartCoroutine(UnstickFromWall());
+        }
 
         if (direction.x == -1 && ropeMovement.attatched && context.performed)
         {
@@ -163,14 +175,18 @@ public class PlayerController : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context)
     {
         StateMachine.ChangeState(JumpState);
-        
+
         //Debug.Log("jumped!");
         if (coyoteTimeCounter > 0f && context.performed) // Can only jump when touching the ground
         {
             body.AddForce(new Vector2(0, movementData.jumpForce), ForceMode2D.Impulse);
         }
-        else if (wallCling && context.performed) // On the wall
+        else if (IsOnWall() && context.performed) // On the wall
         {
+            wallCling = false;
+            body.gravityScale = movementData.gravityScale;
+            stickTimeCounter = MovementData.stickTime;
+
             isWallJumping = true;
 
             // The player can jump off the wall without
@@ -186,7 +202,7 @@ public class PlayerController : MonoBehaviour
 
             // Applying wall jump
             body.AddForce(new Vector2(movementData.wallJumpForce.x * wallJumpDirection.x, movementData.wallJumpForce.y), ForceMode2D.Impulse);
-            Flip();
+            //Flip();
 
             // Gets rid of force after wallJumpTime
             Invoke("DisableWallJump", movementData.wallJumpTime);
@@ -205,14 +221,42 @@ public class PlayerController : MonoBehaviour
             {
                 body.velocity = new Vector2(body.velocity.x, body.velocity.y / 2);
             }
-            
+
+            if (isWallJumping)
+            {
+                Debug.Log("what");
+                body.velocity = new Vector2(body.velocity.x / 2, body.velocity.y);
+                isWallJumping = false;
+
+            }
+
             coyoteTimeCounter = 0;
+            //stickTimeCounter = 0;
         }
 
     }
 
+    /*public void OnWallCling(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsOnWall() && !isWallJumping)
+        {
+            wallCling = true;
+
+            // Removes sliding
+            body.gravityScale = 0;
+            body.velocity = new Vector2(body.velocity.x, 0);
+        }
+
+        if (context.canceled)
+        {
+            body.gravityScale = movementData.gravityScale;
+            wallCling = false;
+        }
+    }*/
+
     void Update()
     {
+        //Debug.Log(wallCling);
         StateMachine.CurrentState.FrameUpdate();
         // Slightly increases gravity on descent
         if (body.velocity.y < 0) // falling
@@ -226,44 +270,40 @@ public class PlayerController : MonoBehaviour
 
         if (IsGrounded())
         {
-            //Debug.Log(coyoteTimeCounter);
             coyoteTimeCounter = movementData.coyoteTime;
         }
 
-        // Making sure the player "affixes" to the wall
-        if (IsOnWall() && !isWallJumping)
+        if (isWallJumping)
         {
-            wallCling = true;
             
-            // Removes sliding
-            body.gravityScale = 0;
-            body.velocity = new Vector2(body.velocity.x, 0);
+            //body.velocity =;
         }
-        else
-        {
-            body.gravityScale = movementData.gravityScale;
-            wallCling = false;
-        }
-
-
-        // Changing the direction the character is facing
-        // based on the direction the player is moving
-        if (!isFacingRight && direction.x > 0f)
-        {
-            Flip();
-        }
-        else if (isFacingRight && direction.x < 0f)
-        {
-            Flip();
-        }
+        
 
         coyoteTimeCounter -= Time.deltaTime;
+        //stickTimeCounter -= Time.deltaTime;
+
     }
 
     private void FixedUpdate()
     {
         StateMachine.CurrentState.PhysicsUpdate();
-        
+
+        if (stickTimeCounter > 0 && IsOnWall())
+        {
+            canMove = false;
+            //body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, -MovementData.slideSpeed, float.MaxValue));
+
+            Slide();
+
+            //Debug.Log(body.velocity.);
+
+            //stickTimeCounter = movementData.stickTime;
+        }
+        else
+        {
+            canMove = true;
+        }
     }
 
     /// <summary>
@@ -313,8 +353,28 @@ public class PlayerController : MonoBehaviour
     {
         if (canMove)
         {
+            // Changing the direction the character is facing
+            // based on the direction the player is moving
+            if (!isFacingRight && direction.x > 0f)
+            {
+                Flip();
+            }
+            else if (isFacingRight && direction.x < 0f)
+            {
+                Flip();
+            }
+
             // The 
-            float targetSpeed = movementData.maxSpeed * direction.x;
+            float targetSpeed = 0;
+            if (direction.x > 0)
+            {
+                targetSpeed = movementData.maxSpeed;
+            }
+            else if (direction.x < 0)
+            {
+                targetSpeed = -movementData.maxSpeed;
+            }
+
 
             // Slowly ramps to target speed using lerping when wall jumping
             // ----- prevents the player from getting back to the wall too quickly
@@ -322,22 +382,66 @@ public class PlayerController : MonoBehaviour
             {
                 targetSpeed = Mathf.Lerp(body.velocity.x, targetSpeed, movementData.lerpAmount);
             }
+            else
+            {
+                targetSpeed = Mathf.Lerp(body.velocity.x, targetSpeed, 1);
+            }
 
             float speedDiff = targetSpeed - body.velocity.x;
 
             // Accelerating/Deccelerating the player when they move
             float accelRate;
-            accelRate = (Mathf.Abs(movementData.maxSpeed) > 0.01f) ? movementData.accelAmount : movementData.deccelAmount;
+
+            if (IsGrounded())
+            {
+                accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? movementData.runAccelAmount : movementData.runDeccelAmount;
+            }
+            else
+            {
+                accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? MovementData.runAccelAmount * MovementData.airAccel : MovementData.runDeccelAmount * MovementData.airDeccel;
+            }
+                
 
             float movement = speedDiff * accelRate;
 
-            body.AddForce(movement * Vector2.right);
+            body.AddForce(movement * Vector2.right, ForceMode2D.Force);
         }
+    }
+
+    private void Slide()
+    {
+        float speedDif = MovementData.slideSpeed - body.velocity.y;
+        float movement = speedDif * MovementData.slideAccel;
+        //So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
+        //The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
+        movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
+
+        body.AddForce(movement * Vector2.up);
     }
 
     public void HandleJump()
     {
 
+
+    }
+
+    public IEnumerator UnstickFromWall()
+    {
+        while (isFacingRight && direction.x < 0f || !isFacingRight && direction.x > 0f)
+        {
+            Debug.Log("Time left on wall: " + stickTimeCounter);
+            stickTimeCounter -= Time.deltaTime;
+            
+            if (stickTimeCounter <= 0)
+            {
+                break;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return new WaitForSeconds(0.2f);
+        stickTimeCounter = MovementData.stickTime;
     }
 
 
