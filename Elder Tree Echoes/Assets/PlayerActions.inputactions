@@ -27,7 +27,7 @@
                     "name": "Cycle",
                     "type": "Value",
                     "id": "36a5ee9c-4509-4ca3-9164-22987ef412b7",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -183,39 +183,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Scroll Wheel",
-                    "id": "094dfc44-8193-407b-a047-d12fd962dc24",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Cycle",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "4fa72eca-20e2-4264-9db5-c497d798ceec",
-                    "path": "<Mouse>/scroll/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Cycle",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "7d9e4655-d414-4009-b2e4-d255ab946877",
-                    "path": "<Mouse>/scroll/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Cycle",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "31b59bc4-f4ae-48a6-999d-37d415cb87f2",
                     "path": "<Mouse>/leftButton",
@@ -245,6 +212,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Wall Cling",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8de59e05-93cf-42d2-9f83-b9924d3baa8d",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cycle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

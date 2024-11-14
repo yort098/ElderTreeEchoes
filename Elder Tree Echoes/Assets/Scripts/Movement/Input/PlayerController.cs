@@ -176,18 +176,19 @@ public class PlayerController : MonoBehaviour
     {
         StateMachine.ChangeState(JumpState);
 
+        //Debug.Log("is facing right: " + isFacingRight);
         //Debug.Log("jumped!");
-        if (coyoteTimeCounter > 0f && context.performed) // Can only jump when touching the ground
+        if (coyoteTimeCounter > 0f && context.performed && !IsOnWall()) // Can only jump when touching the ground
         {
             body.AddForce(new Vector2(0, movementData.jumpForce), ForceMode2D.Impulse);
         }
-        else if (IsOnWall() && context.performed) // On the wall
+        else if (IsOnWall() && context.performed && !isWallJumping) // On the wall
         {
             wallCling = false;
             body.gravityScale = movementData.gravityScale;
             stickTimeCounter = MovementData.stickTime;
 
-            isWallJumping = true;
+            
 
             // The player can jump off the wall without
             // having to jump into it
@@ -200,9 +201,14 @@ public class PlayerController : MonoBehaviour
                 wallJumpDirection = Vector2.right;
             }
 
+            Debug.Log("is Wall jumping: " + isWallJumping);
             // Applying wall jump
+            body.velocity = Vector2.zero;
+            Debug.Log("wall jump force: (" + movementData.wallJumpForce.x * wallJumpDirection.x + ", " + movementData.wallJumpForce.y + ")");
             body.AddForce(new Vector2(movementData.wallJumpForce.x * wallJumpDirection.x, movementData.wallJumpForce.y), ForceMode2D.Impulse);
             //Flip();
+
+            isWallJumping = true;
 
             // Gets rid of force after wallJumpTime
             Invoke("DisableWallJump", movementData.wallJumpTime);
@@ -217,18 +223,6 @@ public class PlayerController : MonoBehaviour
 
         if (context.canceled)
         {
-            if (body.velocity.y > 0)
-            {
-                body.velocity = new Vector2(body.velocity.x, body.velocity.y / 2);
-            }
-
-            if (isWallJumping)
-            {
-                Debug.Log("what");
-                body.velocity = new Vector2(body.velocity.x / 2, body.velocity.y);
-                isWallJumping = false;
-
-            }
 
             coyoteTimeCounter = 0;
             //stickTimeCounter = 0;
@@ -272,12 +266,6 @@ public class PlayerController : MonoBehaviour
         {
             coyoteTimeCounter = movementData.coyoteTime;
         }
-
-        if (isWallJumping)
-        {
-            
-            //body.velocity =;
-        }
         
 
         coyoteTimeCounter -= Time.deltaTime;
@@ -291,15 +279,9 @@ public class PlayerController : MonoBehaviour
 
         if (stickTimeCounter > 0 && IsOnWall())
         {
-            Debug.Log("sticking");
             canMove = false;
-            //body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, -MovementData.slideSpeed, float.MaxValue));
 
             Slide();
-
-            //Debug.Log(body.velocity.);
-
-            //stickTimeCounter = movementData.stickTime;
         }
         else
         {
@@ -411,13 +393,7 @@ public class PlayerController : MonoBehaviour
 
     private void Slide()
     {
-        float speedDif = MovementData.slideSpeed - body.velocity.y;
-        float movement = speedDif * MovementData.slideAccel;
-        //So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
-        //The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
-        movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
-
-        body.AddForce(movement * Vector2.up);
+        body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, MovementData.slideSpeed, float.MaxValue));
     }
 
     public void HandleJump()
@@ -430,7 +406,6 @@ public class PlayerController : MonoBehaviour
     {
         while (isFacingRight && direction.x < 0f || !isFacingRight && direction.x > 0f)
         {
-            Debug.Log("Time left on wall: " + stickTimeCounter);
             stickTimeCounter -= Time.deltaTime;
             
             if (stickTimeCounter <= 0)

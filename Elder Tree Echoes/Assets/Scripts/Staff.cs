@@ -21,6 +21,18 @@ public class Staff : MonoBehaviour
     [SerializeField]
     LayerMask plantLayer;
 
+    [SerializeField]
+    float clicksToCycle = 3.5f;
+
+    [SerializeField]
+    float cycleCooldown;
+
+    const float mouseCycleSpeed = 120;
+    float cycleTimer;
+    float mouseCycles;
+    
+
+
     private ProjectileManager projManager;
     //private LightBeam lightBeam;
     [SerializeField] Transform whackCheck;
@@ -49,6 +61,7 @@ public class Staff : MonoBehaviour
     void Start()
     {
         power = Power.Basic;
+        cycleTimer = cycleCooldown;
     }
 
     // Update is called once per frame
@@ -83,14 +96,27 @@ public class Staff : MonoBehaviour
             lightBeam.StopShining();
         }
 
+        if (cycleTimer <= 0)
+        {
+            mouseCycles = 0;
+        }
+
+        cycleTimer -= Time.deltaTime;
     }
 
     public void CyclePower(InputAction.CallbackContext context)
     {
-        // Cycles between each weapon type
-        if (context.performed) // Only happens when the button is initially pressed
+        cycleTimer = cycleCooldown;
+
+        if (context.performed)
         {
-            if (context.ReadValue<Vector2>().y < 0)
+            mouseCycles += mouseCycleSpeed;
+        }
+
+        if (mouseCycles >= clicksToCycle * mouseCycleSpeed)
+        {
+            // Cycles between each weapon type // Only happens when the button is initially pressed
+            if (context.ReadValue<float>() < 0)
             {
                 power++;
 
@@ -111,6 +137,8 @@ public class Staff : MonoBehaviour
                     power = Power.Light;
                 }
             }
+
+            mouseCycles = 0;
         }
     }
 
