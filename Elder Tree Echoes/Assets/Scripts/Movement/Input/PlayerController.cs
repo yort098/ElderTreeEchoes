@@ -127,7 +127,7 @@ public class PlayerController : MonoBehaviour
         StateMachine.Initialize(IdleState);
 
         stickTimeCounter = movementData.stickTime;
-        Debug.Log("this better work: "+ stickTimeCounter);
+        //Debug.Log("this better work: "+ stickTimeCounter);
     }
 
     /// <summary>
@@ -146,6 +146,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(UnstickFromWall());
         }
 
+        
         if (direction.x == -1 && ropeMovement.attatched && context.performed)
         {
             body.AddRelativeForce(new Vector3(-1, 0, 0) * ropeMovement.pushForce);
@@ -156,15 +157,18 @@ public class PlayerController : MonoBehaviour
             body.AddRelativeForce(new Vector3(1, 0, 0) * ropeMovement.pushForce);
         }
 
+        Debug.Log("attatched: " + ropeMovement.attatched);
+        Debug.Log("direction.y: " + direction.y);
+        Debug.Log("performed: " + context.performed);
         if (direction.y == -1 && ropeMovement.attatched && context.performed)
         {
-            //Debug.Log("down");
+            Debug.Log("down");
             ropeMovement.Slide(-1);
         }
 
         if (direction.y == 1 && ropeMovement.attatched && context.performed)
         {
-            //Debug.Log("up");
+            Debug.Log("up");
             ropeMovement.Slide(1);
         }
     }
@@ -201,7 +205,7 @@ public class PlayerController : MonoBehaviour
                 wallJumpDirection = Vector2.right;
             }
 
-            Debug.Log("is Wall jumping: " + isWallJumping);
+            //Debug.Log("is Wall jumping: " + isWallJumping);
             // Applying wall jump
             body.velocity = Vector2.zero;
             Debug.Log("wall jump force: (" + movementData.wallJumpForce.x * wallJumpDirection.x + ", " + movementData.wallJumpForce.y + ")");
@@ -223,7 +227,10 @@ public class PlayerController : MonoBehaviour
 
         if (context.canceled)
         {
-
+            if (body.velocity.y > 0 && !isWallJumping)
+            {
+                body.velocity = new Vector2(body.velocity.x, body.velocity.y / 2);
+            }
             coyoteTimeCounter = 0;
             //stickTimeCounter = 0;
         }
@@ -279,6 +286,7 @@ public class PlayerController : MonoBehaviour
 
         if (stickTimeCounter > 0 && IsOnWall())
         {
+            Debug.Log("congrats you're sliding");
             canMove = false;
 
             Slide();
