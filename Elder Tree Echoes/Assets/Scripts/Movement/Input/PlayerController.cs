@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 wallJumpDirection;
 
+    private Coroutine ropeSlide;
+    private Coroutine wallSlide;
+
     #region STATE CHECKS
 
     private bool canMove;
@@ -141,35 +144,63 @@ public class PlayerController : MonoBehaviour
 
         if (IsOnWall())
         {
-            StopCoroutine(UnstickFromWall());
+            // Start or restart the wall-sticking coroutine when on the wall
+            if (wallSlide != null)
+            {
+                StopCoroutine(wallSlide);
+            }
+
             stickTimeCounter = MovementData.stickTime;
-            StartCoroutine(UnstickFromWall());
+            wallSlide = StartCoroutine(UnstickFromWall());
         }
 
-        
-        if (direction.x == -1 && ropeMovement.attatched && context.performed)
+
+
+        // Lateral movement along the rope
+        if (direction.x != 0 && ropeMovement.attached && context.performed)
         {
-            body.AddRelativeForce(new Vector3(-1, 0, 0) * ropeMovement.pushForce);
+            Vector3 lateralPush = new Vector3(direction.x, 0, 0) * ropeMovement.pushForce;
+            body.AddRelativeForce(lateralPush);
         }
 
-        if (direction.x == 1 && ropeMovement.attatched && context.performed)
-        {
-            body.AddRelativeForce(new Vector3(1, 0, 0) * ropeMovement.pushForce);
-        }
+        /* Debug.Log("attatched: " + ropeMovement.attached);
+         Debug.Log("direction.y: " + direction.y);
+         Debug.Log("performed: " + context.performed);
+         if (direction.y == -1 && ropeMovement.attached && context.performed)
+         {
+             Debug.Log("down");
+             ropeMovement.Slide(-1);
+         }
 
-        Debug.Log("attatched: " + ropeMovement.attatched);
-        Debug.Log("direction.y: " + direction.y);
-        Debug.Log("performed: " + context.performed);
-        if (direction.y == -1 && ropeMovement.attatched && context.performed)
-        {
-            Debug.Log("down");
-            ropeMovement.Slide(-1);
-        }
+         if (direction.y == 1 && ropeMovement.attached && context.performed)
+         {
+             Debug.Log("up");
+             ropeMovement.Slide(1);
+         }*/
 
-        if (direction.y == 1 && ropeMovement.attatched && context.performed)
+        // Check for vertical movement input
+        if (context.phase == InputActionPhase.Started && Mathf.Abs(direction.y) > 0 && ropeMovement.attached)
         {
-            Debug.Log("up");
-            ropeMovement.Slide(1);
+            // Start continuous slide coroutine if holding W or S
+            if (ropeSlide == null)
+            {
+                ropeSlide = StartCoroutine(ContinuousSlide((int)direction.y));
+            }
+        }
+        else if (context.phase == InputActionPhase.Canceled && ropeSlide != null)
+        {
+            // Stop continuous slide coroutine when input is released
+            StopCoroutine(ropeSlide);
+            ropeSlide = null;
+        }
+    }
+
+    private IEnumerator ContinuousSlide(int direction)
+    {
+        while (true)
+        {
+            ropeMovement.Slide(direction);
+            yield return new WaitForSeconds(0.1f); // Adjust this interval for smoother or faster climbing
         }
     }
 
@@ -219,7 +250,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //Debug.Log(ropeMovement.attatched);
-        if (context.performed && ropeMovement.attatched)
+        if (context.performed && ropeMovement.attached)
         {
             ropeMovement.Detatch();
             body.AddForce(new Vector3(direction.x, 1, 0) * ropeMovement.pushForce, ForceMode2D.Impulse);
@@ -286,7 +317,6 @@ public class PlayerController : MonoBehaviour
 
         if (stickTimeCounter > 0 && IsOnWall())
         {
-            Debug.Log("congrats you're sliding");
             canMove = false;
 
             Slide();
