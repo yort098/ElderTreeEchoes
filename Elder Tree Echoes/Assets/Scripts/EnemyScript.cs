@@ -60,7 +60,7 @@ public class EnemyScript : MonoBehaviour, IDamageable
     void FixedUpdate()
     {
         Move();
-        spriteRenderer.color = new Color(0.7f, 0.2f, 0.2f, damageTransparency);
+        spriteRenderer.color = new Color(1, 1, 1, damageTransparency);
     }
 
     protected virtual void Move()
