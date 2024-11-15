@@ -27,13 +27,13 @@ public class ProjectileManager : MonoBehaviour
 
     public void GenerateLightAttack(Vector2 position, Vector2 mouseScreenLocation)
     {
-        if (GameManager.Instance.LightEnergy >= 12)
+        if (GameManager.Instance.LightEnergy >= 8)
         {
             GameObject shot = Instantiate(lightBullet, position, Quaternion.identity);
             shot.GetComponent<Projectile>().setDirectionMouse(mouseScreenLocation);
             shot.GetComponent<Projectile>().Fire();
             lightShots.Add(shot);
-            GameManager.Instance.DepleteEnergy(ProjectileType.Light, 12);
+            GameManager.Instance.DepleteEnergy(ProjectileType.Light, 8);
         }
     }
 

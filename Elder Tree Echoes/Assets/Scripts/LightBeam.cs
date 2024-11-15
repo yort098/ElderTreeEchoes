@@ -8,6 +8,7 @@ public class LightBeam : MonoBehaviour
 {
     private GameObject staffOrb;
     private SpriteRenderer spriteRend;
+    private bool affectPlatform = false;
 
     private void Awake()
     {
@@ -30,11 +31,21 @@ public class LightBeam : MonoBehaviour
         
     }
 
+    public void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform") && affectPlatform)
+        {
+            //Debug.Log("STRENGTH" + collision.gameObject.name);
+            collision.gameObject.GetComponent<LeafPlatform>().LightStrengthValue += 40f * Time.deltaTime;
+        }
+    }
+
     // Activate the light beam
     public void Shine()
     {
         // Show beam
         spriteRend.enabled = true;
+        affectPlatform = true;
 
         // Get directional vector between mouse and staff orb
         Vector2 mouse = Mouse.current.position.ReadValue();
@@ -52,5 +63,6 @@ public class LightBeam : MonoBehaviour
     public void StopShining()
     {
         spriteRend.enabled = false;
+        affectPlatform = false;
     }
 }

@@ -75,7 +75,7 @@ public class Staff : MonoBehaviour
         if (shineLight && GameManager.Instance.LightEnergy >= 0.15f)
         {
             lightBeam.Shine();
-            GameManager.Instance.DepleteEnergy(ProjectileType.Light, 0.15f);
+            GameManager.Instance.DepleteEnergy(ProjectileType.Light, 0.05f);
         }
         // Make the beam invisible when not in use
         else if (lightBeam)
