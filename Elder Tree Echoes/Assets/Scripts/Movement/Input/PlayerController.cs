@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
     // All floor/platforms able to be stood on
     [SerializeField]
     LayerMask groundLayer;
+    [SerializeField]
+    LayerMask platformLayer;
 
     [SerializeField]
     Transform frontWallCheck;
@@ -308,7 +310,7 @@ public class PlayerController : MonoBehaviour
             body.velocity = new Vector2(body.velocity.x, Mathf.Max(body.velocity.y, -movementData.maxFallSpeed));
 
         }
-
+        
         if (IsGrounded())
         {
             coyoteTimeCounter = movementData.coyoteTime;
@@ -342,7 +344,8 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     public bool IsGrounded()
     {
-        return Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0, groundLayer);
+        return Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0, groundLayer)
+            || Physics2D.OverlapCircle(groundCheck.position, 1, platformLayer);
     }
 
     /// <summary>
