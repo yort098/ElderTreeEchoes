@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
     private Coroutine ropeSlide;
     private Coroutine wallSlide;
 
+    public bool isDoor;
+    public GameObject currentDoor;
+
     #region STATE CHECKS
 
     private bool canMove;
@@ -152,6 +155,12 @@ public class PlayerController : MonoBehaviour
 
             stickTimeCounter = MovementData.stickTime;
             wallSlide = StartCoroutine(UnstickFromWall());
+        }
+
+        if (isDoor && direction.y > 0)
+        {
+            currentDoor.GetComponent<TeleportTrigger>().enabled = true;
+            currentDoor.GetComponent<TeleportTrigger>().Activate();
         }
 
 

@@ -12,18 +12,33 @@ public class TextTrigger : PointTrigger
 
     GameObject textInstance;
 
-    protected override void Activate()
+    public override void Activate()
     {
         textInstance = Instantiate(textBox);
         textInstance.GetComponent<Text>().text = text;
 
         textInstance.gameObject.transform.SetParent(canvas.transform, false);
+
+        if (GetComponent<TeleportTrigger>())
+        {
+            GameObject.Find("Player").GetComponent<PlayerController>().isDoor = true;
+            GameObject.Find("Player").GetComponent<PlayerController>().currentDoor = this.gameObject;
+
+        }
+
         base.Activate();
     }
 
-    protected override void Deactivate()
+    public override void Deactivate()
     {
         Destroy(textInstance);
+
+        if (GetComponent<TeleportTrigger>())
+        {
+            GameObject.Find("Player").GetComponent<PlayerController>().isDoor = false;
+            GameObject.Find("Player").GetComponent<PlayerController>().currentDoor = null;
+
+        }
 
         base.Deactivate();
     }
