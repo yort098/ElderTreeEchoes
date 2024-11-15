@@ -18833,6 +18833,10 @@ PrefabInstance:
       propertyPath: m_AutoConfigureConnectedAnchor
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8423366168234517445, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1270489286}
     - target: {fileID: 8515573121711791882, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
       propertyPath: m_SortingOrder
       value: 0

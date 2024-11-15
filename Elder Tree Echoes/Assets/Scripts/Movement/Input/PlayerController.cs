@@ -31,6 +31,9 @@ public class PlayerController : MonoBehaviour
     private bool wallCling;
 
     private bool isWallJumping;
+
+    // Player Animator
+    public Animator animator;
     
 
     #endregion
@@ -162,6 +165,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnJump(InputAction.CallbackContext context)
     {
+        // Set the animator to play the jumping/landing character animation
+        animator.SetBool("IsJumping", true); 
+
         StateMachine.ChangeState(JumpState);
         
         //Debug.Log("jumped!");
@@ -213,6 +219,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // Set up parameter to switch btw idle & running animation
+        animator.SetFloat("Speed", Mathf.Abs(body.velocity.x));
+
         StateMachine.CurrentState.FrameUpdate();
         // Slightly increases gravity on descent
         if (body.velocity.y < 0) // falling
@@ -226,6 +235,9 @@ public class PlayerController : MonoBehaviour
 
         if (IsGrounded())
         {
+            // Disable character jumping/falling & animate normally
+            animator.SetBool("IsJumping", false); 
+
             //Debug.Log(coyoteTimeCounter);
             coyoteTimeCounter = movementData.coyoteTime;
         }
@@ -233,6 +245,9 @@ public class PlayerController : MonoBehaviour
         // Making sure the player "affixes" to the wall
         if (IsOnWall() && !isWallJumping)
         {
+            // Set the animator to the still of the character wall clinging 
+            animator.SetBool("IsWallClinging", true); 
+            
             wallCling = true;
             
             // Removes sliding
@@ -241,6 +256,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // Disable character cling & animate normally
+            animator.SetBool("IsWallClinging", false); 
+
             body.gravityScale = movementData.gravityScale;
             wallCling = false;
         }
