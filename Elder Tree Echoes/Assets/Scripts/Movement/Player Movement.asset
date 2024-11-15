@@ -12,15 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23eccaaea603234a8d071f05b0b4acf, type: 3}
   m_Name: Player Movement
   m_EditorClassIdentifier: 
-  maxSpeed: 8
-  acceleration: 2
-  accelAmount: 6
-  deceleration: 2
-  deccelAmount: 2
-  lerpAmount: 0.25
-  jumpForce: 12
-  gravityScale: 2.75
+  maxSpeed: 7
+  runAcceleration: 2
+  runAccelAmount: 14.285714
+  airAccel: 0.65
+  runDecceleration: 5
+  runDeccelAmount: 35.714287
+  airDeccel: 0.65
+  lerpAmount: 0.001
+  jumpForce: 13.846154
+  jumpHeight: 4.5
+  jumpTimeToApex: 0.65
+  gravityStrength: -21.301777
+  gravityScale: 2.1714349
   maxFallSpeed: 15
-  wallJumpForce: {x: 12, y: 10}
-  wallJumpTime: 0.25
+  wallJumpForce: {x: 8, y: 12}
+  wallJumpTime: 0.4
+  slideSpeed: -3.5
+  slideAccel: 0.1
   coyoteTime: 0.2
+  stickTime: 0.2

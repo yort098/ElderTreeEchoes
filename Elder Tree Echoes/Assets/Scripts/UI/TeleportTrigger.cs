@@ -7,13 +7,23 @@ public class TeleportTrigger : PointTrigger
     [SerializeField]
     Vector3 teleportPos;
 
-    protected override void Activate()
+    private void Start()
     {
-        GameObject.Find("Player").transform.position = teleportPos;
-        base.Activate();
+        enabled = false;
     }
 
-    protected override void Deactivate()
+    public override void Activate()
+    {
+        if (enabled)
+        {
+            GameObject.Find("Player").transform.position = teleportPos;
+            enabled = false;
+            base.Activate();
+        }
+        
+    }
+
+    public override void Deactivate()
     {
         base.Deactivate();
     }

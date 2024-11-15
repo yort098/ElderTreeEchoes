@@ -20,7 +20,7 @@ public class PlayerJumpState : PlayerState
 
     public override void FrameUpdate()
     {
-        Debug.Log("jumping");
+       // Debug.Log("jumping");
 
         if (player.IsGrounded())
         {
