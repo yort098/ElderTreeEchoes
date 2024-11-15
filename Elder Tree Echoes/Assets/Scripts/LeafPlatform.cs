@@ -48,7 +48,7 @@ public class LeafPlatform : MonoBehaviour
             lightStrengthValue = 100;
         }
 
-        lightStrengthValue -= 2.5f * Time.deltaTime;
+        lightStrengthValue -= 2.0f * Time.deltaTime;
 
         if (lightStrengthValue < 0)
         {
