@@ -8,10 +8,12 @@ public class RopeMovement : MonoBehaviour
 
     public Vector2 pushForce = new Vector2(8f, 3f);
 
-    public bool attatched = false;
+    public bool attached = false;
 
     public Transform attatchedTo;
     public GameObject disregard;
+
+    public float slideSpeed = 5;
 
     private void Awake()
     {
@@ -26,7 +28,7 @@ public class RopeMovement : MonoBehaviour
 
         hj.connectedBody = ropeSeg;
         hj.enabled = true;
-        attatched = true;
+        attached = true;
         attatchedTo = ropeSeg.gameObject.transform.parent;
     }
 
@@ -34,7 +36,7 @@ public class RopeMovement : MonoBehaviour
     {
         hj.connectedBody.gameObject.GetComponent<RopeSegment>().isPlayerAttatched = false;
         rb.gravityScale = GetComponent<PlayerController>().MovementData.gravityScale;
-        attatched = false;
+        attached = false;
 
         hj.enabled = false;
         hj.connectedBody = null;
@@ -42,62 +44,47 @@ public class RopeMovement : MonoBehaviour
         disregard = attatchedTo.gameObject;
         attatchedTo = null;
 
-        StartCoroutine(Time());
+        StartCoroutine(DetatchCooldown());
+    }
+
+    private GameObject GetNewSegment(RopeSegment myConnection, int direction)
+    {
+        if (direction > 0)
+        {
+            return myConnection.direction > 0 ? myConnection.connectedBelow : myConnection.connectedAbove;
+        }
+        else if (direction < 0)
+        {
+            return myConnection.direction > 0 ? myConnection.connectedAbove : myConnection.connectedBelow;
+        }
+        return null;
+    }
+
+
+    public IEnumerator SmoothSlide(Transform targetSegment)
+    {
+        Vector2 startPos = transform.position;
+        Vector2 endPos = targetSegment.position;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < 1f / slideSpeed)
+        {
+            transform.position = Vector2.Lerp(startPos, endPos, elapsedTime * slideSpeed);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = endPos;
     }
 
     public void Slide(int direction)
     {
         RopeSegment myConnection = hj.connectedBody.gameObject.GetComponent<RopeSegment>();
-        GameObject newSeg = null;
-
-        if (direction > 0 && myConnection.direction > 0) // upward rope and upward movement
-        {
-            if (myConnection.connectedBelow != null)
-            {
-                newSeg = myConnection.connectedBelow;
-            }
-
-        }
-        else if (direction > 0 && myConnection.direction < 0) // upward movement, downward rope
-        {
-            Debug.Log("up");
-            if (myConnection.connectedAbove != null)
-            {
-                if (myConnection.connectedAbove.gameObject.GetComponent<RopeSegment>() != null)
-                {
-                    //Debug.Log(myConnection);
-                    newSeg = myConnection.connectedAbove;
-                }
-            }
-        }
-
-        if (direction < 0 & myConnection.direction > 0) // downward movement, upwards rope
-        {
-            
-            if (myConnection.connectedAbove != null)
-            {
-                if (myConnection.connectedAbove.gameObject.GetComponent<RopeSegment>() != null)
-                {
-                    //Debug.Log(myConnection);
-                    newSeg = myConnection.connectedAbove;
-                }
-            }
-
-        }
-        else if (direction < 0 && myConnection.direction < 0) // downards movement, downwards rope
-        {
-            Debug.Log("down");
-            if (myConnection.connectedBelow != null)
-            {
-                newSeg = myConnection.connectedBelow;
-            }
-        }
+        GameObject newSeg = GetNewSegment(myConnection, direction);
 
         if (newSeg != null)
         {
-            transform.position = new Vector2(Mathf.Lerp(transform.position.x, newSeg.transform.position.x, 0.5f), Mathf.Lerp(transform.position.y, newSeg.transform.position.y, 0.5f));
-
-            //transform.position = new Vector3(newSeg.transform.position.x, 0, transform.position.z); ; // change this to lerp for smoother movement
+            StartCoroutine(SmoothSlide(newSeg.transform));
             myConnection.isPlayerAttatched = false;
             newSeg.GetComponent<RopeSegment>().isPlayerAttatched = true;
             hj.connectedBody = newSeg.GetComponent<Rigidbody2D>();
@@ -106,23 +93,21 @@ public class RopeMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log(attatched);
-        if (!attatched)
+        Debug.Log(attached);
+        if (!attached && col.CompareTag("Rope"))
         {
-            if (col.tag == "Rope")
+            if (attatchedTo != col.gameObject.transform.parent)
             {
-                if (attatchedTo != col.gameObject.transform.parent)
+                if (disregard == null || col.gameObject.transform.parent.gameObject != disregard)
                 {
-                    if (disregard == null || col.gameObject.transform.parent.gameObject != disregard)
-                    {
-                        Attatch(col.gameObject.GetComponent<Rigidbody2D>());
-                    }
+                    Attatch(col.gameObject.GetComponent<Rigidbody2D>());
                 }
             }
+            
         }
     }
 
-    public IEnumerator Time()
+    public IEnumerator DetatchCooldown()
     {
         yield return new WaitForSeconds(0.3f);
         disregard = null;

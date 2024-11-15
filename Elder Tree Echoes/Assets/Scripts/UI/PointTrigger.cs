@@ -24,12 +24,12 @@ public class PointTrigger : MonoBehaviour
         }    
     }
 
-    protected virtual void Activate()
+    public virtual void Activate()
     {
         activated = true;
     }
 
-    protected virtual void Deactivate()
+    public virtual void Deactivate()
     {
         activated = false;
     }

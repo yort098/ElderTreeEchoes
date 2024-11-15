@@ -23,6 +23,12 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 wallJumpDirection;
 
+    private Coroutine ropeSlide;
+    private Coroutine wallSlide;
+
+    public bool isDoor;
+    public GameObject currentDoor;
+
     #region STATE CHECKS
 
     private bool canMove;
@@ -143,31 +149,69 @@ public class PlayerController : MonoBehaviour
 
         if (IsOnWall())
         {
-            StopCoroutine(UnstickFromWall());
+            // Start or restart the wall-sticking coroutine when on the wall
+            if (wallSlide != null)
+            {
+                StopCoroutine(wallSlide);
+            }
+
             stickTimeCounter = MovementData.stickTime;
-            StartCoroutine(UnstickFromWall());
+            wallSlide = StartCoroutine(UnstickFromWall());
         }
 
-        if (direction.x == -1 && ropeMovement.attatched && context.performed)
+        if (isDoor && direction.y > 0)
         {
-            body.AddRelativeForce(new Vector3(-1, 0, 0) * ropeMovement.pushForce);
+            currentDoor.GetComponent<TeleportTrigger>().enabled = true;
+            currentDoor.GetComponent<TeleportTrigger>().Activate();
         }
 
-        if (direction.x == 1 && ropeMovement.attatched && context.performed)
+
+
+        // Lateral movement along the rope
+        if (direction.x != 0 && ropeMovement.attached && context.performed)
         {
-            body.AddRelativeForce(new Vector3(1, 0, 0) * ropeMovement.pushForce);
+            Vector3 lateralPush = new Vector3(direction.x, 0, 0) * ropeMovement.pushForce;
+            body.AddRelativeForce(lateralPush);
         }
 
-        if (direction.y == -1 && ropeMovement.attatched && context.performed)
-        {
-            //Debug.Log("down");
-            ropeMovement.Slide(-1);
-        }
+        /* Debug.Log("attatched: " + ropeMovement.attached);
+         Debug.Log("direction.y: " + direction.y);
+         Debug.Log("performed: " + context.performed);
+         if (direction.y == -1 && ropeMovement.attached && context.performed)
+         {
+             Debug.Log("down");
+             ropeMovement.Slide(-1);
+         }
 
-        if (direction.y == 1 && ropeMovement.attatched && context.performed)
+         if (direction.y == 1 && ropeMovement.attached && context.performed)
+         {
+             Debug.Log("up");
+             ropeMovement.Slide(1);
+         }*/
+
+        // Check for vertical movement input
+        if (context.phase == InputActionPhase.Started && Mathf.Abs(direction.y) > 0 && ropeMovement.attached)
         {
-            //Debug.Log("up");
-            ropeMovement.Slide(1);
+            // Start continuous slide coroutine if holding W or S
+            if (ropeSlide == null)
+            {
+                ropeSlide = StartCoroutine(ContinuousSlide((int)direction.y));
+            }
+        }
+        else if (context.phase == InputActionPhase.Canceled && ropeSlide != null)
+        {
+            // Stop continuous slide coroutine when input is released
+            StopCoroutine(ropeSlide);
+            ropeSlide = null;
+        }
+    }
+
+    private IEnumerator ContinuousSlide(int direction)
+    {
+        while (true)
+        {
+            ropeMovement.Slide(direction);
+            yield return new WaitForSeconds(0.1f); // Adjust this interval for smoother or faster climbing
         }
     }
 
@@ -178,18 +222,19 @@ public class PlayerController : MonoBehaviour
     {
         StateMachine.ChangeState(JumpState);
 
+        //Debug.Log("is facing right: " + isFacingRight);
         //Debug.Log("jumped!");
-        if (coyoteTimeCounter > 0f && context.performed) // Can only jump when touching the ground
+        if (coyoteTimeCounter > 0f && context.performed && !IsOnWall()) // Can only jump when touching the ground
         {
             body.AddForce(new Vector2(0, movementData.jumpForce), ForceMode2D.Impulse);
         }
-        else if (IsOnWall() && context.performed) // On the wall
+        else if (IsOnWall() && context.performed && !isWallJumping) // On the wall
         {
             wallCling = false;
             body.gravityScale = movementData.gravityScale;
             stickTimeCounter = MovementData.stickTime;
 
-            isWallJumping = true;
+            
 
             // The player can jump off the wall without
             // having to jump into it
@@ -202,16 +247,21 @@ public class PlayerController : MonoBehaviour
                 wallJumpDirection = Vector2.right;
             }
 
+            //Debug.Log("is Wall jumping: " + isWallJumping);
             // Applying wall jump
+            body.velocity = Vector2.zero;
+            Debug.Log("wall jump force: (" + movementData.wallJumpForce.x * wallJumpDirection.x + ", " + movementData.wallJumpForce.y + ")");
             body.AddForce(new Vector2(movementData.wallJumpForce.x * wallJumpDirection.x, movementData.wallJumpForce.y), ForceMode2D.Impulse);
             //Flip();
+
+            isWallJumping = true;
 
             // Gets rid of force after wallJumpTime
             Invoke("DisableWallJump", movementData.wallJumpTime);
         }
 
         //Debug.Log(ropeMovement.attatched);
-        if (context.performed && ropeMovement.attatched)
+        if (context.performed && ropeMovement.attached)
         {
             ropeMovement.Detatch();
             body.AddForce(new Vector3(direction.x, 1, 0) * ropeMovement.pushForce, ForceMode2D.Impulse);
@@ -219,19 +269,10 @@ public class PlayerController : MonoBehaviour
 
         if (context.canceled)
         {
-            if (body.velocity.y > 0)
+            if (body.velocity.y > 0 && !isWallJumping)
             {
                 body.velocity = new Vector2(body.velocity.x, body.velocity.y / 2);
             }
-
-            if (isWallJumping)
-            {
-                Debug.Log("what");
-                body.velocity = new Vector2(body.velocity.x / 2, body.velocity.y);
-                isWallJumping = false;
-
-            }
-
             coyoteTimeCounter = 0;
             //stickTimeCounter = 0;
         }
@@ -274,12 +315,6 @@ public class PlayerController : MonoBehaviour
         {
             coyoteTimeCounter = movementData.coyoteTime;
         }
-
-        if (isWallJumping)
-        {
-            
-            //body.velocity =;
-        }
         
 
         coyoteTimeCounter -= Time.deltaTime;
@@ -294,13 +329,8 @@ public class PlayerController : MonoBehaviour
         if (stickTimeCounter > 0 && IsOnWall())
         {
             canMove = false;
-            //body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, -MovementData.slideSpeed, float.MaxValue));
 
             Slide();
-
-            //Debug.Log(body.velocity.);
-
-            //stickTimeCounter = movementData.stickTime;
         }
         else
         {
@@ -413,13 +443,7 @@ public class PlayerController : MonoBehaviour
 
     private void Slide()
     {
-        float speedDif = MovementData.slideSpeed - body.velocity.y;
-        float movement = speedDif * MovementData.slideAccel;
-        //So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
-        //The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
-        movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
-
-        body.AddForce(movement * Vector2.up);
+        body.velocity = new Vector2(body.velocity.x, Mathf.Clamp(body.velocity.y, MovementData.slideSpeed, float.MaxValue));
     }
 
     public void HandleJump()
@@ -432,7 +456,6 @@ public class PlayerController : MonoBehaviour
     {
         while (isFacingRight && direction.x < 0f || !isFacingRight && direction.x > 0f)
         {
-            Debug.Log("Time left on wall: " + stickTimeCounter);
             stickTimeCounter -= Time.deltaTime;
             
             if (stickTimeCounter <= 0)

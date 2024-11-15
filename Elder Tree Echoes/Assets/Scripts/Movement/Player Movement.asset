@@ -19,16 +19,16 @@ MonoBehaviour:
   runDecceleration: 5
   runDeccelAmount: 35.714287
   airDeccel: 0.65
-  lerpAmount: 0.15
-  jumpForce: 14
-  jumpHeight: 3.5
-  jumpTimeToApex: 0.5
-  gravityStrength: -28
-  gravityScale: 2.8542302
+  lerpAmount: 0.001
+  jumpForce: 13.846154
+  jumpHeight: 4.5
+  jumpTimeToApex: 0.65
+  gravityStrength: -21.301777
+  gravityScale: 2.1714349
   maxFallSpeed: 15
-  wallJumpForce: {x: 13, y: 17}
-  wallJumpTime: 0.3
-  slideSpeed: -1
-  slideAccel: 2
+  wallJumpForce: {x: 8, y: 12}
+  wallJumpTime: 0.4
+  slideSpeed: -3.5
+  slideAccel: 0.1
   coyoteTime: 0.2
-  stickTime: 0.25
+  stickTime: 0.2

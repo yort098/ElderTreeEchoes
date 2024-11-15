@@ -6,14 +6,14 @@ public class DoorTrigger : PointTrigger
 { 
     public Barricade barr;
 
-    protected override void Activate()
+    public override void Activate()
     {
         barr.Open();
 
         base.Activate();
     }
 
-    protected override void Deactivate()
+    public override void Deactivate()
     {
        // Do nothing
     }
