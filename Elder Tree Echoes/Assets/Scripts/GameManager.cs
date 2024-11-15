@@ -140,12 +140,12 @@ public class GameManager : MonoBehaviour, IDamageable
 
         if (waterEnergy < 100)
         {
-            waterEnergy += 0.07f;
+            waterEnergy += 12.0f * Time.deltaTime;
         }
 
         if (lightEnergy < 100)
         {
-            lightEnergy += 0.07f;
+            lightEnergy += 12.0f * Time.deltaTime;
         }
     }
 

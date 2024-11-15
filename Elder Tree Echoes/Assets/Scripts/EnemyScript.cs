@@ -18,6 +18,8 @@ public class EnemyScript : MonoBehaviour, IDamageable
     protected float startX;
     protected float endX;
 
+    protected float damageTransparency = 1.0f;
+
     public Vector2 Direction { get { return direction; } }
 
     [field: SerializeField] public float MaxHealth { get; set; }
@@ -58,6 +60,7 @@ public class EnemyScript : MonoBehaviour, IDamageable
     void FixedUpdate()
     {
         Move();
+        spriteRenderer.color = new Color(0.7f, 0.2f, 0.2f, damageTransparency);
     }
 
     protected virtual void Move()
@@ -90,6 +93,7 @@ public class EnemyScript : MonoBehaviour, IDamageable
     public void Damage(float amount)
     {
         CurrentHealth -= amount;
+        damageTransparency -= 0.2f;
 
         if (CurrentHealth <= 0)
         {
@@ -97,14 +101,15 @@ public class EnemyScript : MonoBehaviour, IDamageable
         }
 
         // Show enemy damage (temp until knockback or other damage feedback is implemented)
-        if (CurrentHealth < 5 && CurrentHealth >= 3)
-        {
-            spriteRenderer.color = Color.yellow;
-        }
-        else if (CurrentHealth < 3)
-        {
-            spriteRenderer.color = Color.red;
-        }
+        //if (CurrentHealth < 5 && CurrentHealth >= 3)
+        //{
+        //    spriteRenderer.color = Color.yellow;
+        //}
+        //else if (CurrentHealth < 3)
+        //{
+        //    spriteRenderer.color = Color.red;
+        //}
+ 
     }
 
     public void Die()

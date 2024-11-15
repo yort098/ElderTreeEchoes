@@ -22,7 +22,7 @@ public class PlayerRunState : PlayerState
     {
         base.FrameUpdate();
 
-        Debug.Log("running");
+        //Debug.Log("running");
 
         if (player.Direction.x == 0 && player.IsGrounded())
         {
