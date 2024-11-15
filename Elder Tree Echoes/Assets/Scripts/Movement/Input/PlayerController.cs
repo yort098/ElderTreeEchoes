@@ -38,6 +38,9 @@ public class PlayerController : MonoBehaviour
 
     private bool isWallJumping;
 
+    // Player Animator
+    public Animator animator;
+    
 
     #endregion
 
@@ -220,6 +223,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void OnJump(InputAction.CallbackContext context)
     {
+        // Set the animator to play the jumping/landing character animation
+        animator.SetBool("IsJumping", true); 
+
         StateMachine.ChangeState(JumpState);
 
         //Debug.Log("is facing right: " + isFacingRight);
@@ -299,7 +305,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(wallCling);
+        // Set up parameter to switch btw idle & running animation
+        animator.SetFloat("Speed", Mathf.Abs(body.velocity.x));
+
         StateMachine.CurrentState.FrameUpdate();
         // Slightly increases gravity on descent
         if (body.velocity.y < 0) // falling
@@ -313,6 +321,10 @@ public class PlayerController : MonoBehaviour
         
         if (IsGrounded())
         {
+            // Disable character jumping/falling & animate normally
+            animator.SetBool("IsJumping", false); 
+
+            //Debug.Log(coyoteTimeCounter);
             coyoteTimeCounter = movementData.coyoteTime;
         }
         
