@@ -204,7 +204,7 @@ public class Staff : MonoBehaviour
 
                     // Beam will continuously shine on mouse press hold until released
                     shineLight = context.control.IsPressed();
-                    lightBeam = Instantiate(lightBeamPref, orbArea.transform).GetComponent<LightBeam>();
+                    lightBeam = Instantiate(lightBeamPref).GetComponent<LightBeam>();
 
                     break;
             }
