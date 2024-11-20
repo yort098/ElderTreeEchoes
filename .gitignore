@@ -55,3 +55,7 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+
+# Layout Files
+*.dwlt
+Elder Tree Echoes/UserSettings/Layouts/default-2022.dwlt

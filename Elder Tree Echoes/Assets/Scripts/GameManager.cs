@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour, IDamageable
     private float invincibilityTime = 1.5f;
     private bool invincible = false;
 
+    private Coroutine invincibility;
+
     GameObject player;
 
     public int currLevel = 1;
@@ -108,7 +110,7 @@ public class GameManager : MonoBehaviour, IDamageable
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
         elapsedTime = 0;
         sp.color = colors[1];
-
+        invincibility = null;
 
     }
 
@@ -184,7 +186,11 @@ public class GameManager : MonoBehaviour, IDamageable
             Die();
         }
 
-        StartCoroutine(GameManager.Instance.InvincibilityTimer());    
+        if (invincibility == null)
+        {
+            invincibility = StartCoroutine(InvincibilityTimer());
+        }
+         
     }
 
     public void Progress()
