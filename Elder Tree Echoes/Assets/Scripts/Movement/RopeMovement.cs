@@ -7,6 +7,7 @@ public class RopeMovement : MonoBehaviour
     private HingeJoint2D hj;
 
     public Vector2 pushForce = new Vector2(8f, 3f);
+    public Vector2 topForce = new Vector2(8f, 3f);
 
     public bool attached = false;
 
