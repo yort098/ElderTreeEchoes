@@ -25,7 +25,7 @@ public class SwoopingEnemy : EnemyScript
 
     protected override void Move()
     {
-        endY = player.transform.position.y + 2;
+        endY = player.transform.position.y + 1;
         distance = Vector2.Distance(body.transform.position, player.transform.position);
         body.velocity = new Vector3(direction.x * attributes.speed, direction.y * attributes.speed);
         if (body.position.y > startY)
@@ -52,7 +52,7 @@ public class SwoopingEnemy : EnemyScript
             {
                 direction.y = 1;
             }
-            else if (body.position.y > startY + 0.5)
+            else if (body.position.y > startY)
             {
                 isSwooping = false;
             }
