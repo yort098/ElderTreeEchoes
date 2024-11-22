@@ -15,8 +15,17 @@ public class EnemyScript : MonoBehaviour, IDamageable
     public float distance;
     protected SpriteRenderer spriteRenderer;
 
-    protected float startX;
-    protected float endX;
+    [SerializeField]
+    public float startX;
+
+    [SerializeField]
+    public float endX;
+
+    [SerializeField]
+    public float hardEnd1;
+
+    [SerializeField]
+    public float hardEnd2;
 
     protected float damageTransparency = 1.0f;
 
@@ -29,6 +38,7 @@ public class EnemyScript : MonoBehaviour, IDamageable
     {
         player = GameObject.Find("Player");
         body = GetComponent<Rigidbody2D>();
+        startX = body.position.x;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -37,8 +47,6 @@ public class EnemyScript : MonoBehaviour, IDamageable
     {  
         //attributes.startX = body.position.x;
         //attributes.endX = body.position.x + 1;
-        startX = body.position.x;
-        endX = body.position.x + 3;
 
         CurrentHealth = MaxHealth;
     }
@@ -77,6 +85,11 @@ public class EnemyScript : MonoBehaviour, IDamageable
             else
             {
                 direction = Vector2.right;
+            }
+
+            if(body.position.x < hardEnd1 || body.position.x > hardEnd2)
+            {
+                direction = Vector2.zero;
             }
         }
         //Have the enemy patrol if the pklayer is not in range
