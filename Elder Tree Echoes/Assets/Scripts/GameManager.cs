@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour, IDamageable
         waterMeter.value = waterEnergy;
         lightMeter.value = lightEnergy;
 
-        percentageDisplay.text = currLevelPercent + "%";
+        percentageDisplay.text = "Tree Roots Restored: " + currLevelPercent + "%";
     }
 
     public IEnumerator InvincibilityTimer()
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour, IDamageable
         lightMeter.value = lightEnergy;
 
         currLevelPercent = ((float)checkpoints / (float)totalCheckpoints) * 100;
-        percentageDisplay.text = Mathf.RoundToInt(currLevelPercent) + "%";
+        percentageDisplay.text = "Tree Roots Restored: " + Mathf.RoundToInt(currLevelPercent) + "%";
 
         if (waterEnergy < 100)
         {

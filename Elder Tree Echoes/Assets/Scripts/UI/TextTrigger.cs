@@ -10,15 +10,19 @@ public class TextTrigger : PointTrigger
     [SerializeField] GameObject textBox;
     [SerializeField] string text;
 
+    private bool seen = false;
+
     GameObject textInstance;
 
     public override void Activate()
     {
-        textInstance = Instantiate(textBox);
-        textInstance.GetComponent<Text>().text = text;
-
-        textInstance.gameObject.transform.SetParent(canvas.transform, false);
-
+        if (!seen)
+        {
+            textInstance = Instantiate(textBox);
+            textInstance.GetComponent<Text>().text = text;
+            textInstance.gameObject.transform.SetParent(canvas.transform, false);
+        }
+        
         if (GetComponent<TeleportTrigger>())
         {
             GameObject.Find("Player").GetComponent<PlayerController>().isDoor = true;
@@ -32,6 +36,7 @@ public class TextTrigger : PointTrigger
     public override void Deactivate()
     {
         Destroy(textInstance);
+        seen = true;
 
         if (GetComponent<TeleportTrigger>())
         {
