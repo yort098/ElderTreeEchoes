@@ -56,6 +56,7 @@ public class RopeMovement : MonoBehaviour
         }
         else if (direction < 0)
         {
+            Debug.Log(myConnection.connectedBelow);
             return myConnection.direction > 0 ? myConnection.connectedAbove : myConnection.connectedBelow;
         }
         return null;
