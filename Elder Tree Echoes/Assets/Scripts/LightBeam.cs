@@ -64,7 +64,7 @@ public class LightBeam : MonoBehaviour
         if (collision.gameObject.CompareTag("Platform") && affectPlatform)
         {
             //Debug.Log("STRENGTH" + collision.gameObject.name);
-            collision.gameObject.GetComponent<LeafPlatform>().LightStrengthValue += 40f * Time.deltaTime;
+            collision.gameObject.GetComponent<LeafPlatform>().LightStrengthValue += 100f * Time.deltaTime;
         }
     }
 
