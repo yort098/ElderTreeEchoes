@@ -27,6 +27,10 @@ public class TextTrigger : PointTrigger
         {
             GameObject.Find("Player").GetComponent<PlayerController>().isDoor = true;
             GameObject.Find("Player").GetComponent<PlayerController>().currentDoor = this.gameObject;
+        }
+
+        if (GetComponent<Shrine>())
+        {
 
         }
 

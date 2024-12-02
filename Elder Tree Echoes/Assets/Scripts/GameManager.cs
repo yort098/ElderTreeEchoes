@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour, IDamageable
 {
     private static GameManager instance;
-    private float waterEnergy = 100;
-    private float lightEnergy = 100;
+    private float waterEnergy = 0;
+    private float lightEnergy = 0;
     private float invincibilityTime = 1.5f;
     private bool invincible = false;
 
@@ -34,6 +34,11 @@ public class GameManager : MonoBehaviour, IDamageable
 
     [SerializeField]
     Text percentageDisplay;
+
+    [SerializeField]
+    float waterRegenRate, lightRegenRate;
+
+    public bool hasWater = false, hasLight = false;
 
     public GameObject[] Enemies
     {
@@ -81,8 +86,8 @@ public class GameManager : MonoBehaviour, IDamageable
         CurrentHealth = MaxHealth;
         healthBar.value = MaxHealth;
 
-        waterMeter.value = waterEnergy;
-        lightMeter.value = lightEnergy;
+        waterMeter.value = 0;
+        lightMeter.value = 0;
 
         percentageDisplay.text = "Tree Roots Restored: " + currLevelPercent + "%";
     }
@@ -134,21 +139,30 @@ public class GameManager : MonoBehaviour, IDamageable
     // Update is called once per frame
     void Update()
     {
-        waterMeter.value = waterEnergy;
-        lightMeter.value = lightEnergy;
+        if (hasWater)
+        {
+            if (waterEnergy < 100)
+            {
+                waterEnergy += waterRegenRate * Time.deltaTime;
+            }
+
+            waterMeter.value = waterEnergy;
+        }
+
+        if (hasLight)
+        {
+            if (lightEnergy < 100)
+            {
+                lightEnergy += lightRegenRate * Time.deltaTime;
+            }
+
+            lightMeter.value = lightEnergy;
+        }
+        
 
         currLevelPercent = ((float)checkpoints / (float)totalCheckpoints) * 100;
         percentageDisplay.text = "Tree Roots Restored: " + Mathf.RoundToInt(currLevelPercent) + "%";
-
-        if (waterEnergy < 100)
-        {
-            waterEnergy += 12.0f * Time.deltaTime;
-        }
-
-        if (lightEnergy < 100)
-        {
-            lightEnergy += 12.0f * Time.deltaTime;
-        }
+        
     }
 
     public void Damage(float amount)
