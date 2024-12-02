@@ -19,7 +19,6 @@ public class RopeSegment : MonoBehaviour
         {
             aboveSegment.connectedBelow = gameObject;
 
-            //Debug.Log(direction);
             if (direction < 0)
             {
                
