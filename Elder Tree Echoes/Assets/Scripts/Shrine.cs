@@ -4,30 +4,47 @@ using UnityEngine;
 
 public class Shrine : MonoBehaviour
 {
-    [SerializeField] Power powerHeld;
+    [SerializeField] private Power grantedPower; // Type of power the shrine grants
+    [SerializeField] private KeyCode interactionKey = KeyCode.E; // Default interaction key
+    [SerializeField] private string popUpMessage = "Press E to interact";
+    private bool isPlayerNearby = false;
+    private bool powerGranted = false;
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.CompareTag("Player") && !powerGranted)
+        {
+            PopUpManager.Instance.CreatePopUp("Shrine", popUpMessage);
+            //PopUpManager.Instance.RemovePopUpOnAction(() => IsActionCompleted(requiredAction));
+
+            isPlayerNearby = true;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        
+        if (collision.CompareTag("Player"))
+        {
+            PopUpManager.Instance.RemovePopUp();
+            isPlayerNearby = false;
+        }
     }
 
-    public void Absorb()
+    private void Update()
     {
-        if (powerHeld == Power.Water)
+        if (isPlayerNearby && Input.GetKeyDown(interactionKey) && !powerGranted)
         {
-            GameManager.Instance.hasWater = true;
+            GrantPower();
         }
+    }
 
-        if (powerHeld == Power.Light)
-        {
-            GameManager.Instance.hasLight = true;
-        }
+    private void GrantPower()
+    {
+        powerGranted = true;
+        // Notify the player of the new power
+        PopUpManager.Instance.CreatePopUp("Power Unlocked", $"You have unlocked the {grantedPower} power!");
+
+        // Unlock the power in the PlayerController or PlayerAbility system
+        PlayerAbilities.Instance.UnlockPower(grantedPower);
     }
 }

@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour, IDamageable
 {
     private static GameManager instance;
-    private float waterEnergy = 0;
-    private float lightEnergy = 0;
+
     private float invincibilityTime = 1.5f;
     private bool invincible = false;
 
@@ -35,10 +34,6 @@ public class GameManager : MonoBehaviour, IDamageable
     [SerializeField]
     Text percentageDisplay;
 
-    [SerializeField]
-    float waterRegenRate, lightRegenRate;
-
-    public bool hasWater = false, hasLight = false;
 
     public GameObject[] Enemies
     {
@@ -64,16 +59,6 @@ public class GameManager : MonoBehaviour, IDamageable
         }
 
         player = GameObject.Find("Player");
-    }
-
-    public float WaterEnergy
-    {
-        get { return waterEnergy; }
-    }
-
-    public float LightEnergy
-    {
-        get { return lightEnergy; }
     }
 
     public float MaxHealth { get; set; }
@@ -128,37 +113,19 @@ public class GameManager : MonoBehaviour, IDamageable
     {
         if (element == ProjectileType.Water)
         {
-            waterEnergy -= amount;
+            PlayerAbilities.Instance.WaterEnergy -= amount;
         }
         else
         {
-            lightEnergy -= amount;
+            PlayerAbilities.Instance.LightEnergy -= amount;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (hasWater)
-        {
-            if (waterEnergy < 100)
-            {
-                waterEnergy += waterRegenRate * Time.deltaTime;
-            }
-
-            waterMeter.value = waterEnergy;
-        }
-
-        if (hasLight)
-        {
-            if (lightEnergy < 100)
-            {
-                lightEnergy += lightRegenRate * Time.deltaTime;
-            }
-
-            lightMeter.value = lightEnergy;
-        }
-        
+        waterMeter.value = PlayerAbilities.Instance.WaterEnergy;
+        lightMeter.value = PlayerAbilities.Instance.LightEnergy;
 
         currLevelPercent = ((float)checkpoints / (float)totalCheckpoints) * 100;
         percentageDisplay.text = "Tree Roots Restored: " + Mathf.RoundToInt(currLevelPercent) + "%";

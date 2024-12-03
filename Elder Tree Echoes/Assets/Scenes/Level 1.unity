@@ -1322,6 +1322,39 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &236336054
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 236336055}
+  m_Layer: 0
+  m_Name: Instructions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &236336055
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236336054}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -34.05, y: 1.37, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 785938274}
+  - {fileID: 1232586097}
+  m_Father: {fileID: 0}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &256084781 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3007953939211259312, guid: e7c37215aedd6a14f94641fee56f9f30, type: 3}
@@ -18213,15 +18246,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 785938274}
-  - component: {fileID: 785938273}
   - component: {fileID: 785938272}
+  - component: {fileID: 785938275}
   m_Layer: 0
-  m_Name: Instruction(0)
+  m_Name: 'WASD '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &785938272
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -18267,7 +18300,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &785938273
+--- !u!4 &785938274
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785938271}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 52.08, y: 5.1400003, z: 11.151247}
+  m_LocalScale: {x: 1.9125, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 236336055}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &785938275
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -18276,28 +18324,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 785938271}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c55c67c57b791d6409576fe73e069385, type: 3}
+  m_Script: {fileID: 11500000, guid: a95b2af842c4b254fb023da005e1b1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 1719746741}
-  textBox: {fileID: 4132290355459111718, guid: c3ddd56f5f176f540a4f7a598599ea6f, type: 3}
-  text: These are the roots of the Elder Tree. Grow them using the power of WATER
-    in your staff (scroll wheel) and pressing right click.
---- !u!4 &785938274
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 785938271}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.11, y: 6.51, z: 1.1512471}
-  m_LocalScale: {x: 1.9125, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 21
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  popUpName: Movment
+  popUpDescription: Use WASD to move
+  requiredAction: 0
 --- !u!4 &796372441 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6157688956085562060, guid: c74add6c0597a1a4281ab17e22fc13c7, type: 3}
@@ -18469,7 +18501,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &823635401
 PrefabInstance:
@@ -19071,7 +19103,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &903261466 stripped
 Transform:
@@ -20352,30 +20384,14 @@ GameObject:
   - component: {fileID: 1133402300}
   - component: {fileID: 1133402299}
   - component: {fileID: 1133402298}
-  - component: {fileID: 1133402297}
   - component: {fileID: 1133402301}
   m_Layer: 0
-  m_Name: Shrine (temp)
+  m_Name: Light Shrine (temp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1133402297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133402296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c55c67c57b791d6409576fe73e069385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 1719746741}
-  textBox: {fileID: 4132290355459111718, guid: c3ddd56f5f176f540a4f7a598599ea6f, type: 3}
-  text: Press E to absorb the strength
 --- !u!114 &1133402298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20388,7 +20404,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f08b519a0eb7164a9a9045192df59c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerHeld: 1
+  grantedPower: 2
+  interactionKey: 101
+  popUpMessage: Press E to interact
 --- !u!212 &1133402299
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -20431,7 +20449,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8396226, g: 0.76690614, b: 0.32079923, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -20449,12 +20467,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133402296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.39, y: 6.91, z: 0}
+  m_LocalPosition: {x: 21.46, y: 6.91, z: 0}
   m_LocalScale: {x: 2.0253, y: 2.0253, z: 2.0253}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1133402301
 BoxCollider2D:
@@ -28862,8 +28880,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17673a3def468b54894efbc781e8f6a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  popUpPrefab: {fileID: 8191420642279375998, guid: b8e66704645b7404eba06fe0529a4c4f, type: 3}
+  popUpPrefab: {fileID: 8305156655982239275, guid: 95cd3db93cd6f614d8718a3f2214924c, type: 3}
   canvasObject: {fileID: 1719746738}
+  popUpOnScreen: 0
 --- !u!4 &1198783514
 Transform:
   m_ObjectHideFlags: 0
@@ -28877,7 +28896,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1202222726
 PrefabInstance:
@@ -29171,10 +29190,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1232586097}
-  - component: {fileID: 1232586096}
   - component: {fileID: 1232586095}
+  - component: {fileID: 1232586098}
   m_Layer: 0
-  m_Name: Instruction(1)
+  m_Name: JUMP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29225,7 +29244,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1232586096
+--- !u!4 &1232586097
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1232586094}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 56.04, y: 5.24, z: 11.151247}
+  m_LocalScale: {x: 1.9125, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 236336055}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1232586098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -29234,27 +29268,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1232586094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c55c67c57b791d6409576fe73e069385, type: 3}
+  m_Script: {fileID: 11500000, guid: a95b2af842c4b254fb023da005e1b1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 1719746741}
-  textBox: {fileID: 4132290355459111718, guid: c3ddd56f5f176f540a4f7a598599ea6f, type: 3}
-  text: Use WATER to grow plants to use to your advantage.
---- !u!4 &1232586097
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1232586094}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.97, y: -6.53, z: 1.1512471}
-  m_LocalScale: {x: 1.9125, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 22
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  popUpName: Movement
+  popUpDescription: Press SPACE to jump
+  requiredAction: 1
 --- !u!1001 &1232723190
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40998,8 +41017,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5544200982419263280, guid: 7b88876a675d0ac4982e38456dabcdd0, type: 3}
     - target: {fileID: 1142829116373056131, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
-      propertyPath: m_SortingOrder
+      propertyPath: m_SortingLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1142829116373056131, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1142829116373056131, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1516489117
+      objectReference: {fileID: 0}
+    - target: {fileID: 2140914141524426209, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: m_SortingLayer
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2140914141524426209, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1516489117
       objectReference: {fileID: 0}
     - target: {fileID: 3425779562353766358, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
       propertyPath: m_ActionEvents.Array.size
@@ -41074,8 +41109,16 @@ PrefabInstance:
       value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 8515573121711791882, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515573121711791882, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
       propertyPath: m_SortingOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8515573121711791882, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1516489117
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -46366,6 +46409,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1358892727}
   - component: {fileID: 1358892726}
+  - component: {fileID: 1358892728}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46391,10 +46435,6 @@ MonoBehaviour:
   waterMeter: {fileID: 130275326}
   lightMeter: {fileID: 507418599}
   percentageDisplay: {fileID: 516198336}
-  waterRegenRate: 12
-  lightRegenRate: 12
-  hasWater: 0
-  hasLight: 0
 --- !u!4 &1358892727
 Transform:
   m_ObjectHideFlags: 0
@@ -46410,6 +46450,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1358892728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358892725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 596dd07c98a49a74eba81a136dc9d9f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterRegenRate: 6
+  lightRegenRate: 6
 --- !u!1 &1373452794
 GameObject:
   m_ObjectHideFlags: 0
@@ -79719,6 +79773,152 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8769907752396247191, guid: 5ec7465eefb0c4c40a08bec8bb75442d, type: 3}
   m_PrefabInstance: {fileID: 1884221406}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1961926904
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1961926908}
+  - component: {fileID: 1961926907}
+  - component: {fileID: 1961926906}
+  - component: {fileID: 1961926905}
+  m_Layer: 0
+  m_Name: Water Shrine (temp)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!61 &1961926905
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961926904}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.28021577}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.43956846}
+  m_EdgeRadius: 0
+--- !u!114 &1961926906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961926904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f08b519a0eb7164a9a9045192df59c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grantedPower: 1
+  interactionKey: 101
+  popUpMessage: Press E to interact
+--- !u!212 &1961926907
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961926904}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 0.14231044, g: 0.572078, b: 0.7735849, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1961926908
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961926904}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.54, y: 6.91, z: 0}
+  m_LocalScale: {x: 2.0253, y: 2.0253, z: 2.0253}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 26
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1965117562 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2268939929347233152, guid: 1d17be0480215844fa61789d994615d3, type: 3}
