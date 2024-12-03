@@ -27,6 +27,7 @@ public class PopUpManager : MonoBehaviour
 
     public void CreatePopUp(string name, string description)
     {
+        Debug.Log(popUpOnScreen);
         if (!popUpOnScreen)
         {
             createdPopUp = Instantiate(popUpPrefab, canvasObject.transform);
@@ -37,9 +38,9 @@ public class PopUpManager : MonoBehaviour
         }
         else
         {
-            RemovePopUp();
-            StartCoroutine(WaitForNewPopup(name, description));
-           
+            //StartCoroutine(WaitForNewPopup(name, description));
+            DestroyPopUp();
+            CreatePopUp(name, description);
         }
         
     }
@@ -53,9 +54,8 @@ public class PopUpManager : MonoBehaviour
 
     private void HidePopUp()
     {
-        popUpOnScreen = false;
-        createdPopUp.GetComponent<RectTransform>().DOAnchorPosX(-popUpPrefab.GetComponent<RectTransform>().sizeDelta.x, 0.5f)
-            .OnComplete(() => Destroy(createdPopUp));
+        createdPopUp.GetComponent<RectTransform>().DOAnchorPosX(-popUpPrefab.GetComponent<RectTransform>().sizeDelta.x, 1f)
+            .OnComplete(() => DestroyPopUp());
 
     }
 
@@ -65,6 +65,13 @@ public class PopUpManager : MonoBehaviour
         {
             HidePopUp();
         }
+    }
+
+    private void DestroyPopUp()
+    {
+        DOTween.Kill(createdPopUp.GetComponent<RectTransform>());
+        Destroy(createdPopUp);
+        popUpOnScreen = false;
     }
 
     public void RemovePopUpOnAction(System.Func<bool> actionCondition)
@@ -84,7 +91,5 @@ public class PopUpManager : MonoBehaviour
     private IEnumerator WaitForNewPopup(string name, string description)
     {
         while (createdPopUp != null) yield return null;
-
-        CreatePopUp(name, description);
     }
 }

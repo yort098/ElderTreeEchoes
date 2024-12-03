@@ -15,7 +15,6 @@ public class Shrine : MonoBehaviour
         if (collision.CompareTag("Player") && !powerGranted)
         {
             PopUpManager.Instance.CreatePopUp("Shrine", popUpMessage);
-            //PopUpManager.Instance.RemovePopUpOnAction(() => IsActionCompleted(requiredAction));
 
             isPlayerNearby = true;
         }
@@ -34,17 +33,60 @@ public class Shrine : MonoBehaviour
     {
         if (isPlayerNearby && Input.GetKeyDown(interactionKey) && !powerGranted)
         {
+            PopUpManager.Instance.RemovePopUp();
             GrantPower();
+        }
+
+        if (isPlayerNearby && !PopUpManager.Instance.popUpOnScreen && !powerGranted)
+        {
+            PopUpManager.Instance.CreatePopUp("Shrine", popUpMessage);
         }
     }
 
     private void GrantPower()
     {
         powerGranted = true;
+
         // Notify the player of the new power
         PopUpManager.Instance.CreatePopUp("Power Unlocked", $"You have unlocked the {grantedPower} power!");
 
-        // Unlock the power in the PlayerController or PlayerAbility system
+        StartCoroutine(InformPlayer());
         PlayerAbilities.Instance.UnlockPower(grantedPower);
+    }
+
+    private IEnumerator InformPlayer()
+    {
+        GameObject.Find("Player").GetComponent<PlayerController>().CanMove = false;
+
+        yield return new WaitForSeconds(5f);
+
+        switch (grantedPower)
+        {
+            case Power.Water:
+                PopUpManager.Instance.CreatePopUp("Power Unlocked", $"Press Left click to melee enemies with water");
+                break;
+            
+            case Power.Light:
+                PopUpManager.Instance.CreatePopUp("Power Unlocked", $"Press Left click to shoot enemies with light");
+                break;
+        }
+
+        yield return new WaitForSeconds(5f);
+
+        switch (grantedPower)
+        {
+            case Power.Water:
+                PopUpManager.Instance.CreatePopUp("Power Unlocked", $"Press Right click to grow plants");
+                break;
+
+            case Power.Light:
+                PopUpManager.Instance.CreatePopUp("Power Unlocked", $"Hold Right click to revitalize platforms");
+                break;
+        }
+
+
+        yield return new WaitForSeconds(5f);
+        PopUpManager.Instance.RemovePopUp();
+        GameObject.Find("Player").GetComponent<PlayerController>().CanMove = true;
     }
 }

@@ -344,7 +344,7 @@ public class PlayerController : MonoBehaviour
 
             Slide();
         }
-        else
+        else if (stickTimeCounter < 0)
         {
             canMove = true;
         }
