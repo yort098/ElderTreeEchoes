@@ -17,6 +17,11 @@ public class LeafPlatform : MonoBehaviour
         set { lightStrengthValue = value; }
     }
 
+    public bool IsGrown
+    {
+        get { return isGrown; }
+    }
+
     private void Awake()
     {
         collider = this.GetComponent<BoxCollider2D>();
