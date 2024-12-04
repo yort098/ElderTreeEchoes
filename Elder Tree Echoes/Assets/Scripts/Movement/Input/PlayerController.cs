@@ -344,7 +344,7 @@ public class PlayerController : MonoBehaviour
 
             Slide();
         }
-        else
+        else if (stickTimeCounter < 0)
         {
             canMove = true;
         }
@@ -356,8 +356,22 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     public bool IsGrounded()
     {
-        return Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0, groundLayer)
-            || Physics2D.OverlapCircle(groundCheck.position, 1, platformLayer);
+        // Check if on the ground
+        Collider2D colground;
+        if (colground = Physics2D.OverlapCircle(groundCheck.position, 0.05f, groundLayer))
+        {
+            return true;
+        }
+
+        // Check if on light platform
+        Collider2D colPlatform;
+        colPlatform = Physics2D.OverlapCircle(groundCheck.position, 0.05f, platformLayer);
+        if (colPlatform && colPlatform.gameObject.GetComponent<LeafPlatform>().IsGrown)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>

@@ -7,6 +7,7 @@ public class RopeMovement : MonoBehaviour
     private HingeJoint2D hj;
 
     public Vector2 pushForce = new Vector2(8f, 3f);
+    public Vector2 topForce = new Vector2(8f, 3f);
 
     public bool attached = false;
 
@@ -55,6 +56,7 @@ public class RopeMovement : MonoBehaviour
         }
         else if (direction < 0)
         {
+            Debug.Log(myConnection.connectedBelow);
             return myConnection.direction > 0 ? myConnection.connectedAbove : myConnection.connectedBelow;
         }
         return null;

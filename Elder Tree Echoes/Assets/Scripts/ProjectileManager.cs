@@ -27,7 +27,7 @@ public class ProjectileManager : MonoBehaviour
 
     public void GenerateLightAttack(Vector2 position, Vector2 mouseScreenLocation)
     {
-        if (GameManager.Instance.LightEnergy >= 8)
+        if (PlayerAbilities.Instance.LightEnergy >= 8)
         {
             GameObject shot = Instantiate(lightBullet, position, Quaternion.identity);
             shot.GetComponent<Projectile>().setDirectionMouse(mouseScreenLocation);
@@ -39,7 +39,7 @@ public class ProjectileManager : MonoBehaviour
 
     public void GenerateWaterShot(Vector2 position, Vector2 mouseScreenLocation)
     {
-        if (GameManager.Instance.WaterEnergy >= 8)
+        if (PlayerAbilities.Instance.WaterEnergy >= 8)
         {
             GameObject shot = Instantiate(waterShot, position, Quaternion.identity);
             shot.GetComponent<Projectile>().setDirectionMouse(mouseScreenLocation);

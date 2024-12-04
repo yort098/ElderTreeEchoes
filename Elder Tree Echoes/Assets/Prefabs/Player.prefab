@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2683662258778446464}
   - component: {fileID: 4446282845399529594}
   - component: {fileID: 8313307066876429159}
+  - component: {fileID: 7562666411323652536}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -39,7 +40,7 @@ Transform:
   - {fileID: 5823611579403519502}
   - {fileID: 2327533336303140007}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2140914141524426209
 SpriteRenderer:
@@ -79,8 +80,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1516489117
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 36b6bbcb012dc37409e5357edda0a13c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -198,6 +199,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 0f1cd0be-ac7d-4c62-9cb7-3dcf81fb04a1
     m_ActionName: Player/Secondary Attack[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1270489289, guid: fa6cd0532e0ee5944bace54b40d95dbb, type: 2}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnWallCling
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1f2db5e0-7bd8-4335-bf03-e39e4466d191
+    m_ActionName: Player/Wall Cling[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -216,10 +233,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementData: {fileID: 11400000, guid: ba41a4f4b364c1b4f83a626758d058eb, type: 2}
+  isDoor: 0
+  currentDoor: {fileID: 0}
+  animator: {fileID: 7562666411323652536}
   groundCheck: {fileID: 2868071422067603955}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  platformLayer:
+    serializedVersion: 2
+    m_Bits: 512
   frontWallCheck: {fileID: 5823611579403519502}
   wallLayer:
     serializedVersion: 2
@@ -282,10 +305,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 4446282845399529594}
-  pushForce: 10
-  attatched: 0
+  pushForce: {x: 8, y: 3}
+  topForce: {x: 8, y: 3}
+  attached: 0
   attatchedTo: {fileID: 0}
   disregard: {fileID: 0}
+  slideSpeed: 5
 --- !u!50 &4446282845399529594
 Rigidbody2D:
   serializedVersion: 4
@@ -338,6 +363,27 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 359
+--- !u!95 &7562666411323652536
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233440116401152959}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 06068fa01abed4c31919cfb5d2fa1f26, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3129877425884268856
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,7 +408,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3129877425884268856}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.35, y: 0.38, z: 0}
+  m_LocalPosition: {x: 0.35, y: 0.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -439,9 +485,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: -1516489117
+  m_SortingLayer: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -526,9 +572,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: -1516489117
+  m_SortingLayer: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b547c1ced07a77d45a5563c86b2f4800, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -555,10 +601,13 @@ MonoBehaviour:
   plantLayer:
     serializedVersion: 2
     m_Bits: 256
+  clicksToCycle: 2
+  cycleCooldown: 0.2
   whackCheck: {fileID: 3931765490563922729}
   orbArea: {fileID: 8515573121711791882}
   waterOrb: {fileID: 21300000, guid: 8b57bd53c04ec824bb197fc1f0b35cc3, type: 3}
   lightOrb: {fileID: 21300000, guid: 5113152dc2291ce4a9d2a5a6b3e436db, type: 3}
+  lightBeamPref: {fileID: 5544200982419263280, guid: 7b88876a675d0ac4982e38456dabcdd0, type: 3}
 --- !u!1 &7017808962934118861
 GameObject:
   m_ObjectHideFlags: 0
