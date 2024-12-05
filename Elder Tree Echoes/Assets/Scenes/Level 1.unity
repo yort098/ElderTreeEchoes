@@ -46352,8 +46352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 596dd07c98a49a74eba81a136dc9d9f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterPowerUnlocked: 1
-  lightPowerUnlocked: 1
+  waterPowerUnlocked: 0
+  lightPowerUnlocked: 0
   waterRegenRate: 6
   lightRegenRate: 6
 --- !u!1 &1373452794

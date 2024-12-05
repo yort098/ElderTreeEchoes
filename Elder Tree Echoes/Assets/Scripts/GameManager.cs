@@ -109,17 +109,7 @@ public class GameManager : MonoBehaviour, IDamageable
         player.GetComponent<PlayerController>().CanMove = true;
     }
 
-    public void DepleteEnergy(ProjectileType element, float amount)
-    {
-        if (element == ProjectileType.Water)
-        {
-            PlayerAbilities.Instance.WaterEnergy -= amount;
-        }
-        else
-        {
-            PlayerAbilities.Instance.LightEnergy -= amount;
-        }
-    }
+    
 
     // Update is called once per frame
     void Update()

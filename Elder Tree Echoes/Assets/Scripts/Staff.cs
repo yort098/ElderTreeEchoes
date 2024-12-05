@@ -5,16 +5,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// Represents each power that the staff can weild
-/// </summary>
-enum Power
-{
-    //Basic,
-    Water,
-    Light
-}
-
 public class Staff : MonoBehaviour
 {
     private Power power;
@@ -86,7 +76,7 @@ public class Staff : MonoBehaviour
         if (shineLight && PlayerAbilities.Instance.LightEnergy >= 0.15f)
         {
             lightBeam.IsShining = true;
-            GameManager.Instance.DepleteEnergy(ProjectileType.Light, 0.15f);
+            PlayerAbilities.Instance.DepleteEnergy(ProjectileType.Light, 0.15f);
         }
         // Make the beam invisible when not in use
         else if (lightBeam)
@@ -165,9 +155,9 @@ public class Staff : MonoBehaviour
                 case Power.Water:
                     // Whack
 
-                    if (GameManager.Instance.WaterEnergy >= 30.0f)
+                    if (PlayerAbilities.Instance.WaterEnergy >= 30.0f)
                     {
-                        GameManager.Instance.DepleteEnergy(ProjectileType.Water, 30.0f);
+                        PlayerAbilities.Instance.DepleteEnergy(ProjectileType.Water, 30.0f);
                         if (GameManager.Instance.Enemies.Length > 0)
                         {
                             //foreach (GameObject e in GameManager.Instance.Enemies)

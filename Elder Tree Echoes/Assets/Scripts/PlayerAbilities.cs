@@ -82,4 +82,16 @@ public class PlayerAbilities : MonoBehaviour
             _ => false
         };
     }
+
+    public void DepleteEnergy(ProjectileType element, float amount)
+    {
+        if (element == ProjectileType.Water)
+        {
+            PlayerAbilities.Instance.WaterEnergy -= amount;
+        }
+        else
+        {
+            PlayerAbilities.Instance.LightEnergy -= amount;
+        }
+    }
 }
