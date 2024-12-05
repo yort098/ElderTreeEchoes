@@ -41000,6 +41000,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3425779562353766358, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionId
+      value: cf720857-b2d6-409b-b7b5-9327d11ea600
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425779562353766358, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionName
+      value: Player/Switch Power[/Keyboard/1,/Keyboard/2]
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425779562353766358, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425779562353766358, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1270489285}
+    - target: {fileID: 3425779562353766358, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSwitchPower
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425779562353766358, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Staff, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3425779562353766358, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -41010,6 +41038,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 16323102540800480, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
   m_PrefabInstance: {fileID: 1270489283}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1270489285 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 993281212198970110, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
+  m_PrefabInstance: {fileID: 1270489283}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96f14c1f8a7af5a47be648525180be2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1276087173
 GameObject:
   m_ObjectHideFlags: 0

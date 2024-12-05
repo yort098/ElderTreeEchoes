@@ -132,6 +132,22 @@ public class Staff : MonoBehaviour
         }
     }
 
+    public void OnSwitchPower(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (Keyboard.current.digit1Key.IsPressed() && PlayerAbilities.Instance.IsPowerUnlocked(Power.Water))
+            {
+                power = Power.Water;
+            }
+            else if (Keyboard.current.digit2Key.IsPressed() && PlayerAbilities.Instance.IsPowerUnlocked(Power.Light))
+            {
+                power = Power.Light;
+            }
+        }
+       
+    }
+
     public void Attack(InputAction.CallbackContext context)
     {
         if (context.performed)

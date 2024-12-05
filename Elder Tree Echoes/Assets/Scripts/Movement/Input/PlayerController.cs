@@ -285,24 +285,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    /*public void OnWallCling(InputAction.CallbackContext context)
-    {
-        if (context.performed && IsOnWall() && !isWallJumping)
-        {
-            wallCling = true;
-
-            // Removes sliding
-            body.gravityScale = 0;
-            body.velocity = new Vector2(body.velocity.x, 0);
-        }
-
-        if (context.canceled)
-        {
-            body.gravityScale = movementData.gravityScale;
-            wallCling = false;
-        }
-    }*/
-
     void Update()
     {
         // Set up parameter to switch btw idle & running animation
