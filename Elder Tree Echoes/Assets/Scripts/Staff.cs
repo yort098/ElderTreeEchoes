@@ -83,7 +83,7 @@ public class Staff : MonoBehaviour
         }
 
         // Shine the beam and deplete staff's light energy if there's enough
-        if (shineLight && GameManager.Instance.LightEnergy >= 0.15f)
+        if (shineLight && PlayerAbilities.Instance.LightEnergy >= 0.15f)
         {
             lightBeam.IsShining = true;
             GameManager.Instance.DepleteEnergy(ProjectileType.Light, 0.15f);
