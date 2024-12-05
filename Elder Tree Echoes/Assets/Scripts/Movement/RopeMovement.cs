@@ -7,7 +7,7 @@ public class RopeMovement : MonoBehaviour
     private HingeJoint2D hj;
 
     public Vector2 pushForce = new Vector2(8f, 3f);
-    public Vector2 topForce = new Vector2(8f, 3f);
+    public Vector2 topForce = new Vector2(3f, 100f);
 
     public bool attached = false;
 
@@ -35,14 +35,33 @@ public class RopeMovement : MonoBehaviour
 
     public void Detatch()
     {
-        hj.connectedBody.gameObject.GetComponent<RopeSegment>().isPlayerAttatched = false;
+
+        RopeSegment connectedSegment = hj.connectedBody?.gameObject.GetComponent<RopeSegment>();
+        if (connectedSegment != null)
+        {
+            Debug.Log(connectedSegment.connectedAbove);
+            // Apply topForce if detaching from the top of a climbable rope
+            if (connectedSegment.direction > 0 && connectedSegment.connectedBelow == null) // Check if it's the top segment
+            {
+                Debug.Log("Applying top force!");
+                rb.velocity = Vector2.zero; // Reset velocity for consistency
+                rb.AddForce(new Vector2(0, topForce.y), ForceMode2D.Impulse);
+            }
+            else
+            {
+                rb.velocity = new Vector2(pushForce.x * transform.localScale.x, pushForce.y); // Default push force
+            }
+
+            connectedSegment.isPlayerAttatched = false;
+        }
+
         rb.gravityScale = GetComponent<PlayerController>().MovementData.gravityScale;
         attached = false;
 
         hj.enabled = false;
         hj.connectedBody = null;
 
-        disregard = attatchedTo.gameObject;
+        disregard = attatchedTo?.gameObject;
         attatchedTo = null;
 
         StartCoroutine(DetatchCooldown());
