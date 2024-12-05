@@ -12,22 +12,11 @@ public class Rope : Plant
 
     public PlayerController player;
 
-    public bool startsGrown = false;
-
     public int direction;
 
     private void Awake()
     {
         player = GameObject.Find("Player").GetComponent<PlayerController>();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (startsGrown)
-        {
-            GenerateRope();
-        }
-        
     }
 
     public void GenerateRope()
