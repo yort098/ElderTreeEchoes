@@ -285,8 +285,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    /*public void OnWallCling(InputAction.CallbackContext context)
+    void Update()
     {
+<<<<<<< HEAD
         if (context.performed && IsOnWall() && !isWallJumping)
         {
             wallCling = true;
@@ -305,6 +306,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+=======
+>>>>>>> 08dd7ad6ed649e2db070f261f9e02e6e81373ef5
         // Set up parameter to switch btw idle & running animation
         animator.SetFloat("Speed", Mathf.Abs(body.velocity.x));
 
@@ -328,7 +331,9 @@ public class PlayerController : MonoBehaviour
             //Debug.Log(coyoteTimeCounter);
             coyoteTimeCounter = movementData.coyoteTime;
         }
+        
 
+<<<<<<< HEAD
         // Making sure the player "affixes" to the wall
         if (IsOnWall() && !isWallJumping)
         {
@@ -362,11 +367,15 @@ public class PlayerController : MonoBehaviour
             Flip();
         }
             coyoteTimeCounter = movementData.coyoteTime;
+=======
+        coyoteTimeCounter -= Time.deltaTime;
+
+        if (!IsOnWall())
+        {
+            stickTimeCounter -= Time.deltaTime;
+>>>>>>> 08dd7ad6ed649e2db070f261f9e02e6e81373ef5
         }
         
-
-        coyoteTimeCounter -= Time.deltaTime;
-        //stickTimeCounter -= Time.deltaTime;
 
     }
 
@@ -380,7 +389,7 @@ public class PlayerController : MonoBehaviour
 
             Slide();
         }
-        else
+        else if (stickTimeCounter < 0)
         {
             canMove = true;
         }
@@ -392,8 +401,22 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     public bool IsGrounded()
     {
-        return Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0, groundLayer)
-            || Physics2D.OverlapCircle(groundCheck.position, 1, platformLayer);
+        // Check if on the ground
+        Collider2D colground;
+        if (colground = Physics2D.OverlapCircle(groundCheck.position, 0.05f, groundLayer))
+        {
+            return true;
+        }
+
+        // Check if on light platform
+        Collider2D colPlatform;
+        colPlatform = Physics2D.OverlapCircle(groundCheck.position, 0.05f, platformLayer);
+        if (colPlatform && colPlatform.gameObject.GetComponent<LeafPlatform>().IsGrown)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>

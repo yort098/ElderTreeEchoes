@@ -19,7 +19,6 @@ public class RopeSegment : MonoBehaviour
         {
             aboveSegment.connectedBelow = gameObject;
 
-            //Debug.Log(direction);
             if (direction < 0)
             {
                
@@ -38,7 +37,7 @@ public class RopeSegment : MonoBehaviour
         }
         else
         {
-            GetComponent<HingeJoint2D>().connectedAnchor = new Vector2(0, GetComponent<SpriteRenderer>().bounds.size.y/2);
+            GetComponent<HingeJoint2D>().connectedAnchor = new Vector2(0, 0);
         }    
     }
 

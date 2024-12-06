@@ -6,16 +6,17 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour, IDamageable
 {
     private static GameManager instance;
-    private float waterEnergy = 100;
-    private float lightEnergy = 100;
+
     private float invincibilityTime = 1.5f;
     private bool invincible = false;
+
+    private Coroutine invincibility;
 
     GameObject player;
 
     public int currLevel = 1;
     private float currLevelPercent = 0;
-    private int totalCheckpoints;
+    public int totalCheckpoints;
     public int checkpoints;
 
 
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour, IDamageable
 
     [SerializeField]
     Text percentageDisplay;
+
 
     public GameObject[] Enemies
     {
@@ -59,16 +61,6 @@ public class GameManager : MonoBehaviour, IDamageable
         player = GameObject.Find("Player");
     }
 
-    public float WaterEnergy
-    {
-        get { return waterEnergy; }
-    }
-
-    public float LightEnergy
-    {
-        get { return lightEnergy; }
-    }
-
     public float MaxHealth { get; set; }
     public float CurrentHealth { get; set; }
 
@@ -79,10 +71,10 @@ public class GameManager : MonoBehaviour, IDamageable
         CurrentHealth = MaxHealth;
         healthBar.value = MaxHealth;
 
-        waterMeter.value = waterEnergy;
-        lightMeter.value = lightEnergy;
+        waterMeter.value = 0;
+        lightMeter.value = 0;
 
-        percentageDisplay.text = currLevelPercent + "%";
+        percentageDisplay.text = "Tree Roots Restored: " + currLevelPercent + "%";
     }
 
     public IEnumerator InvincibilityTimer()
@@ -108,7 +100,7 @@ public class GameManager : MonoBehaviour, IDamageable
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
         elapsedTime = 0;
         sp.color = colors[1];
-
+        invincibility = null;
 
     }
 
@@ -117,36 +109,18 @@ public class GameManager : MonoBehaviour, IDamageable
         player.GetComponent<PlayerController>().CanMove = true;
     }
 
-    public void DepleteEnergy(ProjectileType element, float amount)
-    {
-        if (element == ProjectileType.Water)
-        {
-            waterEnergy -= amount;
-        }
-        else
-        {
-            lightEnergy -= amount;
-        }
-    }
+    
 
     // Update is called once per frame
     void Update()
     {
-        waterMeter.value = waterEnergy;
-        lightMeter.value = lightEnergy;
+        waterMeter.value = PlayerAbilities.Instance.WaterEnergy;
+        lightMeter.value = PlayerAbilities.Instance.LightEnergy;
 
+        Debug.Log("num checkpoints: " + checkpoints + " total num checkpoints: " + totalCheckpoints);
         currLevelPercent = ((float)checkpoints / (float)totalCheckpoints) * 100;
-        percentageDisplay.text = Mathf.RoundToInt(currLevelPercent) + "%";
-
-        if (waterEnergy < 100)
-        {
-            waterEnergy += 12.0f * Time.deltaTime;
-        }
-
-        if (lightEnergy < 100)
-        {
-            lightEnergy += 12.0f * Time.deltaTime;
-        }
+        percentageDisplay.text = "Tree Roots Restored: " + Mathf.RoundToInt(currLevelPercent) + "%";
+        
     }
 
     public void Damage(float amount)
@@ -184,10 +158,14 @@ public class GameManager : MonoBehaviour, IDamageable
             Die();
         }
 
-        StartCoroutine(GameManager.Instance.InvincibilityTimer());    
+        if (invincibility == null)
+        {
+            invincibility = StartCoroutine(InvincibilityTimer());
+        }
+         
     }
 
-    public void Progress()
+    public void NewCheckpoint()
     {
         checkpoints++;
     }

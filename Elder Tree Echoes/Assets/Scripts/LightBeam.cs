@@ -9,6 +9,13 @@ public class LightBeam : MonoBehaviour
     private GameObject staffOrb;
     private SpriteRenderer spriteRend;
     private bool affectPlatform = false;
+    private bool isShining = false;
+
+    public bool IsShining
+    {
+        get { return isShining; }
+        set { isShining = value; }
+    }
 
     private void Awake()
     {
@@ -28,7 +35,28 @@ public class LightBeam : MonoBehaviour
     {
         transform.position = staffOrb.transform.position;
 
-        
+        if (isShining)
+        {
+            // Show beam
+            spriteRend.enabled = true;
+            affectPlatform = true;
+
+            // Get directional vector between mouse and staff orb
+            Vector2 mouse = Mouse.current.position.ReadValue();
+            Vector3 startPos = new Vector2(transform.position.x, transform.position.y);
+            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouse);
+            Vector2 direction = mouseWorldPosition - startPos;
+            direction.Normalize();
+
+            // Determine the angle between the mouse and orb, and use it to determine the beam's rotation/orientation
+            float rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, rotationAngle);
+        }
+        else
+        {
+            spriteRend.enabled = false;
+            affectPlatform = false;
+        }
     }
 
     public void OnCollisionStay2D(Collision2D collision)
@@ -36,7 +64,7 @@ public class LightBeam : MonoBehaviour
         if (collision.gameObject.CompareTag("Platform") && affectPlatform)
         {
             //Debug.Log("STRENGTH" + collision.gameObject.name);
-            collision.gameObject.GetComponent<LeafPlatform>().LightStrengthValue += 40f * Time.deltaTime;
+            collision.gameObject.GetComponent<LeafPlatform>().LightStrengthValue += 100f * Time.deltaTime;
         }
     }
 

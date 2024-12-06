@@ -1,18 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-/// <summary>
-/// Represents each power that the staff can weild
-/// </summary>
-enum Power
-{
-    Basic,
-    Water,
-    Light
-}
 
 public class Staff : MonoBehaviour
 {
@@ -20,6 +11,9 @@ public class Staff : MonoBehaviour
 
     [SerializeField]
     LayerMask plantLayer;
+
+    [SerializeField]
+    LayerMask enemyLayer;
 
     [SerializeField]
     float clicksToCycle = 3.5f;
@@ -30,8 +24,6 @@ public class Staff : MonoBehaviour
     const float mouseCycleSpeed = 120;
     float cycleTimer;
     float mouseCycles;
-    
-
 
     private ProjectileManager projManager;
     //private LightBeam lightBeam;
@@ -55,12 +47,12 @@ public class Staff : MonoBehaviour
     private void Awake()
     {
         projManager = GameObject.Find("ProjectileManager").GetComponent<ProjectileManager>();
-        lightBeam = GameObject.Find("LightBeam").GetComponent<LightBeam>();
+        //lightBeam = GameObject.Find("LightBeam").GetComponent<LightBeam>();
     }
     // Start is called before the first frame update
     void Start()
     {
-        power = Power.Basic;
+        power = Power.Water;
         cycleTimer = cycleCooldown;
     }
 
@@ -78,22 +70,18 @@ public class Staff : MonoBehaviour
             case Power.Light:
                 orbArea.sprite = lightOrb; // Yellow for light
                 break;
-
-            default:
-                orbArea.sprite = null; // White for basic
-                break;
         }
 
         // Shine the beam and deplete staff's light energy if there's enough
-        if (shineLight && GameManager.Instance.LightEnergy >= 0.15f)
+        if (shineLight && PlayerAbilities.Instance.LightEnergy >= 0.15f)
         {
-            lightBeam.Shine();
-            GameManager.Instance.DepleteEnergy(ProjectileType.Light, 0.05f);
+            lightBeam.IsShining = true;
+            PlayerAbilities.Instance.DepleteEnergy(ProjectileType.Light, 0.15f);
         }
         // Make the beam invisible when not in use
         else if (lightBeam)
         {
-            lightBeam.StopShining();
+            lightBeam.IsShining = false;
         }
 
         if (cycleTimer <= 0)
@@ -123,7 +111,7 @@ public class Staff : MonoBehaviour
                 // Loops back around when the number gets out of range
                 if (power > Power.Light)
                 {
-                    power = Power.Basic;
+                    power = Power.Water;
                 }
 
             }
@@ -132,7 +120,7 @@ public class Staff : MonoBehaviour
                 power--;
 
                 // Loops back around when the number gets out of range
-                if (power < Power.Basic)
+                if (power < Power.Water)
                 {
                     power = Power.Light;
                 }
@@ -142,31 +130,51 @@ public class Staff : MonoBehaviour
         }
     }
 
+    public void OnSwitchPower(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (Keyboard.current.digit1Key.IsPressed() && PlayerAbilities.Instance.IsPowerUnlocked(Power.Water))
+            {
+                power = Power.Water;
+            }
+            else if (Keyboard.current.digit2Key.IsPressed() && PlayerAbilities.Instance.IsPowerUnlocked(Power.Light))
+            {
+                power = Power.Light;
+            }
+        }
+       
+    }
+
     public void Attack(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
             switch (power)
             {
-                case Power.Basic:
+                case Power.Water:
                     // Whack
 
-                    // Temporarily disable until staff animations are ready
-                    //if (GameManager.Instance.Enemies.Length > 0)
-                    //{
-                    //    foreach (GameObject e in GameManager.Instance.Enemies)
-                    //    {
-                    //        if (whackRange.IsTouching(e.GetComponent<BoxCollider2D>()))
-                    //        {
-                    //            e.GetComponent<EnemyScript>().TakeDamage(5);
-                    //        }
-                    //    }
-                        
-                    //}
-                    break;
-
-                case Power.Water:
-                    // Uproot
+                    if (PlayerAbilities.Instance.WaterEnergy >= 30.0f)
+                    {
+                        PlayerAbilities.Instance.DepleteEnergy(ProjectileType.Water, 30.0f);
+                        if (GameManager.Instance.Enemies.Length > 0)
+                        {
+                            //foreach (GameObject e in GameManager.Instance.Enemies)
+                            //{
+                            Collider2D col;
+                            if (col = Physics2D.OverlapCircle(whackCheck.position, 1.0f, enemyLayer))
+                            {
+                                col.GetComponent<EnemyScript>().Damage(5);
+                            }
+                            //if (whackCheck.IsTouching(e.GetComponent<BoxCollider2D>()))
+                            //{
+                            //    e.GetComponent<EnemyScript>().Damage(5);
+                            //}
+                            //}
+                            //colPlatform = Physics2D.OverlapCircle(groundCheck.position, 0.05f, platformLayer);
+                        }
+                    }
                     break;
 
                 case Power.Light:
@@ -188,10 +196,6 @@ public class Staff : MonoBehaviour
         {
             switch (power)
             {
-                case Power.Basic:
-                    // Do something
-                    break;
-
                 case Power.Water:
                     // Grow
 
@@ -204,16 +208,17 @@ public class Staff : MonoBehaviour
 
                     // Beam will continuously shine on mouse press hold until released
                     shineLight = context.control.IsPressed();
+                    lightBeam = Instantiate(lightBeamPref).GetComponent<LightBeam>();
 
                     break;
             }
-            
         }
 
         // Stop shining upon mouse release
         if (context.canceled && power == Power.Light)
         {
             shineLight = context.control.IsPressed();
+            Destroy(lightBeam.gameObject);
         }
     }
 }

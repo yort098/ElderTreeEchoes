@@ -113,7 +113,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!233 &6055245243740533125
 HingeJoint2D:
@@ -124,7 +124,7 @@ HingeJoint2D:
   m_GameObject: {fileID: 4492519433784257076}
   m_Enabled: 1
   serializedVersion: 4
-  m_EnableCollision: 1
+  m_EnableCollision: 0
   m_ConnectedRigidBody: {fileID: 0}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
@@ -134,12 +134,12 @@ HingeJoint2D:
   m_ConnectedAnchor: {x: 0, y: 0}
   m_UseMotor: 0
   m_Motor:
-    m_MotorSpeed: 0
-    m_MaximumMotorForce: 10000
+    m_MotorSpeed: 100
+    m_MaximumMotorForce: 100
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 30
-    m_UpperAngle: -30
+    m_LowerAngle: -45
+    m_UpperAngle: 45
 --- !u!70 &8147153146324878674
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
