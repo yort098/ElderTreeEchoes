@@ -72,8 +72,10 @@ public class Shrine : MonoBehaviour
         }
         else if (grantedPower == Power.Light)
         {
-            Debug.Log("nope not happening");
-            PopUpManager.Instance.CreatePopUp("Restriction", "This is locked lmao");
+            //Debug.Log("nope not happening");
+            //PopUpManager.Instance.CreatePopUp("Restriction", "This is locked lmao");
+            PopUpManager.Instance.CreatePopUp("Power Unlocked", $"You have unlocked the {grantedPower} power!");
+            PlayerAbilities.Instance.UnlockPower(grantedPower);
         }    
     }
 

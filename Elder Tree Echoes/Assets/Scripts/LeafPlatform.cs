@@ -10,6 +10,7 @@ public class LeafPlatform : MonoBehaviour
     SpriteRenderer sR;
     private float lightStrengthValue = 0;
     private bool isGrown = false;
+    private bool weakBranch = false;
 
     public float LightStrengthValue
     {
@@ -39,13 +40,22 @@ public class LeafPlatform : MonoBehaviour
         
         if (lightStrengthValue >= 65)
         {
+            weakBranch = false;
+
+            if (lightStrengthValue <= 70)
+            {
+                weakBranch = true;
+            }
+
             collider.excludeLayers = LayerMask.GetMask("Nothing");
             isGrown = true;
+
         }
         else if (lightStrengthValue < 65)
         {
             collider.excludeLayers = LayerMask.GetMask("Player", "Enemy");
             isGrown = false;
+            weakBranch = false;
         }
 
         if (lightStrengthValue > 100)
@@ -62,9 +72,13 @@ public class LeafPlatform : MonoBehaviour
 
         //Debug.Log(lightStrengthValue);
 
-        if (isGrown)
+        if (isGrown && !weakBranch)
         {
-            sR.color = new Color(0.0f, 0.4f, 0.2f, 0.3f + lightStrengthValue * 0.007f);
+            sR.color = new Color(0.0f, 0.6f, 0.3f, 0.3f + lightStrengthValue * 0.007f);
+        }
+        else if (isGrown && weakBranch)
+        {
+            sR.color = new Color(0.5f, 0.05f, 0.05f, 0.0f + lightStrengthValue * 0.01f);
         }
         else
         {

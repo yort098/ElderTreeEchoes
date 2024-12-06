@@ -73,10 +73,10 @@ public class Staff : MonoBehaviour
         }
 
         // Shine the beam and deplete staff's light energy if there's enough
-        if (shineLight && PlayerAbilities.Instance.LightEnergy >= 0.15f)
+        if (shineLight && PlayerAbilities.Instance.LightEnergy >= 0.04f)
         {
             lightBeam.IsShining = true;
-            PlayerAbilities.Instance.DepleteEnergy(ProjectileType.Light, 0.15f);
+            PlayerAbilities.Instance.DepleteEnergy(ProjectileType.Light, 0.04f);
         }
         // Make the beam invisible when not in use
         else if (lightBeam)
@@ -168,26 +168,19 @@ public class Staff : MonoBehaviour
             switch (power)
             {
                 case Power.Water:
-                    // Whack
+                    // Whack Attack
 
+                    // Will involve code to trigger animation cycle later
                     if (PlayerAbilities.Instance.WaterEnergy >= 30.0f)
                     {
                         PlayerAbilities.Instance.DepleteEnergy(ProjectileType.Water, 30.0f);
                         if (GameManager.Instance.Enemies.Length > 0)
                         {
-                            //foreach (GameObject e in GameManager.Instance.Enemies)
-                            //{
                             Collider2D col;
                             if (col = Physics2D.OverlapCircle(whackCheck.position, 1.0f, enemyLayer))
                             {
                                 col.GetComponent<EnemyScript>().Damage(5);
                             }
-                            //if (whackCheck.IsTouching(e.GetComponent<BoxCollider2D>()))
-                            //{
-                            //    e.GetComponent<EnemyScript>().Damage(5);
-                            //}
-                            //}
-                            //colPlatform = Physics2D.OverlapCircle(groundCheck.position, 0.05f, platformLayer);
                         }
                     }
                     break;
