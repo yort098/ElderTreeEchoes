@@ -287,9 +287,31 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+<<<<<<< HEAD
+=======
+        if (context.performed && IsOnWall() && !isWallJumping)
+        {
+            wallCling = true;
+
+            // Removes sliding
+            body.gravityScale = 0;
+            body.velocity = new Vector2(body.velocity.x, 0);
+        }
+
+        if (context.canceled)
+        {
+            body.gravityScale = movementData.gravityScale;
+            wallCling = false;
+        }
+    }*/
+
+    void Update()
+    {
+>>>>>>> main
         // Set up parameter to switch btw idle & running animation
         animator.SetFloat("Speed", Mathf.Abs(body.velocity.x));
 
+        //Debug.Log(wallCling);
         StateMachine.CurrentState.FrameUpdate();
         // Slightly increases gravity on descent
         if (body.velocity.y < 0) // falling
@@ -311,11 +333,47 @@ public class PlayerController : MonoBehaviour
         }
         
 
+<<<<<<< HEAD
         coyoteTimeCounter -= Time.deltaTime;
 
         if (!IsOnWall())
         {
             stickTimeCounter -= Time.deltaTime;
+=======
+        // Making sure the player "affixes" to the wall
+        if (IsOnWall() && !isWallJumping)
+        {
+            // Set the animator to the still of the character wall clinging 
+            animator.SetBool("IsWallClinging", true); 
+            
+            wallCling = true;
+            
+            // Removes sliding
+            body.gravityScale = 0;
+            body.velocity = new Vector2(body.velocity.x, 0);
+        }
+        else
+        {
+            // Disable character cling & animate normally
+            animator.SetBool("IsWallClinging", false); 
+
+            body.gravityScale = movementData.gravityScale;
+            wallCling = false;
+        }
+
+
+        // Changing the direction the character is facing
+        // based on the direction the player is moving
+        if (!isFacingRight && direction.x > 0f)
+        {
+            Flip();
+        }
+        else if (isFacingRight && direction.x < 0f)
+        {
+            Flip();
+        }
+            coyoteTimeCounter = movementData.coyoteTime;
+>>>>>>> main
         }
         
 
