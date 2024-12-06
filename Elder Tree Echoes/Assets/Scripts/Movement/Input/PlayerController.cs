@@ -288,6 +288,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 <<<<<<< HEAD
+=======
         if (context.performed && IsOnWall() && !isWallJumping)
         {
             wallCling = true;
@@ -306,8 +307,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-=======
->>>>>>> 08dd7ad6ed649e2db070f261f9e02e6e81373ef5
+>>>>>>> main
         // Set up parameter to switch btw idle & running animation
         animator.SetFloat("Speed", Mathf.Abs(body.velocity.x));
 
@@ -334,6 +334,12 @@ public class PlayerController : MonoBehaviour
         
 
 <<<<<<< HEAD
+        coyoteTimeCounter -= Time.deltaTime;
+
+        if (!IsOnWall())
+        {
+            stickTimeCounter -= Time.deltaTime;
+=======
         // Making sure the player "affixes" to the wall
         if (IsOnWall() && !isWallJumping)
         {
@@ -367,13 +373,7 @@ public class PlayerController : MonoBehaviour
             Flip();
         }
             coyoteTimeCounter = movementData.coyoteTime;
-=======
-        coyoteTimeCounter -= Time.deltaTime;
-
-        if (!IsOnWall())
-        {
-            stickTimeCounter -= Time.deltaTime;
->>>>>>> 08dd7ad6ed649e2db070f261f9e02e6e81373ef5
+>>>>>>> main
         }
         
 
