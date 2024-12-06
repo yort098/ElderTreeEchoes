@@ -73,10 +73,10 @@ public class Staff : MonoBehaviour
         }
 
         // Shine the beam and deplete staff's light energy if there's enough
-        if (shineLight && PlayerAbilities.Instance.LightEnergy >= 0.04f)
+        if (shineLight && PlayerAbilities.Instance.LightEnergy >= 0.1f)
         {
             lightBeam.IsShining = true;
-            PlayerAbilities.Instance.DepleteEnergy(ProjectileType.Light, 0.04f);
+            PlayerAbilities.Instance.DepleteEnergy(ProjectileType.Light, 16.0f * Time.deltaTime);
         }
         // Make the beam invisible when not in use
         else if (lightBeam)
