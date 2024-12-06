@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PopUpSpawner : MonoBehaviour
@@ -8,6 +9,8 @@ public class PopUpSpawner : MonoBehaviour
     [SerializeField] private string popUpName;
     [SerializeField] private string popUpDescription;
     [SerializeField] private ActionType requiredAction; // Enum for specifying the action
+    [SerializeField] KeyCode requiredKey;
+    [SerializeField] MouseButton requiredMouseInput;
     private bool popUpDisplayed = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -42,7 +45,15 @@ public class PopUpSpawner : MonoBehaviour
                 return Input.GetKeyDown(KeyCode.Space);
 
             case ActionType.Interact:
-                return Input.GetKeyDown(KeyCode.E);
+                if (requiredKey != KeyCode.None)
+                {
+                    return Input.GetKeyDown(requiredKey);
+                }
+                else
+                {
+                    return Input.GetMouseButtonDown((int)requiredMouseInput);
+                }
+                
             
             case ActionType.Traverse:
                 return Input.GetKeyDown(KeyCode.W);

@@ -31,10 +31,15 @@ public class Shrine : MonoBehaviour
 
     private void Update()
     {
-        if (isPlayerNearby && Input.GetKeyDown(interactionKey) && !powerGranted)
+        if (isPlayerNearby && Input.GetKeyDown(interactionKey) && !powerGranted && grantedPower != Power.None)
         {
             PopUpManager.Instance.RemovePopUp();
             GrantPower();
+        }
+
+        if (grantedPower == Power.None && !powerGranted && isPlayerNearby && Input.GetKeyDown(interactionKey))
+        {
+            NextLevel();
         }
 
         if (isPlayerNearby && !PopUpManager.Instance.popUpOnScreen && !powerGranted)
@@ -43,15 +48,33 @@ public class Shrine : MonoBehaviour
         }
     }
 
+    public void NextLevel()
+    {
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.shrineComplete);
+        GameManager.Instance.currLevel++;
+        PopUpManager.Instance.RemovePopUp();
+        powerGranted = true;
+    }
+
     private void GrantPower()
     {
-        powerGranted = true;
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.abilityGained);
+        Debug.Log(GameManager.Instance.currLevel);
+        if (grantedPower == Power.Water || GameManager.Instance.currLevel == 2)
+        {
+            powerGranted = true;
 
-        // Notify the player of the new power
-        PopUpManager.Instance.CreatePopUp("Power Unlocked", $"You have unlocked the {grantedPower} power!");
+            // Notify the player of the new power
+            PopUpManager.Instance.CreatePopUp("Power Unlocked", $"You have unlocked the {grantedPower} power!");
 
-        StartCoroutine(InformPlayer());
-        PlayerAbilities.Instance.UnlockPower(grantedPower);
+            StartCoroutine(InformPlayer());
+            PlayerAbilities.Instance.UnlockPower(grantedPower);
+        }
+        else if (grantedPower == Power.Light)
+        {
+            Debug.Log("nope not happening");
+            PopUpManager.Instance.CreatePopUp("Restriction", "This is locked lmao");
+        }    
     }
 
     private IEnumerator InformPlayer()

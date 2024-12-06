@@ -200,21 +200,9 @@ MonoBehaviour:
     m_ActionId: 0f1cd0be-ac7d-4c62-9cb7-3dcf81fb04a1
     m_ActionName: Player/Secondary Attack[/Mouse/rightButton]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1270489289, guid: fa6cd0532e0ee5944bace54b40d95dbb, type: 2}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnWallCling
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 1f2db5e0-7bd8-4335-bf03-e39e4466d191
-    m_ActionName: Player/Wall Cling[/Keyboard/e]
+      m_Calls: []
+    m_ActionId: cf720857-b2d6-409b-b7b5-9327d11ea600
+    m_ActionName: Player/Switch Power[/Keyboard/1,/Keyboard/2]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -601,6 +589,9 @@ MonoBehaviour:
   plantLayer:
     serializedVersion: 2
     m_Bits: 256
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
   clicksToCycle: 2
   cycleCooldown: 0.2
   whackCheck: {fileID: 3931765490563922729}

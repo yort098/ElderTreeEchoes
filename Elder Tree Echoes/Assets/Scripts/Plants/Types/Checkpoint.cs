@@ -28,7 +28,7 @@ public class Checkpoint : Plant
 
         if (countsTowardProgress)
         {
-            GameManager.Instance.Progress();
+            GameManager.Instance.NewCheckpoint();
         }
         
 

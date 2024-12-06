@@ -312,7 +312,12 @@ public class PlayerController : MonoBehaviour
         
 
         coyoteTimeCounter -= Time.deltaTime;
-        //stickTimeCounter -= Time.deltaTime;
+
+        if (!IsOnWall())
+        {
+            stickTimeCounter -= Time.deltaTime;
+        }
+        
 
     }
 

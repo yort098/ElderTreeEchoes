@@ -51,12 +51,12 @@ MonoBehaviour:
   growthSpeed: 0
   growth: {x: 0, y: 0}
   upTime: 0
+  startsGrown: 0
   hook: {fileID: 5064511430802590526}
   prefabRopeSeg: {fileID: 4492519433784257076, guid: e3bc4338c12063346ba9a112a73c181f, type: 3}
   numSegments: 10
   top: {fileID: 0}
   player: {fileID: 0}
-  startsGrown: 0
   direction: 1
 --- !u!212 &7900132910198233185
 SpriteRenderer:

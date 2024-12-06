@@ -8,9 +8,9 @@ using UnityEngine;
 /// </summary>
 public enum Power
 {
-    Basic,
     Water,
-    Light
+    Light,
+    None,
 
 }
 public class PlayerAbilities : MonoBehaviour

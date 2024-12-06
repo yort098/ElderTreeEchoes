@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour, IDamageable
          
     }
 
-    public void Progress()
+    public void NewCheckpoint()
     {
         checkpoints++;
     }

@@ -137,12 +137,12 @@ MonoBehaviour:
   growthSpeed: 0
   growth: {x: 0, y: 0}
   upTime: 0
+  startsGrown: 0
   hook: {fileID: 6022986857538914416}
   prefabRopeSeg: {fileID: 4492519433784257076, guid: 686f5f7c6b779b94daaeaad9efa402b7, type: 3}
   numSegments: 4
   top: {fileID: 0}
   player: {fileID: 0}
-  startsGrown: 0
   direction: -1
 --- !u!114 &7786119722999098466
 MonoBehaviour:
@@ -160,6 +160,7 @@ MonoBehaviour:
   growthSpeed: 0
   growth: {x: 0, y: 0}
   upTime: 0
+  startsGrown: 0
 --- !u!212 &1539170464744004925
 SpriteRenderer:
   m_ObjectHideFlags: 0

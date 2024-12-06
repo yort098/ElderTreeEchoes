@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource sfxSource;
 
     public AudioClip menuTrack;
+    public AudioClip shrineComplete;
+    public AudioClip abilityGained;
 
     private void Awake()
     {
@@ -39,6 +41,13 @@ public class AudioManager : MonoBehaviour
             musicSource.volume = Mathf.Lerp(startVolume, 0, time / duration);
             yield return null;
         }
+    }
+
+    public void PlaySFX(AudioClip sfx)
+    {
+        sfxSource.clip = sfx;
+        sfxSource.Play();
+        sfxSource.loop = false;
     }
 
     public void StartFadeOut(float duration)
