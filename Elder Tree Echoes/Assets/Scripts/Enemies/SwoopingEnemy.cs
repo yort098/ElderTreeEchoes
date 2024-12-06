@@ -18,6 +18,9 @@ public class SwoopingEnemy : EnemyScript
     protected override void Start()
     {
         base.Start();
+        endX = startX + 3;
+        hardEnd1 = -100;
+        hardEnd2 = 100;
         startY = body.position.y;
         endY = startY + 2;
         isSwooping = false;
@@ -25,18 +28,27 @@ public class SwoopingEnemy : EnemyScript
 
     protected override void Move()
     {
-        endY = player.transform.position.y + 1;
         distance = Vector2.Distance(body.transform.position, player.transform.position);
         body.velocity = new Vector3(direction.x * attributes.speed, direction.y * attributes.speed);
         if (body.position.y > startY)
         {
             direction.y = 0;
         }
+        //If the enemy is not in range, have it patrol
+        if (body.position.x > endX && !isSwooping)
+        {
+            direction.x = -1;
+        }
+        else if (body.position.x < startX && !isSwooping)
+        {
+            direction.x = 1; ;
+        }
         //Have the enemy move towards the player if they are in range
         else if (distance <= 4 && !isSwooping)
         {
             isSwooping = true;
             direction.y = -1;
+            endY = player.transform.position.y + 1;
             if (player.transform.position.x < body.position.x)
             {
                 direction.x = -1;
@@ -52,7 +64,7 @@ public class SwoopingEnemy : EnemyScript
             {
                 direction.y = 1;
             }
-            else if (body.position.y > startY)
+            else if (body.position.y >= startY)
             {
                 isSwooping = false;
             }
@@ -61,15 +73,6 @@ public class SwoopingEnemy : EnemyScript
         else if (body.position.y < startY)
         {
             direction.y = 1;
-        }
-        //If the enemy is not in range, have it patrol
-        if (body.position.x > endX && !isSwooping)
-        {
-            direction.x = -1;
-        }
-        else if (body.position.x < startX && !isSwooping)
-        {
-            direction.x = 1; ;
         }
     }
 
