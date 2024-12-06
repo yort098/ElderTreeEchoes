@@ -94,6 +94,17 @@ public class Staff : MonoBehaviour
 
     public void CyclePower(InputAction.CallbackContext context)
     {
+
+        if (power == Power.Water && !PlayerAbilities.Instance.IsPowerUnlocked(Power.Light))
+        {
+            return;
+        }
+
+        if (!PlayerAbilities.Instance.IsPowerUnlocked(Power.Water))
+        {
+            return;
+        }
+
         cycleTimer = cycleCooldown;
 
         if (context.performed)
@@ -101,11 +112,15 @@ public class Staff : MonoBehaviour
             mouseCycles += mouseCycleSpeed;
         }
 
+        
+
         if (mouseCycles >= clicksToCycle * mouseCycleSpeed)
         {
             // Cycles between each weapon type // Only happens when the button is initially pressed
             if (context.ReadValue<float>() < 0)
             {
+                
+
                 power++;
 
                 // Loops back around when the number gets out of range
