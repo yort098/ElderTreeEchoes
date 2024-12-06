@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour, IDamageable
 
     public int currLevel = 1;
     private float currLevelPercent = 0;
-    private int totalCheckpoints;
+    public int totalCheckpoints;
     public int checkpoints;
 
 
@@ -109,17 +109,7 @@ public class GameManager : MonoBehaviour, IDamageable
         player.GetComponent<PlayerController>().CanMove = true;
     }
 
-    public void DepleteEnergy(ProjectileType element, float amount)
-    {
-        if (element == ProjectileType.Water)
-        {
-            PlayerAbilities.Instance.WaterEnergy -= amount;
-        }
-        else
-        {
-            PlayerAbilities.Instance.LightEnergy -= amount;
-        }
-    }
+    
 
     // Update is called once per frame
     void Update()
@@ -127,6 +117,7 @@ public class GameManager : MonoBehaviour, IDamageable
         waterMeter.value = PlayerAbilities.Instance.WaterEnergy;
         lightMeter.value = PlayerAbilities.Instance.LightEnergy;
 
+        Debug.Log("num checkpoints: " + checkpoints + " total num checkpoints: " + totalCheckpoints);
         currLevelPercent = ((float)checkpoints / (float)totalCheckpoints) * 100;
         percentageDisplay.text = "Tree Roots Restored: " + Mathf.RoundToInt(currLevelPercent) + "%";
         

@@ -33,7 +33,7 @@ public class ProjectileManager : MonoBehaviour
             shot.GetComponent<Projectile>().setDirectionMouse(mouseScreenLocation);
             shot.GetComponent<Projectile>().Fire();
             lightShots.Add(shot);
-            GameManager.Instance.DepleteEnergy(ProjectileType.Light, 8);
+            PlayerAbilities.Instance.DepleteEnergy(ProjectileType.Light, 8);
         }
     }
 
@@ -45,7 +45,7 @@ public class ProjectileManager : MonoBehaviour
             shot.GetComponent<Projectile>().setDirectionMouse(mouseScreenLocation);
             shot.GetComponent<Projectile>().Fire();
             waterShots.Add(shot);
-            GameManager.Instance.DepleteEnergy(ProjectileType.Water, 8);
+            PlayerAbilities.Instance.DepleteEnergy(ProjectileType.Water, 8);
         }
     }
 }

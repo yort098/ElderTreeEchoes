@@ -51,9 +51,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Wall Cling",
+                    "name": "Switch Power",
                     "type": "Button",
-                    "id": "1f2db5e0-7bd8-4335-bf03-e39e4466d191",
+                    "id": "cf720857-b2d6-409b-b7b5-9327d11ea600",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -206,23 +206,34 @@
                 },
                 {
                     "name": "",
-                    "id": "acd0b7a1-e720-40b6-ab8f-983b76fc19ca",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Wall Cling",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "8de59e05-93cf-42d2-9f83-b9924d3baa8d",
                     "path": "<Mouse>/scroll/y",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Cycle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "82e5cf3f-01ed-4538-a3f9-e5139342c1bc",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch Power",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cec25ccf-cf67-40a2-8da3-ef0e805b9f2d",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Switch Power",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -17,8 +17,8 @@ public class PlayerAbilities : MonoBehaviour
 {
     public static PlayerAbilities Instance { get; private set; }
 
-    private bool waterPowerUnlocked = false;
-    private bool lightPowerUnlocked = false;
+    [SerializeField] private bool waterPowerUnlocked = false;
+    [SerializeField] private bool lightPowerUnlocked = false;
    
     [HideInInspector] public float WaterEnergy { get; set; }
     [HideInInspector] public float LightEnergy { get; set; }
@@ -81,5 +81,17 @@ public class PlayerAbilities : MonoBehaviour
             Power.Light => lightPowerUnlocked,
             _ => false
         };
+    }
+
+    public void DepleteEnergy(ProjectileType element, float amount)
+    {
+        if (element == ProjectileType.Water)
+        {
+            PlayerAbilities.Instance.WaterEnergy -= amount;
+        }
+        else
+        {
+            PlayerAbilities.Instance.LightEnergy -= amount;
+        }
     }
 }
