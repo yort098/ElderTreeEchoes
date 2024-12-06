@@ -28,7 +28,7 @@ TagManager:
   - Platform
   - Enemy
   - Climbable
-  - 
+  - Invisible Floor
   - 
   - 
   - 
@@ -51,4 +51,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 2778478179
     locked: 0

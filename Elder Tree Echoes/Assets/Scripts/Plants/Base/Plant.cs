@@ -16,14 +16,21 @@ public class Plant : MonoBehaviour
 
     [SerializeField] float upTime;
 
+    [SerializeField] protected bool startsGrown;
+
     public bool IsGrowing { get; set; }
 
     public bool IsGrown{ get; set; }
 
-    private void Start()
+    protected virtual void Start()
     {
         IsGrown = false;
         IsGrowing = false;
+
+        if (startsGrown)
+        {
+            Grow();
+        }
     }
 
     private void FixedUpdate()

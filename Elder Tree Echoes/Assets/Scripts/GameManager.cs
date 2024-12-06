@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour, IDamageable
 {
     private static GameManager instance;
-    private float waterEnergy = 100;
-    private float lightEnergy = 100;
+
     private float invincibilityTime = 1.5f;
     private bool invincible = false;
 
@@ -17,7 +16,7 @@ public class GameManager : MonoBehaviour, IDamageable
 
     public int currLevel = 1;
     private float currLevelPercent = 0;
-    private int totalCheckpoints;
+    public int totalCheckpoints;
     public int checkpoints;
 
 
@@ -34,6 +33,7 @@ public class GameManager : MonoBehaviour, IDamageable
 
     [SerializeField]
     Text percentageDisplay;
+
 
     public GameObject[] Enemies
     {
@@ -61,16 +61,6 @@ public class GameManager : MonoBehaviour, IDamageable
         player = GameObject.Find("Player");
     }
 
-    public float WaterEnergy
-    {
-        get { return waterEnergy; }
-    }
-
-    public float LightEnergy
-    {
-        get { return lightEnergy; }
-    }
-
     public float MaxHealth { get; set; }
     public float CurrentHealth { get; set; }
 
@@ -81,8 +71,8 @@ public class GameManager : MonoBehaviour, IDamageable
         CurrentHealth = MaxHealth;
         healthBar.value = MaxHealth;
 
-        waterMeter.value = waterEnergy;
-        lightMeter.value = lightEnergy;
+        waterMeter.value = 0;
+        lightMeter.value = 0;
 
         percentageDisplay.text = "Tree Roots Restored: " + currLevelPercent + "%";
     }
@@ -119,36 +109,18 @@ public class GameManager : MonoBehaviour, IDamageable
         player.GetComponent<PlayerController>().CanMove = true;
     }
 
-    public void DepleteEnergy(ProjectileType element, float amount)
-    {
-        if (element == ProjectileType.Water)
-        {
-            waterEnergy -= amount;
-        }
-        else
-        {
-            lightEnergy -= amount;
-        }
-    }
+    
 
     // Update is called once per frame
     void Update()
     {
-        waterMeter.value = waterEnergy;
-        lightMeter.value = lightEnergy;
+        waterMeter.value = PlayerAbilities.Instance.WaterEnergy;
+        lightMeter.value = PlayerAbilities.Instance.LightEnergy;
 
+        Debug.Log("num checkpoints: " + checkpoints + " total num checkpoints: " + totalCheckpoints);
         currLevelPercent = ((float)checkpoints / (float)totalCheckpoints) * 100;
         percentageDisplay.text = "Tree Roots Restored: " + Mathf.RoundToInt(currLevelPercent) + "%";
-
-        if (waterEnergy < 100)
-        {
-            waterEnergy += 12.0f * Time.deltaTime;
-        }
-
-        if (lightEnergy < 100)
-        {
-            lightEnergy += 12.0f * Time.deltaTime;
-        }
+        
     }
 
     public void Damage(float amount)

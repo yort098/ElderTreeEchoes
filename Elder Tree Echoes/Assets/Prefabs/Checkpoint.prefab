@@ -121,7 +121,7 @@ Transform:
   - {fileID: 5361719955233463171}
   - {fileID: 1630427698104363316}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7212918033144420463
 SpriteRenderer:
@@ -191,6 +191,8 @@ MonoBehaviour:
   growthSpeed: 0
   growth: {x: 0, y: 0}
   upTime: 0
+  startsGrown: 0
+  countsTowardProgress: 1
 --- !u!61 &8135577368144780339
 BoxCollider2D:
   m_ObjectHideFlags: 0
