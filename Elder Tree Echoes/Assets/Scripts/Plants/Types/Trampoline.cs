@@ -19,19 +19,16 @@ public class Trampoline : Plant
 
     public override void Grow()
     {
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y + growthSpeed * Time.deltaTime, transform.localScale.z);
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        
-        sr.color = new Vector4(sr.color.r, sr.color.g, sr.color.b, Mathf.Clamp((sr.color.a - 1f * Time.deltaTime), 0f, 1f));
+        IsGrown = true;
 
-        if (transform.localScale.x >= growth.x && transform.localScale.y >= growth.y)
-        {
-            sr.color = Color.green;
+        currForce = springForce;
+           
+    }
 
-            IsGrown = true;
+    public override void Shrink()
+    {
+        IsGrown = false;
 
-            currForce = springForce;
-            
-        }
+        currForce = 0;
     }
 }

@@ -50,4 +50,6 @@ public class Plant : MonoBehaviour
 
     public virtual void Grow(){}
 
+    public virtual void Shrink() { }
+
 }

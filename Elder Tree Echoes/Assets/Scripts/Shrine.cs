@@ -39,6 +39,7 @@ public class Shrine : MonoBehaviour
 
         if (grantedPower == Power.None && !powerGranted && isPlayerNearby && Input.GetKeyDown(interactionKey))
         {
+            GetComponent<CameraTrigger>().Activate();
             NextLevel();
         }
 

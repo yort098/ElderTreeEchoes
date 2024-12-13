@@ -23,6 +23,13 @@ public class PopUpSpawner : MonoBehaviour
             PopUpManager.Instance.RemovePopUpOnAction(() => IsActionCompleted(requiredAction));
 
             if (requiredAction != ActionType.Traverse) popUpDisplayed = true; // Prevent re-triggering
+
+            if (GetComponent<TeleportTrigger>())
+            {
+                GameObject.Find("Player").GetComponent<PlayerController>().isDoor = true;
+                GameObject.Find("Player").GetComponent<PlayerController>().currentDoor = this.gameObject;
+
+            }
         }
     }
 
@@ -31,6 +38,13 @@ public class PopUpSpawner : MonoBehaviour
         if (collision.CompareTag("Player") && PopUpManager.Instance.popUpOnScreen && requiredAction == ActionType.Traverse)
         {
             PopUpManager.Instance.RemovePopUp();
+        }
+
+        if (GetComponent<TeleportTrigger>())
+        {
+            GameObject.Find("Player").GetComponent<PlayerController>().isDoor = false;
+            GameObject.Find("Player").GetComponent<PlayerController>().currentDoor = null;
+
         }
     }
 
@@ -56,7 +70,8 @@ public class PopUpSpawner : MonoBehaviour
                 
             
             case ActionType.Traverse:
-                return Input.GetKeyDown(KeyCode.W);
+                return Input.GetKeyDown(requiredKey);
+                
 
             // Add more actions as needed
             default:
@@ -69,6 +84,6 @@ public class PopUpSpawner : MonoBehaviour
         Move,
         Jump,
         Interact,
-        Traverse, // Placeholder for custom logic if needed
+        Traverse, 
     }
 }

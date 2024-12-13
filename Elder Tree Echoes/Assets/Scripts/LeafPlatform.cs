@@ -6,7 +6,7 @@ using UnityEngine;
 public class LeafPlatform : MonoBehaviour
 {
     // Start is called before the first frame update
-    BoxCollider2D collider;
+    Collider2D col;
     SpriteRenderer sR;
     private float lightStrengthValue = 0;
     private bool isGrown = false;
@@ -25,7 +25,7 @@ public class LeafPlatform : MonoBehaviour
 
     private void Awake()
     {
-        collider = this.GetComponent<BoxCollider2D>();
+        col = this.GetComponent<Collider2D>();
         sR = this.GetComponent<SpriteRenderer>();
     }
 
@@ -47,15 +47,25 @@ public class LeafPlatform : MonoBehaviour
                 weakBranch = true;
             }
 
-            collider.excludeLayers = LayerMask.GetMask("Nothing");
+            col.excludeLayers = LayerMask.GetMask("Nothing");
             isGrown = true;
+
+            if (GetComponent<Trampoline>())
+            {
+                GetComponent<Trampoline>().Grow();
+            }
 
         }
         else if (lightStrengthValue < 65)
         {
-            collider.excludeLayers = LayerMask.GetMask("Player", "Enemy");
+            col.excludeLayers = LayerMask.GetMask("Player", "Enemy");
             isGrown = false;
             weakBranch = false;
+
+            if (GetComponent<Trampoline>())
+            {
+                GetComponent<Trampoline>().Shrink();
+            }
         }
 
         if (lightStrengthValue > 100)

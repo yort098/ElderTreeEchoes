@@ -7,6 +7,7 @@ public class Rope : Plant
     public Rigidbody2D hook;
     public GameObject prefabRopeSeg; // Change this to an array if we have multiple sprites
     [SerializeField] public int numSegments = 1;
+    private int currentNumSegments = 0;
 
     public HingeJoint2D top;
 
@@ -14,9 +15,27 @@ public class Rope : Plant
 
     public int direction;
 
+    private float upTime = 10;
+    private float upTimeCounter = 0;
+
     private void Awake()
     {
+        upTimeCounter = upTime;
         player = GameObject.Find("Player").GetComponent<PlayerController>();
+    }
+
+    private void Update()
+    {
+        if (IsGrown)
+        {
+            upTimeCounter -= Time.deltaTime;
+
+            if (upTimeCounter <= 0)
+            {
+                Shrink();
+                upTimeCounter = upTime;
+            }
+        }
     }
 
     public void GenerateRope()
@@ -40,36 +59,35 @@ public class Rope : Plant
         }
 
         IsGrown = true;
-    }
-
-    public void AddSegment()
-    {
-        GameObject newLink = Instantiate(prefabRopeSeg);
-        newLink.transform.parent = transform;
-        newLink.transform.position = transform.position;
-
-        HingeJoint2D hj = newLink.GetComponent<HingeJoint2D>();
-        hj.connectedBody = hook;
-
-        newLink.GetComponent<RopeSegment>().connectedBelow = top.gameObject;
-        top.connectedBody = newLink.GetComponent<Rigidbody2D>();
-        top.GetComponent<RopeSegment>().ResetAnchor();
-        top = hj;
+        currentNumSegments = numSegments;
     }
 
     public void RemoveSegment()
     {
         if (top.gameObject.GetComponent<RopeSegment>().isPlayerAttatched)
         {
-            player.gameObject.GetComponent<RopeMovement>().Slide(-1);
+            top.gameObject.GetComponent<RopeSegment>().isPlayerAttatched = false;
+            player.GetComponent<RopeMovement>().Detatch();
         }
 
-        HingeJoint2D newTop = top.gameObject.GetComponent<RopeSegment>().connectedBelow.GetComponent<HingeJoint2D>();
-        newTop.connectedBody = hook;
-        newTop.gameObject.transform.position = hook.gameObject.transform.position;
-        newTop.GetComponent<RopeSegment>().ResetAnchor();
-        Destroy(top.gameObject);
-        top = newTop;
+        Debug.Log("current number of segments: " + currentNumSegments);
+
+        if (currentNumSegments == 1)
+        {
+            Destroy(top.gameObject);
+        }
+        else
+        {
+            HingeJoint2D newTop = top.gameObject.GetComponent<RopeSegment>().connectedBelow.GetComponent<HingeJoint2D>();
+            newTop.connectedBody = hook;
+            newTop.gameObject.transform.position = hook.gameObject.transform.position;
+            newTop.GetComponent<RopeSegment>().ResetAnchor();
+            Destroy(top.gameObject);
+            top = newTop;
+        }
+        
+        currentNumSegments--;
+        
     }
 
     public override void Grow()
@@ -78,5 +96,21 @@ public class Rope : Plant
         GenerateRope();
 
         IsGrown = true;
+    }
+
+    public override void Shrink()
+    {
+        StartCoroutine(DestroyRope());
+    }
+
+    private IEnumerator DestroyRope()
+    {
+        while (currentNumSegments > 0)
+        {
+            RemoveSegment();
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        IsGrown = false;
     }
 }

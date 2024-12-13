@@ -49,7 +49,7 @@ public class RopeMovement : MonoBehaviour
             }
             else
             {
-                rb.velocity = new Vector2(pushForce.x * transform.localScale.x, pushForce.y); // Default push force
+                rb.velocity = new Vector2(pushForce.x * GetComponent<PlayerController>().Direction.x, pushForce.y); // Default push force
             }
 
             connectedSegment.isPlayerAttatched = false;
