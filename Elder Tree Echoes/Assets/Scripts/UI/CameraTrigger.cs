@@ -21,16 +21,14 @@ public class CameraTrigger : MonoBehaviour
         mainCam.enabled = false;
 
 
-        while (Camera.main.transform.position.x >= camLoc.x && Camera.main.transform.position.y <= camLoc.y)
+        while (Vector3.Distance(Camera.main.transform.position, camLoc + offset) > 0.01)
         {
             Vector3 targetPosition = camLoc + offset;
-            //Debug.Log("Moving camera...");
             Camera.main.transform.position = Vector3.SmoothDamp(Camera.main.transform.position, targetPosition, ref camVelocity, 0.5f);
-            Debug.Log("still trying");
             yield return new WaitForFixedUpdate();
         }
 
-        //mainCam.transform.position = transform.position;
+        Camera.main.transform.position = camLoc + offset; // Setting to the exact position
 
         yield return new WaitForSeconds(1.5f);
 
