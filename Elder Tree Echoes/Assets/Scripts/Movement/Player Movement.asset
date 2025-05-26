@@ -31,4 +31,4 @@ MonoBehaviour:
   slideSpeed: -3.5
   slideAccel: 0.1
   coyoteTime: 0.2
-  stickTime: 0.2
+  stickTime: 0.18

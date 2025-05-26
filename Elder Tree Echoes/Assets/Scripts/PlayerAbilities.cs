@@ -17,8 +17,8 @@ public class PlayerAbilities : MonoBehaviour
 {
     public static PlayerAbilities Instance { get; private set; }
 
-    [SerializeField] private bool waterPowerUnlocked = false;
-    [SerializeField] private bool lightPowerUnlocked = false;
+    [SerializeField] public bool waterPowerUnlocked = false;
+    [SerializeField] public bool lightPowerUnlocked = false;
    
     [HideInInspector] public float WaterEnergy { get; set; }
     [HideInInspector] public float LightEnergy { get; set; }

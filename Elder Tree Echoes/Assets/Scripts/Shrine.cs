@@ -7,8 +7,10 @@ public class Shrine : MonoBehaviour
     [SerializeField] private Power grantedPower; // Type of power the shrine grants
     [SerializeField] private KeyCode interactionKey = KeyCode.E; // Default interaction key
     [SerializeField] private string popUpMessage = "Press E to interact";
+    [SerializeField] private int requirementLevel = 1;
     private bool isPlayerNearby = false;
     private bool powerGranted = false;
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -58,11 +60,10 @@ public class Shrine : MonoBehaviour
     }
 
     private void GrantPower()
-    {
-        AudioManager.Instance.PlaySFX(AudioManager.Instance.abilityGained);
-        Debug.Log(GameManager.Instance.currLevel);
-        if (grantedPower == Power.Water || GameManager.Instance.currLevel == 2)
+    {       
+        if (GameManager.Instance.currLevel == requirementLevel)
         {
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.abilityGained);
             powerGranted = true;
 
             // Notify the player of the new power
@@ -71,12 +72,9 @@ public class Shrine : MonoBehaviour
             StartCoroutine(InformPlayer());
             PlayerAbilities.Instance.UnlockPower(grantedPower);
         }
-        else if (grantedPower == Power.Light)
+        else
         {
-            //Debug.Log("nope not happening");
-            //PopUpManager.Instance.CreatePopUp("Restriction", "This is locked lmao");
-            PopUpManager.Instance.CreatePopUp("Power Unlocked", $"You have unlocked the {grantedPower} power!");
-            PlayerAbilities.Instance.UnlockPower(grantedPower);
+            PopUpManager.Instance.CreatePopUp("", "Locked.");
         }    
     }
 
@@ -113,6 +111,6 @@ public class Shrine : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
         PopUpManager.Instance.RemovePopUp();
-        GameObject.Find("Player").GetComponent<PlayerController>().CanMove = true;
+        //GameObject.Find("Player").GetComponent<PlayerController>().CanMove = true;
     }
 }

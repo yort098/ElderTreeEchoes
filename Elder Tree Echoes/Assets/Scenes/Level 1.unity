@@ -27115,6 +27115,7 @@ MonoBehaviour:
   grantedPower: 1
   interactionKey: 101
   popUpMessage: Press E to interact
+  requirementLevel: 2
 --- !u!212 &1133402299
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -47886,11 +47887,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 16323102540800480, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7
+      value: -181.45
       objectReference: {fileID: 0}
     - target: {fileID: 16323102540800480, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -46.8
+      value: -11.53
       objectReference: {fileID: 0}
     - target: {fileID: 16323102540800480, guid: f536dd66b9b1bde44b10f2aa39f2136d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -54557,6 +54558,7 @@ MonoBehaviour:
   grantedPower: 2
   interactionKey: 101
   popUpMessage: Press E to interact
+  requirementLevel: 0
 --- !u!212 &1557594222
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -90269,6 +90271,7 @@ MonoBehaviour:
   grantedPower: 0
   interactionKey: 101
   popUpMessage: Press E to interact
+  requirementLevel: 1
 --- !u!212 &1961926907
 SpriteRenderer:
   m_ObjectHideFlags: 0

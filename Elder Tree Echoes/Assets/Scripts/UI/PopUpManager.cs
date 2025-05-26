@@ -27,7 +27,6 @@ public class PopUpManager : MonoBehaviour
 
     public void CreatePopUp(string name, string description)
     {
-        Debug.Log(popUpOnScreen);
         if (!popUpOnScreen)
         {
             createdPopUp = Instantiate(popUpPrefab, canvasObject.transform);
